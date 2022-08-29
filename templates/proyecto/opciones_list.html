@@ -1,0 +1,35 @@
+{% if 'Ver Definiciones de Proyectos' in permisos %}
+{%include 'base.html'%}
+<div class="container">
+    <div class="head">
+        <h1 align="center">{{ title }}</h1>
+        <hr>
+    </div>
+    <div class="body">
+        <table class="table table-sm scrolltable" width="100%">
+            <thead class="thead-dark thead">
+                <tr>
+                    <th width="10%">ID</th>
+                    <th width="45%">Nombre</th>
+                    <th width="34%">Estado</th>
+                    <th width="11%">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="tbody">
+                {% for project in visibles %}
+                    <tr>
+                        <td width="10%">{{ project.pk }}</td>
+                        <td width="45%">{{ project.nombre }}</td>
+                        <td width="34">{{ project.estado }}</td>
+                        <td id="acciones" width="11%">
+                            <a href="{% url 'update_options' project.pk %}"><i class="fas fa-eye"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% else %}
+Permiso denegado (Ver Definiciones de Proyectos)
+{% endif %}

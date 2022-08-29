@@ -1,0 +1,38 @@
+{% if 'Ver Usuarios' in permisos %}
+{%include 'base.html'%}
+<html>
+<body>
+<div class="container">
+    <div class="head">
+        <h1 align="center"> {{ title }} </h1>
+        <hr>
+    </div>
+    <div class="register">
+        <div class="container detalle" style="font-size: 25px">
+            <li>Nombre de usuario: {{ object.username }}</li>
+            <li>Email: {{ object.email }}</li>
+            <li>Nombre/s: {{ object.first_name }}</li>
+            <li>Apellido/s: {{ object.last_name }}</li>
+            <li>Estado: {% if object.estado %}{{ object.estado }}{% endif %}</li>
+            <li>CI: {% if object.ci %}{{ object.ci }}{% endif %}</li>
+            <li>Teléfono: {% if object.telefono %}{{ object.telefono }}{% endif %}</li>
+            <li>Direccion: {% if object.direccion %}{{ object.direccion }}{% endif %}</li>
+            <li>Descripcion: {% if object.descripcion %}{{ object.descripcion }}{% endif %}</li>
+            <li>Permisos:</li>
+            <div class="container" style="margin-left: 50px">
+                {% for permiso in object.permisos.all %}
+                    <li>{{ permiso }}</li>
+                {% endfor %}
+            </div>
+        </div>
+        <br>
+        <a href="{% url 'user_list'%}"><button type="button" class="btn submit-btn">
+            <i class="fas fa-arrow-left"></i> Atras</button></a>
+        <hr>
+    </div>
+</div>
+</body>
+</html>
+{% else %}
+Permiso denegado (Ver Usuarios)
+{% endif %}

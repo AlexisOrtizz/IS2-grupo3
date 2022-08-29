@@ -1,0 +1,41 @@
+{% if 'Ver Definiciones de Proyectos' in permisos %}
+{%include 'base.html'%}
+<div class="container">
+    <div class="head">
+        <h1 align="center"> {{ title }} {{ object.nombre }} </h1>
+        <hr>
+    </div>
+    <div class="body">
+        {% if 'Ver Ejecucion de Proyecto' in permisos %}
+        <a href="{% url 'update_ejecucion' object.pk %}" style="color: white;margin-left: 50em">
+        <button type="button" class="btn btn-success">
+            Ir a Ejecución
+        </button></a>
+        {% endif %}
+        <div class="options">
+            {% if 'Ver Flujos' in permisos %}
+            <li>
+                <a href="{% url 'update_options_flujo_list' object.pk %}">Flujos</a>
+            </li>
+            {% endif %}
+            {% if 'Ver Tipos de User Story' in permisos %}
+            <li>
+                <a href="{% url 'user_story_type_list' object.pk %}">Tipos de User Story</a>
+            </li>
+            {% endif %}
+            {% if 'Asignar Roles' in permisos %}
+                {% if object.estado != 'Cancelado' and object.estado != 'Terminado' %}
+                <li>
+                    <a href="{% url 'update_roles_proyecto' object.pk %}">Asignacion de Roles</a>
+                </li>
+                {% endif %}
+            {% endif %}
+        </div>
+        <br><br><br>
+        <hr>
+        <br>
+    </div>
+</div>
+{% else %}
+Permiso denegado (Ver Definiciones de Proyecto)
+{% endif %}

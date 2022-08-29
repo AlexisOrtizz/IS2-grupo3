@@ -1,0 +1,38 @@
+{% if 'Ver Proyectos' in permisos %}
+{%include 'base.html'%}
+<html>
+<body>
+<div class="container">
+    <div class="head">
+        <h1 align="center"> {{ title }} </h1>
+        <hr>
+    </div>
+    <div class="register">
+        <div class="container detalle" style="font-size: 25px">
+            <li>Nombre: {{ object.nombre }}</li>
+            <li>Estado: {{ object.estado }}</li>
+            <li>Fecha de Inicio:{% if object.fecha_inicio %} {{ object.fecha_inicio }}{% endif %}</li>
+            <li>Fecha de Finalización:{% if object.fecha_fin %} {{ object.fecha_fin }}{% endif %}</li>
+            <li>Cliente: {% if object.cliente %}{{ object.cliente }}{% endif %}</li>
+            <li>Descripcion: {% if object.descripcion %}{{ object.descripcion }} {% endif %}</li>
+            <li>Team Members</li>
+            <div class="container" style="margin-left: 50px">
+                {% for tm in team_members %}
+                    <li>{{ tm.usuario }}: {{ tm.rol.nombre }} </li>
+                {% endfor %}
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <a href="../../"><button type="button" class="btn submit-btn">
+            <a href="{% url 'project_list'%}"><button type="button" class="btn submit-btn">
+                <i class="fas fa-arrow-left"></i> Atras</button></a>
+        </div>
+        <hr>
+    </div>
+</div>
+</body>
+</html>
+{% else %}
+Permiso denegado (Ver Proyectos)
+{% endif %}

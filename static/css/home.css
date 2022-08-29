@@ -1,0 +1,15 @@
+
+@import url("https://fonts.googleapis.com/css?family=Hind+Vadodara");
+@import url("https://fonts.googleapis.com/css?family=Fredericka+the+Great");
+
+#h1-poli{
+    font-family: "Fredericka the Great", tart workshop;
+    font-size: 100px;
+    margin-top: 35px;
+    text-align: center;
+}
+
+#p1{
+    margin-left: 50px;
+    color: white!important;;
+}

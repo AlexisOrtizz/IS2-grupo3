@@ -1,0 +1,81 @@
+{% if 'Asignar Roles' in permisos %}
+{%include 'base.html'%}
+<div class="container">
+    <div class="head">
+        <h1 align="center"> {{ title }} </h1>
+        <hr>
+    </div>
+    <div class="register">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="cabecera" style="display: none">
+                {{ form.as_p}}
+            </div>
+            <div class="team-member-title">Team members<hr></div>
+            <div class="detalle">
+                {{ team_members.management_form }}
+                <p style="color: red;">{{ fs_error }}</p>
+                <table id="tabla_detalle" class="table table-sm scrolltable-team">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th width="45%">Usuario</th>
+                            <th width="40%">Rol</th>
+                            <th width="15%">Eliminar</th>
+                        </tr>
+                    </thead>
+                        <tbody>
+                            {% for form in team_members %}
+                                <tr>
+                                    <td width="45%">
+                                      {{ form.usuario }}
+                                    </td>
+                                    <td width="40%">
+                                        {{ form.rol }}
+                                    </td>
+                                    <td id="last-column" width="15%">
+                                        {{ form.DELETE }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                </table>
+            </div>
+
+            <table style="display:none">
+                <tbody id="empty_form">
+                    <tr>
+                        <td width="45%">
+                          {{ team_members.empty_form.usuario }}
+                        </td>
+                        <td width="40%">
+                            {{ team_members.empty_form.rol }}
+                        </td>
+                        <td width="15%" id="last-column">
+                            {{ team_members.empty_form.DELETE }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <input type="button" value="Nuevo team member" class="adddetail-btn" id="add_team_member">
+            </div>
+            <div class="row">
+                <input type="submit" value="Guardar" class="btn submit-btn">
+            </div>
+        </form>
+        <br><br><br>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function($) {
+        $('#add_team_member').click(function() {
+        var form_idx = $('#id_teammember_set-TOTAL_FORMS').val();
+        $('#tabla_detalle > tbody:last-child').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+        $('#id_teammember_set-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+        });
+    });
+</script>
+{% else %}
+Permiso denegado (Asignar Roles)
+{% endif %}
