@@ -1,0 +1,313 @@
+{% if 'Ver Ejecucion de Proyecto' in permisos %}
+{%include 'base.html'%}
+<div class="container">
+    <div class="head">
+        <h1 align="center"> Ejecucion {{ object.nombre }} </h1>
+        <hr>
+        <h3 style="text-align: center">Proyecto: {{ project.nombre }}</h3>
+    </div>
+    <div class="body" style="">
+        {% if 'Ver Definiciones de Proyectos' in permisos %}
+        <a href="{% url 'update_options' object.pk %}" style="color: white;margin-left: 50em">
+            <button type="button" class="btn btn-success">
+                Ir a Definición
+            </button>
+        </a>
+        {% endif %}
+        <div class="options" style="font-size: 1.5em; padding-top: 0em!important;;">
+            {% if object.estado == "Activo" %}
+                {% if 'Ver Sprints' in permisos %}
+                <li>
+                    <a href="{% url 'sprint_list' object.pk %}">Sprints</a>
+                </li>
+                {% endif %}
+                {% if 'Ver User Stories' in permisos %}
+                <li>
+                    <a href="{% url 'user_story_list' object.pk %}">Administrar User Stories</a>
+                </li>
+                {% endif %}
+                {% if 'Ver Product Backlog' in permisos %}
+                <li>
+                    <a href="{% url 'product_backlog' object.pk%}">Product Backlog</a>
+                </li>
+                {% endif %}
+                {% if 'Asignar User Stories' in permisos %}
+                <li>
+                    {% if sprint_pendiente %}
+                    <a href="{% url 'asignar_us' object.pk sprint_pendiente.pk %}">Planificar siguiente sprint</a>
+                    {% else %}
+                    <a href="#sinSprintPendiente" role="button" data-toggle="modal">Planificar siguiente sprint</a>
+                    {% endif %}
+                </li>
+                {% endif %}
+                {% if 'Ver Tablero' in permisos %}
+                <li>
+                    {% if sprint_actual %}
+                    <a href="#tiposTablero" role="button" data-toggle="modal">Sprint actual</a>
+                    {% else %}
+                    <a href="#sinSprintActual" role="button" data-toggle="modal">Sprint actual</a>
+                    {% endif %}
+                </li>
+                {% endif %}
+                {% comment %} <li>
+                <a target="_blank" href="{% url 'horas_trabajadas' object.pk%}">
+                <i class="fas fa-file-pdf"></i> Horas Trabajadas</button>
+                </a>
+                </li> {% endcomment %}
+                <br>
+                <div class="container" align="right">
+                    <form method="POST" style="display: inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="terminar">
+                        {% if 'Terminar Proyecto' in permisos %}
+                        <button type="submit" class="btn btn-success">
+                            <i class="far fa-stop-circle"></i> Terminar Proyecto
+                        </button>
+                        {% endif %}
+                    </form>
+                    <form method="POST" style="display: inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="cancelar">
+                        {% if 'Cancelar Proyecto' in permisos %}
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-ban"></i> Cancelar Proyecto
+                        </button>
+                        {% endif %}
+                    </form>
+                    <form method="POST" style="display: inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="suspender">
+                        {% if 'Suspender Proyecto' in permisos %}
+                        <button type="submit" class="btn btn-success">
+                            <i class="far fa-pause-circle"></i> Suspender Proyecto
+                        </button>
+                        {% endif %}
+                    </form>
+                </div>
+            {% elif object.estado == "Pendiente" %}
+                <h3>El proyecto aun no ha sido iniciado, favor inicie el proyecto.</h3>
+                <br><br>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="iniciar" >
+                    {% if 'Iniciar Proyecto' in permisos %}
+                    <div class="container" align="right">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-play-circle"></i> Iniciar Proyecto
+                        </button>
+                    </div>
+                    {% endif %}
+                </form>
+            {% elif object.estado == "Suspendido" %}
+                <li>
+                    <a href="{% url 'product_backlog' object.pk%}">Product Backlog</a>
+                </li>
+                <br>
+                <h4>El proyecto se encuentra suspendido, puede reiniciar el proyecto.</h4>
+                {% if 'Ver Sprints' in permisos %}
+                <li>
+                    <a href="{% url 'sprint_list' object.pk %}">Sprints</a>
+                </li>
+                {% endif %}
+                {% if 'Ver User Stories' in permisos %}
+                <li>
+                    <a href="{% url 'user_story_list' object.pk %}">Administrar User Stories</a>
+                </li>
+                {% endif %}
+                {% if 'Ver Product ' in permisos %}
+                <li>
+                    <a href="{% url 'product_backlog' object.pk%}">Product Backlog</a>
+                </li>
+                {% endif %}
+                <li>
+                <a target="_blank" href="{% url 'horas_trabajadas' object.pk%}">
+                <i class="fas fa-file-pdf"></i> Horas Trabajadas</button>
+                </a>
+                </li>
+                <br><br>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="reiniciar" >
+                    {% if 'Reiniciar Proyecto' in permisos %}
+                    <div class="container" align="right">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-play-circle"></i> Reiniciar Proyecto
+                        </button>
+                    </div>
+                    {% endif %}
+                </form>
+            {% elif object.estado == "Terminado" %}
+                <h4>El proyecto se encuentra terminado.</h4>
+                <br>
+                {% if 'Ver Sprints' in permisos %}
+                <li>
+                    <a href="{% url 'sprint_list' object.pk %}">Sprints</a>
+                </li>
+                {% endif %}
+                {% if 'Ver User Stories' in permisos %}
+                <li>
+                    <a href="{% url 'user_story_list' object.pk %}">Administrar User Stories</a>
+                </li>
+                {% endif %}
+                {% if 'Ver Product Backlog' in permisos %}
+                <li>
+                    <a href="{% url 'product_backlog' object.pk%}">Product Backlog</a>
+                </li>
+                {% endif %}
+                <li>
+                <a target="_blank" href="{% url 'horas_trabajadas' object.pk%}">
+                <i class="fas fa-file-pdf"></i> Horas Trabajadas</button>
+                </a>
+                </li>
+            {% endif %}
+        </div>
+        <br><br><br>
+        <hr>
+        <br>
+    </div>
+</div>
+<div id="sinSprintPendiente" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">No existe sprint pendiente</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Debe crear un nuevo sprint para asignar User Stories</p>
+            </div>
+            {% if 'Crear Sprints' in permisos %}
+            <div class="modal-footer">
+                <a href="./sprints/create/"><button type="button" class="btn btn-success">
+                    Crear Sprint</button></a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div id="sinSprintActual" class="modal fade modal-centrado">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">No existe sprint en proceso</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            {% if sprint_pendiente %}
+                <div class="modal-body">
+                    <p>Existe un sprint pendiente: {{ sprint_pendiente.nombre }}</p>
+                </div>
+            {% else %}
+            <div class="modal-body">
+                <p>Se debe crear un nuevo sprint y asignar user stories</p>
+            </div>
+            {% endif %}
+            {% if sprint_pendiente %}
+            {% if 'Iniciar Sprints' in permisos %}
+            <div class="modal-footer" id="test model">
+                <form method="POST">
+                    {% csrf_token %}
+                    <a href="{% url 'sprint_list' object.pk %}"><button type="submit" class="btn btn-success" onclick="$('#testModal').hide()">
+                        <i class="far fa-play-circle"></i> Iniciar Sprint
+                    </button></a>
+                    <input type="hidden" name="iniciar_sprint" value="{{ sprint_pendiente.pk }}">
+                </form>
+            </div>
+            {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div id="tiposTablero" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-flujos">
+            <div class="modal-header" style="display: inline; text-align: center">
+                <h4 style="display: inline;" class="modal-title">Sprint: {{ sprint_actual.nombre }}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h5 style="margin-left: 10em">Tableros:</h5>
+                <div class="options-flujos" style="margin-left: 14em">
+                    {% for flujo in flujos %}
+                        {% if sprint_actual %}
+                            <li>
+                                <a href="{% url 'tablero' project.pk sprint_actual.pk flujo.pk %}">{{ flujo.nombre }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <form method="POST">
+                    {% comment %} {% if sprint_actual %}
+                        <a target="_blank" href="{% url 'prioridades' project.pk sprint_actual.pk%}">
+                            <button type="button" class="btn btn-success">
+                                <i class="fas fa-file-pdf"></i> Prioridades del Sprint</button>
+                        </a>
+                    {% endif %} {% endcomment %}
+                    {% csrf_token %}
+                    <input type="hidden" name="terminar_sprint" value="{{ sprint_actual.pk }}">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-stop-circle"></i> Terminar Sprint
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- sin user stories para iniciar sprint -->
+<div id="SinUserStories" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Sprint sin user stories asignados</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                Debe asignar al menos un user story al sprint para iniciarlo
+            </div>
+        </div>
+    </div>
+</div>
+<!--fin sin user stories para iniciar sprint -->
+<!-- confirmar terminacion de sprint -->
+<div id="ConfirmarTerminacionSprint" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Sprint con user stories no terminados</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                Algunos user stories no han sido finalizados, está seguro que desea terminar el sprint?
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" data-dismiss="modal"> Cancelar </button>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input name="conf_terminar" type="hidden" value={{ sprint_actual.pk }}>
+                    <a href="{% url 'sprint_list' object.pk %}"><button type="submit" class="btn btn-success">
+                        <i class="fas fa-stop-circle"></i> Terminar Sprint
+                    </button></a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--fin confirmar terminacion de sprint -->
+<script type="text/javascript">
+    $(document).ready(function($) {
+        {% if error %}
+            {% if error == 'sinus' %}
+                $("#SinUserStories").modal("show");
+            {% endif %}
+        {% endif %}
+        {% if confirmar %}
+            {% if confirmar == 'fin_sprint' %}
+                $("#ConfirmarTerminacionSprint").modal("show");
+            {% endif %}
+        {% endif %}
+    });
+</script>
+{% else %}
+Permiso denegado (Ver Ejecucion de Proyecto)
+{% endif %}

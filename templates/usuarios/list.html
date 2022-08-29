@@ -1,0 +1,48 @@
+{% if 'Ver Usuarios' in permisos %}
+{%include 'base.html'%}
+<html>
+<div class="container">
+    <div class="head">
+        <h1 align="center"> Administracion de Usuarios </h1>
+        <hr>
+    </div>
+    <div class="body">
+        <table class="table table-sm scrolltable" width="100%">
+            <thead class="thead-dark thead">
+                <tr>
+                    <th width="10%">ID</th>
+                    <th width="30%">Código</th>
+                    <th width="39%">Nombre</th>
+                    <th width="10%">Estado</th>
+                    <th width="8%">Acciones</th>
+                    <th width="3%"><a href="{% url 'create_user'%}">
+                        {% if 'Crear Usuarios' in permisos %}
+                            <i class="fas fa-plus-square"></i></a>
+                        {% endif %}
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="tbody">
+                {% for usuario in object_list %}
+                    <tr>
+                        <td width="10%">{{ usuario.pk }}</td>
+                        <td width="30%">{{ usuario.username }}</td>
+                        <td width="39%">{{ usuario.first_name }}</td>
+                        <td width="10%" id="last-column">{{ usuario.estado }}</td>
+                        <td id="acciones" width="8%">
+                            <a href="{% url 'ver_user' usuario.pk %}"><i class="fas fa-eye"></i></a>
+                            {% if 'Modificar Usuarios' in permisos%}
+                            <a href="{% url 'update_user' usuario.pk %}"><i class="fas fa-edit"></i></a>
+                            {% endif %}
+                        </td>
+                        <td width="3%"></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</html>
+{% else %}
+Permiso denegado (Ver Usuarios)
+{% endif %}

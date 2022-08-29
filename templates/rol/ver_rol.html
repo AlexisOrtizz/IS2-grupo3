@@ -1,0 +1,31 @@
+{% if 'Ver Roles' in permisos %}
+{%include 'base.html'%}
+<html>
+<body>
+<div class="container">
+    <div class="head">
+        <h1 align="center"> {{ title }} </h1>
+        <hr>
+    </div>
+    <div class="register">
+        <div class="container detalle" style="font-size: 25px">
+            <li>Nombre: {{ object.nombre }}</li>
+            <li>Descripcion: {{ object.descripcion }}</li>
+            <li>Permisos:</li>
+            <div class="container" style="margin-left: 50px">
+                {% for permiso in object.permisos.all %}
+                    <li>{{ permiso }}</li>
+                {% endfor %}
+            </div>
+        </div>
+        <br>
+        <a href="{% url 'rol_list'%}"><button type="button" class="btn submit-btn">
+                <i class="fas fa-arrow-left"></i> Atras</button></a>
+        <hr>
+    </div>
+</div>
+</body>
+</html>
+{% else %}
+Permiso denegado
+{% endif %}
