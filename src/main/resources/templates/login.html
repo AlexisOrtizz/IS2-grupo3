@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0, maximum-scale=3.0, minimum-scale=1.0">
+    <!--logos utilizados de fontawesome-->
+    <link rel="stylesheet" th:href="@{'https://use.fontawesome.com/releases/v5.6.3/css/all.css'}" >
+    <link rel="stylesheet" th:href="@{css/style.css}">
+</head>
+<body>
+<!--se creará un formulario para realizar el ingreso al sistema-->
+<form th:action="@{/login}" method="post" class="formulario">
+    <div align="center"><img th:src="@{img/logo.png}" class="wp-image-4532" width="110" height="120" /></div>
+    <h1>Ingresar</h1>
+    <div class="contenedor">
+
+        <div class="input-contenedor">
+            <!--Pegamos el link del icono-->
+            <i class="fas fa-envelope icon"></i>
+            <input type="text" name="username" placeholder="Correo Electrónico" required>
+        </div>
+
+        <div class="input-contenedor">
+            <i class="fas fa-key icon"></i>
+            <input type="password" name="password" placeholder="Contraseña" required>
+        </div>
+        <!--a th:href="@{'index.html">
+           <input type="submit" value="Ingresar" class="button'}" >
+        </a-->
+        <input type="submit" class="button" name="login-submit" value="INICIAR SESION">
+        <!--p><a class="link" th:href="@{/index}">INICIAR SESION </a></p-->
+
+        <!--p>¿No tienes una cuenta? <a class="link" th:href="@{/registro}">Registrate </a></p-->
+
+    </div>
+</form>
+</body>
+</html>

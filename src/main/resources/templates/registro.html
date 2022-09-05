@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0, maximum-scale=3.0, minimum-scale=1.0">
+    <link rel="stylesheet" th:href="@{'https://use.fontawesome.com/releases/v5.6.3/css/all.css'}" >
+    <link rel="stylesheet" th:href="@{css/style.css}">
+
+
+</head>
+<body>
+
+<form th:action="@{/registro}" method="post" th:object="${usuario}" class="formulario">
+    <!--verificar para que funcione-->
+    <div align="center"><img th:src="@{'https://www.gifsanimados.org/data/media/596/pizza-imagen-animada-0060.gif'}" class="wp-image-4532" width="140" height="130" /></div>
+
+    <h1>Registrate</h1>
+    <div class="contenedor">
+
+        <div class="input-contenedor">
+            <i class="fas fa-user icon"></i>
+            <input type="text" name="user" placeholder="Usuario" required>
+        </div>
+
+        <div class="input-contenedor">
+            <i class="fas fa-envelope icon"></i>
+            <input type="text" name="email" placeholder="Correo Electrónico" required>
+        </div>
+
+        <div class="input-contenedor">
+            <i class="fas fa-key icon"></i>
+            <input type="password" name="password" placeholder="Contraseña" required>
+        </div>
+
+        <input type="submit" value="Registrate" class="button">
+
+        <p>¿Ya estás registrado? <a class="link" th:href="@{/login}">Iniciar Sesión</a></p>
+    </div>
+</form>
+</body>
+</html>
