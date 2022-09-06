@@ -70,7 +70,7 @@ public class ProyectoController implements CRUD<ProyectoDTO>{
         if(usuarioService.tienePermiso(operacion + IDENTIFICADOR)) {
             Proyecto proyecto = proyectoService.convertirDTO(objetoDTO);
             proyectoService.guardar(proyecto);
-            return "proyecto/fomularios";
+            return "proyecto/form";
         } else {
             return "falta-permiso";
         }
