@@ -40,7 +40,7 @@ public class RolController implements CRUD<RolDTO> {
 
         model.addAttribute("permisos", permisos);
 
-        return "rol/formularios";
+        return "rol/form";
     }
 
     @Override
@@ -61,7 +61,7 @@ public class RolController implements CRUD<RolDTO> {
         if(usuarioService.tienePermiso(operacion + IDENTIFICADOR)) {
             Rol rol = rolService.convertirDTO(objetoDTO);
             rolService.guardar(rol);
-            return "rol/formularios";
+            return "rol/form";
         } else {
             return "falta-permiso";
         }
@@ -74,7 +74,7 @@ public class RolController implements CRUD<RolDTO> {
         if(usuarioService.tienePermiso(operacion + IDENTIFICADOR)) {
             Rol rol = rolService.existeRol(id);
             rolService.eliminarRol(rol);
-            return "rol/formularios";
+            return "rol/form";
         } else {
             return "falta-permiso";
         }
@@ -87,7 +87,7 @@ public class RolController implements CRUD<RolDTO> {
         if(usuarioService.tienePermiso(operacion + IDENTIFICADOR)) {
             Rol rol = rolService.convertirDTO(objetoDTO);
             rolService.guardar(rol);
-            return "rol/formularios";
+            return "rol/form";
         } else {
             return "falta-permiso";
         }
@@ -113,7 +113,7 @@ public class RolController implements CRUD<RolDTO> {
                 }
                 rolService.guardar(rol);
             }
-            return "rol/formularios";
+            return "rol/form";
         } else {
             return "falta-permiso";
         }

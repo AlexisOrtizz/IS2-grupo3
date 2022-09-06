@@ -49,7 +49,7 @@ public class ProyectoController implements CRUD<ProyectoDTO>{
 
         model.addAttribute("permisos", permisos);
 
-        return "proyecto/formulario";
+        return "proyecto/form";
     }
 
     @Override
@@ -104,7 +104,7 @@ public class ProyectoController implements CRUD<ProyectoDTO>{
             proyecto.setFechaFin(objetoDTO.getFechaFin());
 
             proyectoService.guardar(proyecto);
-            return "proyecto/fomularios";
+            return "proyecto/form";
         } else {
             return "falta-permiso";
         }

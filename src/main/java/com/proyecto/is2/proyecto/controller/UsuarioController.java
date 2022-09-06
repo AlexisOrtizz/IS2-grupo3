@@ -48,7 +48,7 @@ public class UsuarioController implements CRUD<UsuarioDTO>{
 
         model.addAttribute("permisos", permisos);
 
-        return "usuario/formularios";
+        return "usuario/form";
     }
 
     @Override
@@ -69,7 +69,7 @@ public class UsuarioController implements CRUD<UsuarioDTO>{
         if(usuarioService.tienePermiso(operacion + IDENTIFICADOR)) {
             Usuario usuario = usuarioService.convertirDTO(objetoDTO);
             usuarioService.guardar(usuario);
-            return "usuario/formularios";
+            return "usuario/form";
         } else {
             return "falta-permiso";
         }
@@ -82,7 +82,7 @@ public class UsuarioController implements CRUD<UsuarioDTO>{
         if(usuarioService.tienePermiso(operacion + IDENTIFICADOR)) {
             Usuario usuario = usuarioService.obtenerUsuario(id);
             usuarioService.eliminarUsuario(usuario);
-            return "usuario/formularios";
+            return "usuario/form";
         } else {
             return "falta-permiso";
         }
@@ -95,7 +95,7 @@ public class UsuarioController implements CRUD<UsuarioDTO>{
         if(usuarioService.tienePermiso(operacion + IDENTIFICADOR)) {
             Usuario usuario = usuarioService.convertirDTO(objetoDTO);
             usuarioService.guardar(usuario);
-            return "usuario/formularios";
+            return "usuario/form";
         } else {
             return "falta-permiso";
         }
