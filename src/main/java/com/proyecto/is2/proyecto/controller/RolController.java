@@ -68,11 +68,11 @@ public class RolController implements CRUD<RolDTO> {
     }
 
     @Override
-    public String eliminarObjeto(Long id) {
+    public String eliminarObjeto(Integer id) {
         this.operacion = "eliminar-";
 
         if(usuarioService.tienePermiso(operacion + IDENTIFICADOR)) {
-            Rol rol = rolService.existeRol(id);
+            Rol rol = rolService.existeRol(id.longValue());
             rolService.eliminarRol(rol);
             return "rol/form";
         } else {

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Set;
 
 /**
@@ -53,6 +54,7 @@ public class ProyectoController implements CRUD<ProyectoDTO>{
     }
 
     @Override
+    @GetMapping("/lista")
     public String mostrarObjetos() {
         this.operacion = "mostar-";
 
@@ -64,6 +66,7 @@ public class ProyectoController implements CRUD<ProyectoDTO>{
     }
 
     @Override
+    @PostMapping("/crear")
     public String crearObjeto(@ModelAttribute("proyecto") ProyectoDTO objetoDTO) {
         this.operacion = "crear-";
 
@@ -77,11 +80,12 @@ public class ProyectoController implements CRUD<ProyectoDTO>{
     }
 
     @Override
-    public String eliminarObjeto(@RequestParam("id") Long id) {
+    @PostMapping("/eliminar")
+    public String eliminarObjeto(@RequestParam("id") Integer id) {
         this.operacion = "eliminar-";
 
         if(usuarioService.tienePermiso(operacion + IDENTIFICADOR)) {
-            Proyecto proyecto = proyectoService.existeProyecto(id);
+            Proyecto proyecto = proyectoService.existeProyecto(id.longValue());
             proyectoService.eliminar(proyecto);
             return "proyecto/fomularios";
         } else {

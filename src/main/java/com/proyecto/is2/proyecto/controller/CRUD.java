@@ -10,7 +10,6 @@ public interface CRUD<T> {
      * para las operaciones CRUD.
      * @return vista de operaciones CRUD
      */
-    @GetMapping
     public String mostrarCRUDTemplate(Model model);
 
     /**
@@ -18,7 +17,6 @@ public interface CRUD<T> {
      * los objetos creados.
      * @return vista de tabla de objetos
      */
-    @GetMapping("/lista")
     public String mostrarObjetos();
 
     /**
@@ -26,7 +24,6 @@ public interface CRUD<T> {
      * @param objetoDTO donde se encuentra los datos del formulario
      * @return vista de operaciones CRUD
      */
-    @PostMapping("/crear")
     public String crearObjeto(T objetoDTO);
 
     /**
@@ -34,14 +31,12 @@ public interface CRUD<T> {
      * @param id del objeto a eliminar
      * @return vista de operaciones CRUD
      */
-    @DeleteMapping("/eliminar")
-    public String eliminarObjeto(Long id);
+    public String eliminarObjeto(Integer id);
 
     /**
      * Request para actualizar un objeto
      * @param objetoDTO donde se encuentra los datos del formulario
      * @return vista de operaciones CRUD
      */
-    @PatchMapping("/actualizar")
     public String actualizarObjeto(T objetoDTO);
 }

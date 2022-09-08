@@ -31,7 +31,10 @@ public class Permiso {
     }
 
     public String toString() {
-        return this.nombre + "-" + this.getVista();
+        if(this.vista != null) {
+            return this.nombre + "-" + this.getVista().getNombre();
+        }
+        return this.nombre;
     }
 
     /* RELACIONES DE BASE DE DATOS */

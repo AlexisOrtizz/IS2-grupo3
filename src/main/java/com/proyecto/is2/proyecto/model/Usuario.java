@@ -25,6 +25,10 @@ public class Usuario {
     @Column(name = "password")
     private String password;
 
+    public String toString() {
+        return email;
+    }
+
     /* RELACIONES DE BASE DE DATOS */
 
     /** Relacion con Rol **/

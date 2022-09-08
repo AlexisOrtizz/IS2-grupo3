@@ -43,15 +43,25 @@ public class UsuarioController implements CRUD<UsuarioDTO>{
     }
 
     @Override
+    @GetMapping("/form")
     public String mostrarCRUDTemplate(Model model) {
-        Set<Permiso> permisos = usuarioService.verPermisosUsuarioActual();
+        boolean crear = usuarioService.tienePermiso("crear-usuario");
+        boolean eliminar = usuarioService.tienePermiso("eliminar-usuario");
+        boolean actualizar = usuarioService.tienePermiso("actualizar-usuario");
 
-        model.addAttribute("permisos", permisos);
+        if(eliminar) {
+            model.addAttribute("idUsuarios", usuarioService.listarUsuarios());
+        }
+
+        model.addAttribute("crear", crear);
+        model.addAttribute("eliminar", eliminar);
+        model.addAttribute("actualizar", actualizar);
 
         return "usuario/form";
     }
 
     @Override
+    @GetMapping("/lista")
     public String mostrarObjetos() {
         this.operacion = "mostrar-";
 
@@ -63,6 +73,7 @@ public class UsuarioController implements CRUD<UsuarioDTO>{
     }
 
     @Override
+    @PostMapping("/crear")
     public String crearObjeto(@ModelAttribute("usuario") UsuarioDTO objetoDTO) {
         this.operacion = "crear-";
 
@@ -76,11 +87,13 @@ public class UsuarioController implements CRUD<UsuarioDTO>{
     }
 
     @Override
-    public String eliminarObjeto(@RequestParam("id") Long id) {
+    @PostMapping("/eliminar")
+        public String eliminarObjeto(@RequestParam("id_usuario") Integer id) {
         this.operacion = "eliminar-";
 
+
         if(usuarioService.tienePermiso(operacion + IDENTIFICADOR)) {
-            Usuario usuario = usuarioService.obtenerUsuario(id);
+            Usuario usuario = usuarioService.obtenerUsuario(id.longValue());
             usuarioService.eliminarUsuario(usuario);
             return "usuario/form";
         } else {
@@ -89,6 +102,7 @@ public class UsuarioController implements CRUD<UsuarioDTO>{
     }
 
     @Override
+    @PostMapping("/actualizar")
     public String actualizarObjeto(@ModelAttribute("usuario") UsuarioDTO objetoDTO) {
         this.operacion = "actualizar-";
 
