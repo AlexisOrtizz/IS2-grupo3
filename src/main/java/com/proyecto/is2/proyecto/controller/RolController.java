@@ -42,6 +42,11 @@ public class RolController implements CRUD<RolDTO> {
         return new ArrayList<>();
     }
 
+    @ModelAttribute("rol")
+    public RolDTO instanciarObjetoDTO() {
+        return new RolDTO();
+    }
+
     @Override
     @GetMapping("form")
     public String mostrarCRUDTemplate(Model model) {
@@ -49,10 +54,10 @@ public class RolController implements CRUD<RolDTO> {
         boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
         boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
 
-        if(eliminar || eliminar) {
-            model.addAttribute("idUsuarios", usuarioService.listarUsuarios());
+        if(actualizar || eliminar) {
+            model.addAttribute("idRoles", rolService.listar());
         } else {
-            model.addAttribute("idUsuarios", null);
+            model.addAttribute("idRoles", null);
         }
 
         model.addAttribute("crear", crear);
@@ -91,7 +96,7 @@ public class RolController implements CRUD<RolDTO> {
 
     @Override
     @PostMapping("eliminar")
-    public String eliminarObjeto(@RequestParam("id_usuario") Integer id) {
+    public String eliminarObjeto(@RequestParam("id_rol") Integer id) {
         this.operacion = "eliminar-";
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {
@@ -105,11 +110,11 @@ public class RolController implements CRUD<RolDTO> {
 
     @Override
     @PostMapping("actualizar")
-    public String actualizarObjeto(RolDTO objetoDTO) {
+    public String actualizarObjeto(@ModelAttribute("rol") RolDTO objetoDTO) {
         this.operacion = "actualizar-";
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {
-            Rol rol = rolService.existeRol(objetoDTO.getId());
+            Rol rol = rolService.existeRol(objetoDTO.getIdRol().longValue());
             if(rol != null) {
                 rolService.convertirDTO(rol, objetoDTO);
                 rolService.guardar(rol);

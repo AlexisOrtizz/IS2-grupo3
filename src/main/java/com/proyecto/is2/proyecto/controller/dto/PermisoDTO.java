@@ -7,6 +7,7 @@ import java.util.Set;
 
 @Data
 public class PermisoDTO {
-    String nombre;
-    String descripcion;
+    private Integer idPermiso;
+    private String nombre;
+    private String descripcion;
 }

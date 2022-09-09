@@ -3,6 +3,7 @@ package com.proyecto.is2.proyecto.controller;
 import com.proyecto.is2.proyecto.controller.dto.ProyectoDTO;
 import com.proyecto.is2.proyecto.model.Permiso;
 import com.proyecto.is2.proyecto.model.Proyecto;
+import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.services.ProyectoServiceImp;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.util.Arrays;
 import java.util.Set;
 
 /**
@@ -20,10 +22,15 @@ import java.util.Set;
  * para realizar CRUD en Proyecto
  */
 @Controller
-@RequestMapping("/proyecto")
+@RequestMapping("proyecto")
 public class ProyectoController implements CRUD<ProyectoDTO>{
-    final String IDENTIFICADOR = "proyecto";
+    final String VIEW = "proyecto";
     String operacion = "";
+    final String FORM_VIEW = VIEW + "/form";
+    final String RD_FORM_VIEW = "redirect:/" + FORM_VIEW;
+    final String FALTA_PERMISO_VIEW = "falta-permiso";
+    final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
+    final String LISTA_VIEW = VIEW + "/listar";
 
     @Autowired
     private UsuarioServiceImp usuarioService;
@@ -43,75 +50,82 @@ public class ProyectoController implements CRUD<ProyectoDTO>{
     }
 
     @Override
+    @GetMapping("form")
     public String mostrarCRUDTemplate(Model model) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Usuario usuario = usuarioService.existeUsuario(username);
-        Set<Permiso> permisos = usuario.getRol().getPermisos();
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
 
-        model.addAttribute("permisos", permisos);
+        if(actualizar || eliminar) {
+            model.addAttribute("idProyectos", proyectoService.listarProyectos());
+        } else {
+            model.addAttribute("idProyectos", null);
+        }
 
-        return "proyecto/form";
+        model.addAttribute("crear", crear);
+        model.addAttribute("eliminar", eliminar);
+        model.addAttribute("actualizar", actualizar);
+
+        model.addAttribute("estados", Arrays.asList("Pendiente","Activo", "Cancelado", "Finalizado"));
+
+        return FORM_VIEW;
     }
 
     @Override
-    @GetMapping("/lista")
+    @GetMapping("lista")
     public String mostrarObjetos() {
-        this.operacion = "mostar-";
+        this.operacion = "mostrar-";
 
-        if(usuarioService.tienePermiso(operacion + IDENTIFICADOR)) {
-            return "proyecto/lista";
+        if(usuarioService.tienePermiso(operacion + VIEW)){
+            return LISTA_VIEW;
         } else {
-            return "falta-permiso";
+            return FALTA_PERMISO_VIEW;
         }
     }
 
     @Override
-    @PostMapping("/crear")
+    @PostMapping("crear")
     public String crearObjeto(@ModelAttribute("proyecto") ProyectoDTO objetoDTO) {
         this.operacion = "crear-";
 
-        if(usuarioService.tienePermiso(operacion + IDENTIFICADOR)) {
-            Proyecto proyecto = proyectoService.convertirDTO(objetoDTO);
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
+            Proyecto proyecto = new Proyecto();
+            proyectoService.convertirDTO(proyecto, objetoDTO);
             proyectoService.guardar(proyecto);
-            return "proyecto/form";
+            return RD_FORM_VIEW;
         } else {
-            return "falta-permiso";
+            return RD_FALTA_PERMISO_VIEW;
         }
     }
 
     @Override
-    @PostMapping("/eliminar")
-    public String eliminarObjeto(@RequestParam("id") Integer id) {
+    @PostMapping("eliminar")
+    public String eliminarObjeto(@RequestParam("id_proyecto") Integer id) {
         this.operacion = "eliminar-";
 
-        if(usuarioService.tienePermiso(operacion + IDENTIFICADOR)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             Proyecto proyecto = proyectoService.existeProyecto(id.longValue());
             proyectoService.eliminar(proyecto);
-            return "proyecto/fomularios";
+            return RD_FORM_VIEW;
         } else {
-            return "falta-permiso";
+            return RD_FALTA_PERMISO_VIEW;
         }
     }
 
     @Override
+    @PostMapping("actualizar")
     public String actualizarObjeto(@ModelAttribute("proyecto") ProyectoDTO objetoDTO) {
         this.operacion = "actualizar-";
 
-        if(usuarioService.tienePermiso(operacion + IDENTIFICADOR)) {
-            Proyecto proyecto = proyectoService.existeProyecto(objetoDTO.getId());
-
-            proyecto.setTitulo(objetoDTO.getTitulo());
-            proyecto.setDescripcion(objetoDTO.getDescripcion());
-            proyecto.setObservacion(objetoDTO.getObservacion());
-            proyecto.setEstado(objetoDTO.getEstado());
-            proyecto.setFechaInicio(objetoDTO.getFechaInicio());
-            proyecto.setFechaFin(objetoDTO.getFechaFin());
-
-            proyectoService.guardar(proyecto);
-            return "proyecto/form";
-        } else {
-            return "falta-permiso";
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
+            Proyecto proyecto = proyectoService.existeProyecto(objetoDTO.getIdProyecto().longValue());
+            if(proyecto != null) {
+                proyectoService.convertirDTO(proyecto, objetoDTO);
+                proyectoService.guardar(proyecto);
+                return RD_FORM_VIEW;
+            }
         }
+        return RD_FALTA_PERMISO_VIEW;
     }
 
     /**
@@ -145,11 +159,11 @@ public class ProyectoController implements CRUD<ProyectoDTO>{
      * @return
      */
     @PostMapping("eliminar-miembro")
-    public String eliminarMiembro(Long idProyecto, String email) {
+    public String eliminarMiembro(@RequestParam("id_proyecto") Integer idProyecto, String email) {
         this.operacion = "eliminar-miembro-proyecto";
 
         if(usuarioService.tienePermiso(operacion)) {
-            Proyecto proyecto = proyectoService.existeProyecto(idProyecto);
+            Proyecto proyecto = proyectoService.existeProyecto(idProyecto.longValue());
             Usuario usuario = usuarioService.existeUsuario(email);
 
             if(usuario != null && proyecto != null) {

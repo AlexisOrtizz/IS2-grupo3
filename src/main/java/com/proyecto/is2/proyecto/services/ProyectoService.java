@@ -14,7 +14,7 @@ public interface ProyectoService {
      * @param objetoDTO los datos del formulario
      * @return el objeto Proyecto creado
      */
-    public Proyecto convertirDTO(ProyectoDTO objetoDTO);
+    public void convertirDTO(Proyecto proyecto, ProyectoDTO objetoDTO);
 
     /**
      * Persiste un objeto del tipo Proyecto

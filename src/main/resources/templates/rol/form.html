@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
-<head>
-    <th:block th:include="componentes/importar.html :: importar" />
-</head>
+    <head>
+        <th:block th:include="componentes/importar.html :: importar" />
+    </head>
 <body>
     <nav th:replace="componentes/cabecera.html :: cabecera" />
 
@@ -15,7 +15,11 @@
                 <form method="post" th:action="@{/rol/crear}" th:object="${rol}">
                     <div class="mb-3"> <!-- margen button -->
                         <label for="inputNombre1" class="form-label">Rol</label>
-                        <input type="text" class="form-control" id="inputNombre1" name="inputRol" placeholder="Introduzca el rol" autofocus>
+                        <input type="text" class="form-control" id="inputNombre1" name="nombre" placeholder="Introduzca el rol" autofocus>
+                    </div>
+                    <div class="mb-3"> <!-- margen button -->
+                        <label for="inputDescripcion1" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="inputDescripcion1" name="descripcion" placeholder="Introducta una descripción" autofocus>
                     </div>
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-success">Agregar rol</button>
@@ -27,17 +31,17 @@
                 <form method="post" th:action="@{/rol/actualizar}" th:object="${rol}">
                     <div class="mb-3"> <!-- margen button -->
                         <label for="selectUsuario1" class="form-label">Nombre usuario</label>
-                        <select class="form-control" id="selectUsuario1">
-                            <option>Usuario 1</option>
-                            <option>Usuario 2</option>
-                            <option>Usuario 3</option>
-                            <option>Usuario 4</option>
-                            <option>Usuario 5</option>
-                          </select>
+                        <select class="form-select" aria-label="Default select example" id="selectUsuario1" name="idRol">
+                            <option th:each="elemento : ${idRoles}" th:value="${elemento.idRol}" th:text="${elemento.toString()}"></option>
+                        </select>
                     </div>
                     <div class="mb-3"> <!-- margen button -->
                         <label for="inputRol" class="form-label">Rol</label>
-                        <input type="text" class="form-control" id="inputRol" name="inputRol" placeholder="Introduzca el rol">
+                        <input type="text" class="form-control" id="inputRol" name="nombre" placeholder="Introduzca el rol">
+                    </div>
+                    <div class="mb-3"> <!-- margen button -->
+                        <label for="inputDescripcion2" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="inputDescripcion2" name="descripcion" placeholder="Introducta una descripción" autofocus>
                     </div>
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-warning">Modificar Rol</button>
@@ -49,13 +53,9 @@
                 <form method="post" th:action="@{/rol/eliminar}">
                     <div class="mb-3"> <!-- margen button -->
                         <label for="selectRol1" class="form-label">Roles</label>
-                        <select class="form-control" id="selectRol1">
-                            <option>Rol 1</option>
-                            <option>Rol 2</option>
-                            <option>Rol 3</option>
-                            <option>Rol 4</option>
-                            <option>Rol 5</option>
-                          </select>
+                        <select class="form-select" aria-label="Default select example" id="selectRol1" name="id_rol">
+                            <option th:each="elemento : ${idRoles}" th:value="${elemento.idRol}" th:text="${elemento.toString()}"></option>
+                        </select>
                     </div>
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-danger">Eliminar Rol</button>

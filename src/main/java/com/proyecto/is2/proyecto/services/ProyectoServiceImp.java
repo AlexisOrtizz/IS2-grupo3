@@ -11,22 +11,19 @@ import java.util.List;
 @Service
 public class ProyectoServiceImp implements ProyectoService {
 
-    @Autowired
-    private ProyectoRepository proyectoRepository;
-
     @Override
-    public Proyecto convertirDTO(ProyectoDTO objetoDTO) {
-        Proyecto proyecto = new Proyecto();
-
-        proyecto.setTitulo(objetoDTO.getTitulo());
+    public void convertirDTO(Proyecto proyecto, ProyectoDTO objetoDTO) {
+        proyecto.setTitulo(objetoDTO.getNombre());
         proyecto.setDescripcion(objetoDTO.getDescripcion());
         proyecto.setObservacion(objetoDTO.getObservacion());
         proyecto.setEstado(objetoDTO.getEstado());
         proyecto.setFechaInicio(objetoDTO.getFechaInicio());
-        proyecto.setFechaInicio(objetoDTO.getFechaFin());
-
-        return proyecto;
+        proyecto.setFechaFin(objetoDTO.getFechaFin());
+        return;
     }
+
+    @Autowired
+    private ProyectoRepository proyectoRepository;
 
     @Override
     public Proyecto guardar(Proyecto proyecto) {

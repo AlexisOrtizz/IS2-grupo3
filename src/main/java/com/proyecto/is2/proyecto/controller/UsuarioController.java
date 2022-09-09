@@ -51,7 +51,7 @@ public class UsuarioController implements CRUD<UsuarioDTO>{
         boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
         boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
 
-        if(eliminar || eliminar) {
+        if(actualizar || eliminar) {
             model.addAttribute("idUsuarios", usuarioService.listarUsuarios());
         } else {
             model.addAttribute("idUsuarios", null);

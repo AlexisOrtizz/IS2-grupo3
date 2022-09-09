@@ -36,6 +36,10 @@ public class Proyecto {
     @Column(name = "fechaFin")
     private String fechaFin;
 
+    public String toString() {
+        return this.titulo + " ("+ this.estado + ")";
+    }
+
     /* RELACIONES DE BASE DE DATOS */
 
     /* Relacion con Backlog */
