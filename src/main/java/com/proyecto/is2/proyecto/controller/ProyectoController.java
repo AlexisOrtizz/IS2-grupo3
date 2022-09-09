@@ -128,6 +128,17 @@ public class ProyectoController implements CRUD<ProyectoDTO>{
         return RD_FALTA_PERMISO_VIEW;
     }
 
+    @GetMapping("miembros")
+    public String verMiembrosProyecto(Model model) {
+        if(usuarioService.tienePermiso("agregar-miembro-proyecto")) {
+            model.addAttribute("proyectos", proyectoService.listarProyectos());
+            model.addAttribute("usuarios", usuarioService.listarUsuarios());
+            return "proyecto/miembros";
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+
     /**
      * Agregar un nuevo miembro al equipo del Proyecto.
      * @param idProyecto identificador del proyecto.
@@ -135,21 +146,21 @@ public class ProyectoController implements CRUD<ProyectoDTO>{
      * @return
      */
     @PostMapping("agregar-miembro")
-    public String agregarMiembro(@RequestParam("id_proyecto") Long idProyecto, @RequestParam("username") String email) {
+    public String agregarMiembro(@RequestParam("id_proyecto") Integer idProyecto, @RequestParam("email") String email) {
         this.operacion = "agregar-miembro-proyecto";
 
         if(usuarioService.tienePermiso(operacion)) {
-            Proyecto proyecto = proyectoService.existeProyecto(idProyecto);
+            Proyecto proyecto = proyectoService.existeProyecto(idProyecto.longValue());
             Usuario usuario = usuarioService.existeUsuario(email);
 
             if(usuario != null && proyecto != null) {
                 proyecto.getEquipo().add(usuario);
             }
 
-            return "miembros-proyecto";
+            return "redirect:/proyecto/miembros";
         }
 
-        return "falta-permiso";
+        return RD_FALTA_PERMISO_VIEW;
     }
 
     /**
@@ -174,10 +185,10 @@ public class ProyectoController implements CRUD<ProyectoDTO>{
                 }
             }
 
-            return "miembros-proyecto";
+            return "redirect:/proyecto/miembros";
         }
 
-        return "falta-permiso";
+        return RD_FALTA_PERMISO_VIEW;
     }
 
 }

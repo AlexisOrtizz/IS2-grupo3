@@ -9,3 +9,9 @@ Los permisos se forma de la siguiente manera:
 operacion-vista.
 Ej: crear-usuario.
 
+## Información del Sistema
+* Lenguaje: Java 8
+* Base de Datos: Postgresql 13
+* DB name: is2
+* User: postgres
+* Password: hola123

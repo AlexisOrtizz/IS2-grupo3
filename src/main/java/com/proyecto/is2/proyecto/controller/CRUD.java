@@ -3,6 +3,11 @@ package com.proyecto.is2.proyecto.controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Permite tener una plantilla de los metodos para
+ * realizar un CRUD en un controlador.
+ * @param <T> Es un objeto DTO
+ */
 public interface CRUD<T> {
 
     /**
