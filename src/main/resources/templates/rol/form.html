@@ -1,61 +1,33 @@
 <!DOCTYPE html>
-<html lang="es">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bootstrap</title>
-    <!-- Bootstrap js-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>    <!-- CSS only -->
-    <!-- Boostrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" 
-        rel="stylesheet" 
-        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" 
-        crossorigin="anonymous">
-    <!-- COSTUM CSS -->
-    <link rel="stylesheet" href="style.css">
-    <!-- Pagina de gradientes: https://uigradients.com/#ManofSteel -->
+    <th:block th:include="componentes/importar.html :: importar" />
 </head>
 <body>
+    <nav th:replace="componentes/cabecera.html :: cabecera" />
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Gianni Pro 7u7</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item">
-                <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Cerrar Sesión</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+    </nav>
+
     <div class="container my-3"> <!-- my: margin eje y || py: padding eje y -->
         <div class="row">
-            <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 bg-while py-4">
+            <div th:if="${crear}" class="col-sm-12 col-md-4 col-lg-4 col-xl-4 bg-while py-4">
                 <h2>Agregar rol</h2>
-                <form method="post" action="formInsertCliente">
+                <form method="post" th:action="@{/rol/crear}" th:object="${rol}">
                     <div class="mb-3"> <!-- margen button -->
                         <label for="inputNombre1" class="form-label">Rol</label>
                         <input type="text" class="form-control" id="inputNombre1" name="inputRol" placeholder="Introduzca el rol" autofocus>
                     </div>
                     <div class="d-grid gap-2">
-                        <button class="btn btn-success">Agregar rol</button>
+                        <button type="submit" class="btn btn-success">Agregar rol</button>
                     </div>
                 </form>
             </div>
-            <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 bg-while py-4">
+            <div th:if="${actualizar}" class="col-sm-12 col-md-4 col-lg-4 col-xl-4 bg-while py-4">
                 <h2>Modificar roles</h2>
-                <form method="post" action="formMoneda">
+                <form method="post" th:action="@{/rol/actualizar}" th:object="${rol}">
                     <div class="mb-3"> <!-- margen button -->
-                        <label for="inputId2" class="form-label">Nombre usuario</label>
-                        <select class="form-control" id="exampleFormControlSelect1">
+                        <label for="selectUsuario1" class="form-label">Nombre usuario</label>
+                        <select class="form-control" id="selectUsuario1">
                             <option>Usuario 1</option>
                             <option>Usuario 2</option>
                             <option>Usuario 3</option>
@@ -68,16 +40,16 @@
                         <input type="text" class="form-control" id="inputRol" name="inputRol" placeholder="Introduzca el rol">
                     </div>
                     <div class="d-grid gap-2">
-                        <button class="btn btn-warning">Modificar Rol</button>
+                        <button type="submit" class="btn btn-warning">Modificar Rol</button>
                     </div>
                 </form>
             </div>
-            <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 bg-while py-4">
+            <div th:if="${eliminar}" class="col-sm-12 col-md-4 col-lg-4 col-xl-4 bg-while py-4">
                 <h2>Eliminar Roles</h2>
-                <form method="post" action="formMoneda">
+                <form method="post" th:action="@{/rol/eliminar}">
                     <div class="mb-3"> <!-- margen button -->
-                        <label for="inputId3" class="form-label">Roles</label>
-                        <select class="form-control" id="exampleFormControlSelect1">
+                        <label for="selectRol1" class="form-label">Roles</label>
+                        <select class="form-control" id="selectRol1">
                             <option>Rol 1</option>
                             <option>Rol 2</option>
                             <option>Rol 3</option>
@@ -86,7 +58,7 @@
                           </select>
                     </div>
                     <div class="d-grid gap-2">
-                        <button class="btn btn-danger">Eliminar Rol</button>
+                        <button type="submit" class="btn btn-danger">Eliminar Rol</button>
                     </div>
                 </form>
             </div>

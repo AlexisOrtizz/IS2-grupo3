@@ -33,13 +33,11 @@ public class UsuarioServiceImp implements UsuarioService {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public Usuario convertirDTO(UsuarioDTO objetoDTO) {
-        Usuario usuario = new Usuario();
+    public void convertirDTO(Usuario usuario, UsuarioDTO objetoDTO) {
         usuario.setUsername(objetoDTO.getUser());
         usuario.setEmail(objetoDTO.getEmail());
         usuario.setPassword(passwordEncoder.encode(objetoDTO.getPassword()));
-
-        return usuarioRepository.save(usuario);
+        return;
     }
 
     @Override
@@ -84,16 +82,18 @@ public class UsuarioServiceImp implements UsuarioService {
 
     @Override
     public void crearAdmin() {
-        UsuarioDTO usuario = new UsuarioDTO();
-        usuario.setUser("admin");
-        usuario.setEmail("admin@gmail.com");
-        usuario.setPassword("12345678");
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setUser("admin");
+        usuarioDTO.setEmail("admin@gmail.com");
+        usuarioDTO.setPassword("12345678");
 
-        Usuario user = convertirDTO(usuario);
-        user.setRol(rolService.crearAdmin());
-        usuarioRepository.save(user);
+        Usuario usuario = new Usuario();
+        convertirDTO(usuario, usuarioDTO);
+        guardar(usuario);
+        usuario.setRol(rolService.crearAdmin());
+        guardar(usuario);
 
-        System.out.println(user);
+        System.out.println(usuario);
 
     }
 
