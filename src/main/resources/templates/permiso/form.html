@@ -21,13 +21,16 @@
                         <input type="text" class="form-control" id="inputPermisoD" name="descripcion" placeholder="Introduzca la descripción" autofocus>
                     </div>
                     <div class="d-grid gap-2">
-                        <button class="btn btn-success">Crear Permiso</button>
+                        <button type="submit" class="btn btn-success">Crear Permiso</button>
                     </div>
                 </form>
             </div>
             <div th:if="${actualizar}" class="col-sm-12 col-md-4 col-lg-4 col-xl-4 bg-while py-4">
                 <h2>Modificar permiso</h2>
                 <form method="post" th:action="@{/permiso/actualizar}" th:object="${permiso}">
+                    <select class="form-select" aria-label="Default select example" name="idPermiso">
+                        <option th:each="elemento : ${idPermisos}" th:value="${elemento.idPermiso}" th:text="${elemento.toString()}"></option>
+                    </select>
                     <div class="mb-3"> <!-- margen button -->
                         <label for="inputPermisoN2" class="form-label">Nombre</label>
                         <input type="text" class="form-control" id="inputPermisoN2" name="nombre" placeholder="Nuevo nombre del permiso" autofocus>
@@ -37,15 +40,15 @@
                         <input type="text" class="form-control" id="inputPermisoD2" name="descripcion" placeholder="Introduzca nueva descripción" autofocus>
                     </div>
                     <div class="d-grid gap-2">
-                        <button class="btn btn-warning">Modificar Permiso</button>
+                        <button type="submit" class="btn btn-warning">Modificar Permiso</button>
                     </div>
                 </form>
             </div>
             <div th:if="${eliminar}" class="col-sm-12 col-md-4 col-lg-4 col-xl-4 bg-while py-4">
                 <h2>Eliminar Permiso</h2>
-                <form method="post" th:action="${usuario/eliminar}">
-                    <select class="form-control" id="eliminarpermiso" name="id_permiso" multiple="multiple">
-                        <option th:value="0">Permiso 1</option>
+                <form method="post" th:action="@{/permiso/eliminar}">
+                    <select class="form-select" aria-label="Default select example" id="eliminarpermiso" name="id_permiso">
+                        <option th:each="elemento : ${idPermisos}" th:value="${elemento.idPermiso}" th:text="${elemento.toString()}"></option>
                     </select>
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-danger">Eliminar Permiso</button>

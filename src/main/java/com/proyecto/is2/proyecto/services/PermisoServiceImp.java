@@ -46,13 +46,10 @@ public class PermisoServiceImp implements PermisoService {
     }
 
     @Override
-    public Permiso convertirDTO(PermisoDTO objetoDTO) {
-        Permiso permiso = new Permiso();
-
+    public void convertirDTO(Permiso permiso, PermisoDTO objetoDTO) {
         permiso.setNombre(objetoDTO.getNombre());
         permiso.setDescripcion(objetoDTO.getDescripcion());
-
-        return permiso;
+        return;
     }
 
     @Override

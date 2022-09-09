@@ -13,7 +13,7 @@ public interface PermisoService {
      * @param objetoDTO los datos del formulario
      * @return el objeto Permiso creado
      */
-    public Permiso convertirDTO(PermisoDTO objetoDTO);
+    public void convertirDTO(Permiso permiso, PermisoDTO objetoDTO);
 
     /**
      * Persiste un objeto del tipo Usuario
