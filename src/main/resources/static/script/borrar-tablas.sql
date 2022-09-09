@@ -6,7 +6,10 @@ BEGIN
   END LOOP;
 END $$;
 
+select * from rol_permiso
+
 SELECT * FROM usuario;
 SELECT * FROM rol;
 SELECT * FROM permiso;
 SELECT * FROM vista;
+SELECT * FROM proyecto;

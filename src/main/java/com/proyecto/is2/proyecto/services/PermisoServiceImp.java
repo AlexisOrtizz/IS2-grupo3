@@ -24,7 +24,7 @@ public class PermisoServiceImp implements PermisoService {
         List<Permiso> permisos = new ArrayList<>();
 
         permisos.add(new Permiso("conectarse", "Permiso para conectase al sistema"));
-        permisos.add(new Permiso("asignar-roles-usuario", "Permite asignar roles con permiso a un Usuario"));
+        permisos.add(new Permiso("asignar-rol-usuario", "Permite asignar roles con permiso a un Usuario"));
         permisos.add(new Permiso("asignar-permisos-rol", "Permite asignar permisos a un rol"));
         permisos.add(new Permiso("agregar-miembro-proyecto", "Permite agregar nuevos miembros al proyecto"));
         permisos.add(new Permiso("eliminar-miembro-proyecto", "Permite eliminar miembros del proyecto"));

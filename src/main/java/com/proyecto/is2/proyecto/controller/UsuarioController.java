@@ -26,6 +26,7 @@ public class UsuarioController implements CRUD<UsuarioDTO>{
     final String LISTA_VIEW = VIEW + "/listar";
     final String ASIGNAR_ROL_VIEW = VIEW + "/asignar-rol";
     final String RD_ASIGNAR_ROL_VIEW = "redirect:/" + ASIGNAR_ROL_VIEW;
+    final String P_ASIGNAR_ROL = "asignar-rol-usuario";
 
     @Autowired
     private UsuarioServiceImp usuarioService; // llamada a los servicios de usuario
@@ -50,16 +51,24 @@ public class UsuarioController implements CRUD<UsuarioDTO>{
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
         boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+
+        if(!crear && !eliminar && !actualizar) {
+            return FALTA_PERMISO_VIEW;
+        }
 
         if(actualizar || eliminar) {
             model.addAttribute("idUsuarios", usuarioService.listarUsuarios());
-        } else {
-            model.addAttribute("idUsuarios", null);
+        }
+
+        if(asignarRol) {
+            model.addAttribute("roles", rolService.listar());
         }
 
         model.addAttribute("crear", crear);
         model.addAttribute("eliminar", eliminar);
         model.addAttribute("actualizar", actualizar);
+        model.addAttribute("asignarRol", asignarRol);
 
         return FORM_VIEW;
     }
@@ -84,6 +93,15 @@ public class UsuarioController implements CRUD<UsuarioDTO>{
         if(usuarioService.tienePermiso(operacion + VIEW)) {
             Usuario usuario = new Usuario();
             usuarioService.convertirDTO(usuario, objetoDTO);
+
+            // si tiene permiso se le asigna el rol con id del formulario
+            // sino se le asignar un rol por defecto.
+            if(usuarioService.tienePermiso(P_ASIGNAR_ROL)) {
+                usuario.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
+            } else {
+                usuario.setRol(rolService.existeRol(1L)); // ID 1: Rol sin permisos.
+            }
+
             usuarioService.guardar(usuario);
             return RD_FORM_VIEW;
         } else {
@@ -115,6 +133,13 @@ public class UsuarioController implements CRUD<UsuarioDTO>{
             Usuario usuario = usuarioService.existeUsuario(objetoDTO.getEmail());
             if(usuario != null) {
                 usuarioService.convertirDTO(usuario, objetoDTO);
+
+                // si tiene permiso se le asigna el rol con id del formulario
+                // sino se queda con el mismo rol.
+                if(usuarioService.tienePermiso(P_ASIGNAR_ROL)) {
+                    usuario.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
+                }
+
                 usuarioService.guardar(usuario);
                 return RD_FORM_VIEW;
             }

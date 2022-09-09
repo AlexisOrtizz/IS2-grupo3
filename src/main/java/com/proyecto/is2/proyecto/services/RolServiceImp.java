@@ -26,12 +26,24 @@ public class RolServiceImp implements RolService {
         permisoService.crearPermisos();
 
         Rol admin = new Rol("admin", "Super usuario del sistema");
+        Rol conectarse = new Rol("conectarse", "Permiso solo conectarse al sistema");
+        Rol creador = new Rol("creador", "Permite hacer CRUD en las distintas vistas");
 
         /* asignacion de todos los permisos al admin */
         for(Permiso permiso : permisoService.listar()) {
             admin.getPermisos().add(permiso);
+            if(permiso.getNombre().equals("conectarse")) {
+                conectarse.getPermisos().add(permiso);
+                creador.getPermisos().add(permiso);
+            }
+            if(permiso.getNombre().contains("crear")) {
+                creador.getPermisos().add(permiso);
+            }
         }
 
+        rolRepository.save(new Rol("Sin permisos", "Rol sin permisos"));
+        rolRepository.save(conectarse);
+        rolRepository.save(creador);
         return rolRepository.save(admin);
 
     }
