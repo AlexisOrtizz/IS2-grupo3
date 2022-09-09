@@ -17,7 +17,7 @@ public interface UsuarioService extends UserDetailsService {
      * @param objetoDTO los datos del formulario
      * @return el objeto Usuario creado
      */
-    public Usuario convertirDTO(UsuarioDTO objetoDTO);
+    public void convertirDTO(Usuario usuario, UsuarioDTO objetoDTO);
 
     /**
      * Persiste un objeto del tipo Usuario

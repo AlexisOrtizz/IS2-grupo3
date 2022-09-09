@@ -7,18 +7,26 @@ import com.proyecto.is2.proyecto.services.PermisoServiceImp;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+@Controller
+@RequestMapping("rol")
 public class RolController implements CRUD<RolDTO> {
-    final String IDENTIFICADOR = "rol";
+    final String VIEW = "rol";
     String operacion = "";
+    final String FORM_VIEW = VIEW + "/form";
+    final String RD_FORM_VIEW = "redirect:/" + FORM_VIEW;
+    final String FALTA_PERMISO_VIEW = "falta-permiso";
+    final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
+    final String LISTA_VIEW = VIEW + "/listar";
+    final String ASIGNAR_ROL_VIEW = VIEW + "/asignar-rol";
+    final String RD_ASIGNAR_ROL_VIEW = "redirect:/" + ASIGNAR_ROL_VIEW;
 
     @Autowired
     private RolServiceImp rolService;
@@ -35,62 +43,80 @@ public class RolController implements CRUD<RolDTO> {
     }
 
     @Override
+    @GetMapping("form")
     public String mostrarCRUDTemplate(Model model) {
-        Set<Permiso> permisos = usuarioService.verPermisosUsuarioActual();
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
 
-        model.addAttribute("permisos", permisos);
+        if(eliminar || eliminar) {
+            model.addAttribute("idUsuarios", usuarioService.listarUsuarios());
+        } else {
+            model.addAttribute("idUsuarios", null);
+        }
 
-        return "rol/form";
+        model.addAttribute("crear", crear);
+        model.addAttribute("eliminar", eliminar);
+        model.addAttribute("actualizar", actualizar);
+
+        return FORM_VIEW;
     }
 
     @Override
+    @GetMapping("lista")
     public String mostrarObjetos() {
         this.operacion = "mostrar-";
 
-        if(usuarioService.tienePermiso(operacion + IDENTIFICADOR)){
-            return "usuario/lista";
+        if(usuarioService.tienePermiso(operacion + VIEW)){
+            return LISTA_VIEW;
         } else {
-            return "falta-permiso";
+            return FALTA_PERMISO_VIEW;
         }
     }
 
     @Override
+    @PostMapping("crear")
     public String crearObjeto(@ModelAttribute("rol") RolDTO objetoDTO) {
         this.operacion = "crear-";
 
-        if(usuarioService.tienePermiso(operacion + IDENTIFICADOR)) {
-            Rol rol = rolService.convertirDTO(objetoDTO);
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
+            Rol rol = new Rol();
+            rolService.convertirDTO(rol, objetoDTO);
             rolService.guardar(rol);
-            return "rol/form";
+            return RD_FORM_VIEW;
         } else {
-            return "falta-permiso";
+            return RD_FALTA_PERMISO_VIEW;
         }
     }
 
     @Override
-    public String eliminarObjeto(Integer id) {
+    @PostMapping("eliminar")
+    public String eliminarObjeto(@RequestParam("id_usuario") Integer id) {
         this.operacion = "eliminar-";
 
-        if(usuarioService.tienePermiso(operacion + IDENTIFICADOR)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             Rol rol = rolService.existeRol(id.longValue());
             rolService.eliminarRol(rol);
-            return "rol/form";
+            return RD_FORM_VIEW;
         } else {
-            return "falta-permiso";
+            return RD_FALTA_PERMISO_VIEW;
         }
     }
 
     @Override
+    @PostMapping("actualizar")
     public String actualizarObjeto(RolDTO objetoDTO) {
         this.operacion = "actualizar-";
 
-        if(usuarioService.tienePermiso(operacion + IDENTIFICADOR)) {
-            Rol rol = rolService.convertirDTO(objetoDTO);
-            rolService.guardar(rol);
-            return "rol/form";
-        } else {
-            return "falta-permiso";
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
+            Rol rol = rolService.existeRol(objetoDTO.getId());
+            if(rol != null) {
+                rolService.convertirDTO(rol, objetoDTO);
+                rolService.guardar(rol);
+                return RD_FORM_VIEW;
+            }
         }
+        return RD_FALTA_PERMISO_VIEW;
     }
 
     @PostMapping("asignar-permisos-rol")
@@ -98,7 +124,7 @@ public class RolController implements CRUD<RolDTO> {
         this.operacion = "asignar-permisos-";
 
         // verifica el permiso
-        if(usuarioService.tienePermiso(operacion + IDENTIFICADOR)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             Rol rol = rolService.existeRol(idRol);
 
             // itera sobre los permisos si se encontro el rol
@@ -113,9 +139,9 @@ public class RolController implements CRUD<RolDTO> {
                 }
                 rolService.guardar(rol);
             }
-            return "rol/form";
+            return ASIGNAR_ROL_VIEW;
         } else {
-            return "falta-permiso";
+            return FALTA_PERMISO_VIEW;
         }
     }
 

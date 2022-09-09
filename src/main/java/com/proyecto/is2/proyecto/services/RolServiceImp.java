@@ -42,13 +42,10 @@ public class RolServiceImp implements RolService {
     }
 
     @Override
-    public Rol convertirDTO(RolDTO objetoDTO) {
-        Rol rol = rolRepository.findByIdRol(objetoDTO.getId());
-
+    public void convertirDTO(Rol rol, RolDTO objetoDTO) {
         rol.setNombre(objetoDTO.getNombre());
         rol.setDescripcion(objetoDTO.getDescripcion());
-
-        return rol;
+        return;
     }
 
     @Override

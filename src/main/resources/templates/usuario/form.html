@@ -1,68 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestor de Proyectos</title>
-    <!-- Bootstrap js-->
-    <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js}"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
-    <!-- CSS only -->
-    <!-- Boostrap CSS -->
-    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css}"
-        rel="stylesheet" 
-        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" 
-        crossorigin="anonymous">
-    <!-- COSTUM CSS -->
-    <link rel="stylesheet" th:href="@{style.css}">
-    <!-- Pagina de gradientes: https://uigradients.com/#ManofSteel -->
-    
+    <th:block th:include="componentes/importar.html :: importar" />
 </head>
 <body>
-    <!-- clases mas utilizadas en Bootstrap 
-    division de pantalla
-    sm: small
-    md: medium
-    lg: large
-    xl: extra large
-    ---
-    row: fila
-    -->
-    <!--
-    <div class="container" style="background-color: blue;">
-        <div class="row">
-            <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                <h1>Bootstrap</h1>
-            </div>
-            <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                <h1>Bootstrap</h1>
-            </div>
-            <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                <h1>Bootstrap</h1>
-            </div>
-        </div>
-    </div>
-    -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-          <a class="navbar-brand" th:href="@{/}">Gestor de Proyecto</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item">
-                <li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a></li>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" th:href="@{/logout}">Cerrar Sesión</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+    <nav th:replace="componentes/cabecera.html :: cabecera" />
+
+    </nav>
+
     <div class="container my-3"> <!-- my: margin eje y || py: padding eje y -->
         <div class="row justify-content-center">
             <div th:if="${crear}" class="col-sm-12 col-md-4 col-lg-4 col-xl-4 bg-while py-4">
@@ -81,13 +26,19 @@
                         <input type="text" class="form-control" id="inputContrasenha" name="password" placeholder="Introduzca la Contraseña">
                     </div>
                     <div class="d-grid gap-2">
-                        <button class="btn btn-success">Crear Usuario</button>
+                        <button type="submit" class="btn btn-success">Crear Usuario</button>
                     </div>
                 </form>
             </div>
             <div th:if="${actualizar}" class="col-sm-12 col-md-4 col-lg-4 col-xl-4 bg-while py-4">
                 <h2>Modificar usuario</h2>
                 <form method="post" th:action="@{/usuario/actualizar}" th:object="${usuario}">
+                    <div class="mb-3"> <!-- margen button -->
+                        <label for="selectId1" class="form-label">Correo Usuario</label>
+                        <select class="form-select" aria-label="Default select example" id="selectId1" name="email">
+                            <option th:each="elemento : ${idUsuarios}" th:value="${elemento.email}" th:text="${elemento.email}"></option>
+                        </select>
+                    </div>
                     <div class="mb-3"> <!-- margen button -->
                         <label for="inputNombre2" class="form-label">Nombre Usuario</label>
                         <input type="text" class="form-control" id="inputNombre2" name="user" placeholder="Introduzca nombre de Usuario">
@@ -97,16 +48,19 @@
                         <input type="text" class="form-control" id="inputContrasenha2" name="password" placeholder="Introduzca la Contraseña">
                     </div>
                     <div class="d-grid gap-2">
-                        <button class="btn btn-warning">Modificar Usuario</button>
+                        <button type="submit" class="btn btn-warning">Modificar Usuario</button>
                     </div>
                 </form>
             </div>
             <div th:if="${eliminar}" class="col-sm-12 col-md-4 col-lg-4 col-xl-4 bg-while py-4">
                 <h2>Eliminar Usuario</h2>
-                <form method="post" th:action="${usuario/eliminar}">
-                    <select class="form-control" id="exampleFormControlSelect1" name="id_usuario" multiple="multiple">
-                        <option th:value="0">Usuario 1</option>
-                    </select>
+                <form method="post" th:action="@{/usuario/eliminar}">
+                    <div class="mb-3"> <!-- margen button -->
+                        <label for="selectId2" class="form-label">Correo Usuario</label>
+                        <select class="form-select" aria-label="Default select example" id="selectId2" name="id_usuario">
+                            <option th:each="elemento : ${idUsuarios}" th:value="${elemento.idUsuario}" th:text="${elemento.email}"></option>
+                        </select>
+                    </div>
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-danger">Eliminar Usuario</button>
                     </div>

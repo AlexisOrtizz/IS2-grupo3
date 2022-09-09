@@ -10,10 +10,11 @@ public interface RolService {
     /**
      * Este método mapea los datos de un formulario para convertirlos
      * a un objeto de tipo Rol
+     * @param rol para la entidad
      * @param objetoDTO los datos del formulario
      * @return el objeto Rol creado
      */
-    public Rol convertirDTO(RolDTO objetoDTO);
+    public void convertirDTO(Rol rol, RolDTO objetoDTO);
 
     /**
      * Persiste un objeto del tipo Usuario
