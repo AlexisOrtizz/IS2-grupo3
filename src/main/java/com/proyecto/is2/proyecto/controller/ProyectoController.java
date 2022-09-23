@@ -155,6 +155,7 @@ public class ProyectoController implements CRUD<ProyectoDTO>{
 
             if(usuario != null && proyecto != null) {
                 proyecto.getEquipo().add(usuario);
+                proyectoService.guardar(proyecto);
             }
 
             return "redirect:/proyecto/miembros";
@@ -179,6 +180,7 @@ public class ProyectoController implements CRUD<ProyectoDTO>{
 
             if(usuario != null && proyecto != null) {
                 if(proyecto.getEquipo().remove(usuario)) {
+                    proyectoService.guardar(proyecto);
                     System.out.println("SE HA REMOVIDO CORRECTAMENTE EL MIEMBRO DEL PROYECTO");
                 } else {
                     System.out.println("HA OCURRIDO UN ERROR AL QUERER QUITAR EL USUARIO DEL PROYECTO");

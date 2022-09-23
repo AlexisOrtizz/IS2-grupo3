@@ -1,5 +1,6 @@
 package com.proyecto.is2.proyecto.services;
 
+import com.proyecto.is2.proyecto.model.Permiso;
 import com.proyecto.is2.proyecto.model.Vista;
 import com.proyecto.is2.proyecto.repository.VistaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class VistaServiceImp implements VistaService {
+public class VistaServiceImp {
 
     @Autowired
     private VistaRepository vistaRepository;
@@ -31,13 +32,15 @@ public class VistaServiceImp implements VistaService {
         vistaRepository.saveAll(vistas);
     }
 
-    @Override
     public Vista guardar(Vista vista) {
         return vistaRepository.save(vista);
     }
 
-    @Override
     public List<Vista> listar() {
         return vistaRepository.findAll();
+    }
+
+    public Vista existeVista(Long id) {
+        return vistaRepository.findByIdVista(id);
     }
 }

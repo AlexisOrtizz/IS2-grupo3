@@ -2,7 +2,9 @@ package com.proyecto.is2.proyecto.controller;
 
 import com.proyecto.is2.proyecto.controller.dto.RolDTO;
 import com.proyecto.is2.proyecto.model.Permiso;
+import com.proyecto.is2.proyecto.model.Proyecto;
 import com.proyecto.is2.proyecto.model.Rol;
+import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.services.PermisoServiceImp;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
@@ -124,30 +126,65 @@ public class RolController implements CRUD<RolDTO> {
         return RD_FALTA_PERMISO_VIEW;
     }
 
-    @PostMapping("asignar-permisos-rol")
-    public String asignarPermisoRol(@RequestParam("idRol") Long idRol, @RequestParam("lista") List<Long> idPermisos) {
-        this.operacion = "asignar-permisos-";
-
-        // verifica el permiso
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            Rol rol = rolService.existeRol(idRol);
-
-            // itera sobre los permisos si se encontro el rol
-            if(rol != null) {
-                for(Long id : idPermisos) {
-                    Permiso permiso = permisoService.existePermiso(id);
-
-                    // agrega el permiso si es valido al rol
-                    if(permiso != null) {
-                        rol.getPermisos().add(permiso);
-                    }
-                }
-                rolService.guardar(rol);
-            }
-            return ASIGNAR_ROL_VIEW;
+    @GetMapping("permisos")
+    public String verMiembrosProyecto(Model model) {
+        if(usuarioService.tienePermiso("asignar-permisos-rol")) {
+            model.addAttribute("roles", rolService.listar());
+            model.addAttribute("permisos", permisoService.listar());
+            return "rol/permisos";
         } else {
             return FALTA_PERMISO_VIEW;
         }
+    }
+
+    /**
+     * Agregar un nuevo permiso al rol.
+     * @param idRol identificador del rol.
+     * @param idPermiso identificador del permiso.
+     * @return
+     */
+    @PostMapping("agregar-permiso")
+    public String agregarPermiso(@RequestParam("id_rol") Integer idRol, @RequestParam("id_permiso") Integer idPermiso) {
+        this.operacion = "asignar-permisos-rol";
+
+        if(usuarioService.tienePermiso(operacion)) {
+            Rol rol = rolService.existeRol(idRol.longValue());
+            Permiso permiso = permisoService.existePermiso(idPermiso.longValue());
+
+            if(rol != null && permiso != null) {
+                rol.getPermisos().add(permiso);
+                rolService.guardar(rol);
+            }
+
+            return "redirect:/rol/permisos";
+        }
+
+        return RD_FALTA_PERMISO_VIEW;
+    }
+
+    /**
+     * Eliminar un permiso del rol.
+     * @param idRol identificador del rol.
+     * @param idPermiso identificador del permiso.
+     * @return
+     */
+    @PostMapping("eliminar-permiso")
+    public String eliminarPermiso(@RequestParam("id_rol") Integer idRol, @RequestParam("id_permiso") Integer idPermiso) {
+        this.operacion = "asignar-permisos-rol";
+
+        if(usuarioService.tienePermiso(operacion)) {
+            Rol rol = rolService.existeRol(idRol.longValue());
+            Permiso permiso = permisoService.existePermiso(idPermiso.longValue());
+
+            if(rol != null && permiso != null) {
+                rol.getPermisos().remove(permiso);
+                rolService.guardar(rol);
+            }
+
+            return "redirect:/rol/permisos";
+        }
+
+        return RD_FALTA_PERMISO_VIEW;
     }
 
 }
