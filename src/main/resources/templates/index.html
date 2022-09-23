@@ -10,6 +10,7 @@
         <link rel="icon" type="image/x-icon" th:href="@{img/favicon.ico}" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link th:href="@{css/styles.css}" rel="stylesheet" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     </head>
     <body>
         <!-- Responsive navbar-->
@@ -56,51 +57,8 @@
                         </div>
                     </div>
                     <!-- Nested row for non-featured blog posts-->
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <!-- Blog post-->
-                            <div class="card mb-4">
-                                <a th:href="@{#!}"><img class="card-img-top" th:src="@{'https://img.freepik.com/foto-gratis/mano-usando-computadora-portatil-pantalla-virtual-documento-aprobar-linea-concepto-gestion-erp-garantia-calidad-papel_616485-61.jpg?w=740&t=st=1660528608~exp=1660529208~hmac=b1a42c9f2a9965b591780b682143b977ba05b8a79aa8623d751ad04a19b941f5'}" alt="..." /></a>
-                                <div class="card-body">
-                                    <div class="small text-muted">January 1, 2022</div>
-                                    <h2 class="card-title h4">Post Title</h2>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla.</p>
-                                    <a class="btn btn-primary" th:href="@{#!}">Read more →</a>
-                                </div>
-                            </div>
-                            <!-- Blog post-->
-                            <div class="card mb-4">
-                                <a th:href="@{#!}"><img class="card-img-top" th:src="@{'https://img.freepik.com/foto-gratis/concepto-marca-solucion-estrategia-gestion-corporativa_53876-122982.jpg?w=826&t=st=1660528610~exp=1660529210~hmac=e450b1ccc21f09def1f988b75ade1459ca8469dcaf835a78222882ce1c14701c'}" alt="..." /></a>
-                                <div class="card-body">
-                                    <div class="small text-muted">January 1, 2022</div>
-                                    <h2 class="card-title h4">Post Title</h2>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla.</p>
-                                    <a class="btn btn-primary" th:href="@{#!}">Read more →</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <!-- Blog post-->
-                            <div class="card mb-4">
-                                <a th:href="@{#!}"><img class="card-img-top" src="https://img.freepik.com/foto-gratis/hombre-negocios-tableta-cerrar-trato_1098-3372.jpg?w=740&t=st=1660528751~exp=1660529351~hmac=4801f43992eb54bc7b1fe43b1a735f5b7610cffb4396cafc4201e61fd9610adf" alt="..." /></a>
-                                <div class="card-body">
-                                    <div class="small text-muted">January 1, 2022</div>
-                                    <h2 class="card-title h4">Post Title</h2>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla.</p>
-                                    <a class="btn btn-primary" th:href="@{#!}">Read more →</a>
-                                </div>
-                            </div>
-                            <!-- Blog post-->
-                            <div class="card mb-4">
-                                <a th:href="@{#!}"><img class="card-img-top" src="https://img.freepik.com/foto-gratis/gente-primer-plano-estrecharme-mano_23-2148868430.jpg?w=996&t=st=1660528700~exp=1660529300~hmac=3078f6b9b070f00b20f7f0071947b322672928bda742f3dbb3bc3e900489ddd8" alt="..." /></a>
-                                <div class="card-body">
-                                    <div class="small text-muted">January 1, 2022</div>
-                                    <h2 class="card-title h4">Post Title</h2>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam.</p>
-                                    <a class="btn btn-primary" th:href="@{#!}">Read more →</a>
-                                </div>
-                            </div>
-                        </div>
+                    <div id="addPosts" class="row">
+
                     </div>
                     <!-- Pagination-->
                     <nav aria-label="Pagination">
@@ -167,5 +125,12 @@
         <!-- Core theme JS-->
         <script th:src="@{js/scripts.js}"></script>
         <script th:src="@{js/home.js}"></script>
+        <script th:inline="javascript">
+            $(document).ready(function(){
+                //$(selector).load("/box",null,
+                //$.ajax(
+                $("#addPosts").load("/js/box.js");
+            });
+        </script>
     </body>
 </html>
