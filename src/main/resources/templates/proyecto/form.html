@@ -41,87 +41,87 @@
     <script th:inline="javascript">
         $("#btn_agregar").click(function(){
             $("#formulario").html("
-            <form id=\'formulario\' method=\'post\' th:action=\'@{/proyecto/crear}\' th:object=\'${proyecto}\'>
-                    <div class=\'mb-3\'> <!-- margen button -->
-                        <label for=\'inputProyectoN\' class=\'form-label\'>Nombre</label>
-                        <input type=\'text\' class=\'form-control\' id=\'inputProyectoN\' name=\'nombre\' placeholder=\'Introduzca el nombre\' autofocus>
+            <form id='formulario' method='post' th:action='@{/proyecto/crear}' th:object='${proyecto}'>
+                    <div class='mb-3'> <!-- margen button -->
+                        <label for='inputProyectoN' class='form-label'>Nombre</label>
+                        <input type='text' class='form-control' id='inputProyectoN' name='nombre' placeholder='Introduzca el nombre' autofocus>
                     </div>
-                    <div class=\'mb-3\'> <!-- margen button -->
-                        <label for=\'inputProyectoD\' class=\'form-label\'>Descripción</label>
-                        <input type=\'text\' class=\'form-control\' id=\'inputProyectoD\' name=\'descripcion\' placeholder=\'Introduzca la descripción\' autofocus>
+                    <div class='mb-3'> <!-- margen button -->
+                        <label for='inputProyectoD' class='form-label'>Descripción</label>
+                        <input type='text' class='form-control' id='inputProyectoD' name='descripcion' placeholder='Introduzca la descripción' autofocus>
                     </div>
-                    <div class=\'mb-3\'> <!-- margen button -->
-                        <label for=\'inputProyectoO\' class=\'form-label\'>Observación</label>
-                        <input type=\'text\' class=\'form-control\' id=\'inputProyectoO\' name=\'observacion\' placeholder=\'Observaciones del proyecto\' autofocus>
+                    <div class='mb-3'> <!-- margen button -->
+                        <label for='inputProyectoO' class='form-label'>Observación</label>
+                        <input type='text' class='form-control' id='inputProyectoO' name='observacion' placeholder='Observaciones del proyecto' autofocus>
                     </div>
-                    <div class=\'mb-3\'> <!-- margen button -->
-                        <label for=\'estadoproyecto\' class=\'form-label\'>Estado</label></br>
-                        <select class=\'form-select\' aria-label=\'Default select example\' id=\'estadoproyecto\' name=\'estado\'>
-                            <option th:each=\'elemento : ${estados}\' th:value=\'${elemento}\' th:text=\'${elemento}\'></option>
+                    <div class='mb-3'> <!-- margen button -->
+                        <label for='estadoproyecto' class='form-label'>Estado</label></br>
+                        <select class='form-select' aria-label='Default select example' id='estadoproyecto' name='estado'>
+                            <option th:each='elemento : ${estados}' th:value='${elemento}' th:text='${elemento}'></option>
                         </select>
-                        <!-- <input type=\'text\' class=\'form-control\' id=\'inputProyectoE\' name=\'estado\' placeholder=\'Estado del proyecto\' autofocus> -->
+                        <!-- <input type='text' class='form-control' id='inputProyectoE' name='estado' placeholder='Estado del proyecto' autofocus> -->
                     </div>
-                    <div class=\'mb-3\'> <!-- margen button -->
-                        <label for=\'inputProyectoFI\' class=\'form-label\'>Fecha de Inicio</label>
-                        <input type=\'date\' class=\'form-control\' id=\'inputProyectoFI\' name=\'fechaInicio\' min=\'2021-01-01\' max=\'2030-12-31\' autofocus>
+                    <div class='mb-3'> <!-- margen button -->
+                        <label for='inputProyectoFI' class='form-label'>Fecha de Inicio</label>
+                        <input type='date' class='form-control' id='inputProyectoFI' name='fechaInicio' min='2021-01-01' max='2030-12-31' autofocus>
                     </div>
-                    <div class=\'mb-3\'> <!-- margen button -->
-                        <label for=\'inputProyectoFF\' class=\'form-label\'>Fecha de Fin</label>
-                        <input type=\'date\' class=\'form-control\' id=\'inputProyectoFF\' name=\'fechaFin\' min=\'2021-01-01\' max=\'2030-12-31\' autofocus>
+                    <div class='mb-3'> <!-- margen button -->
+                        <label for='inputProyectoFF' class='form-label'>Fecha de Fin</label>
+                        <input type='date' class='form-control' id='inputProyectoFF' name='fechaFin' min='2021-01-01' max='2030-12-31' autofocus>
                     </div>
-                    <div class=\'d-grid gap-2\'>
-                        <button type=\'submit\' class=\'btn btn-success\'>Enviar</button>
+                    <div class='d-grid gap-2'>
+                        <button type='submit' class='btn btn-success'>Enviar</button>
                     </div>
                 </form>
             \");
         });
         $("#btn_modificar").click(function(){
             $("#formulario").html("
-            <form id=\'formulario\' method=\'post\' th:action=\'@{/proyecto/actualizar}\' th:object=\'${proyecto}\'>
-                    <select class=\'form-select\' aria-label=\'Default select example\' name=\'idProyecto\'>
-                        <option th:each=\'elemento : ${idProyectos}\' th:value=\'${elemento.idProyecto}\' th:text=\'${elemento.toString()}\'></option>
+            <form id='formulario' method='post' th:action='@{/proyecto/actualizar}' th:object='${proyecto}'>
+                    <select class='form-select' aria-label='Default select example' name='idProyecto'>
+                        <option th:each='elemento : ${idProyectos}' th:value='${elemento.idProyecto}' th:text='${elemento.toString()}'></option>
                     </select>
-                    <div class=\'mb-3\'> <!-- margen button -->
-                        <label for=\'inputProyectoN2\' class=\'form-label\'>Nombre del Proyecto</label>
-                        <input type=\'text\' class=\'form-control\' id=\'inputProyectoN2\' name=\'nombre\' placeholder=\'Introduzca nuevo nombre del Proyecto\'>
+                    <div class='mb-3'> <!-- margen button -->
+                        <label for='inputProyectoN2' class='form-label'>Nombre del Proyecto</label>
+                        <input type='text' class='form-control' id='inputProyectoN2' name='nombre' placeholder='Introduzca nuevo nombre del Proyecto'>
                     </div>
-                    <div class=\'mb-3\'> <!-- margen button -->
-                        <label for=\'inputProyectoD2\' class=\'form-label\'>Descripción</label>
-                        <input type=\'text\' class=\'form-control\' id=\'inputProyectoD2\' name=\'descripcion\' placeholder=\'Introduzca nueva descripción\'>
+                    <div class='mb-3'> <!-- margen button -->
+                        <label for='inputProyectoD2' class='form-label'>Descripción</label>
+                        <input type='text' class='form-control' id='inputProyectoD2' name='descripcion' placeholder='Introduzca nueva descripción'>
                     </div>
-          <div class=\'mb-3\'> <!-- margen button -->
-                        <label for=\'inputProyectoO2\' class=\'form-label\'>Observación</label>
-                        <input type=\'text\' class=\'form-control\' id=\'inputProyectoO2\' name=\'observacion\' placeholder=\'Observaciones del proyecto\' autofocus>
+          <div class='mb-3'> <!-- margen button -->
+                        <label for='inputProyectoO2' class='form-label'>Observación</label>
+                        <input type='text' class='form-control' id='inputProyectoO2' name='observacion' placeholder='Observaciones del proyecto' autofocus>
                     </div>
-          <div class=\'mb-3\'> <!-- margen button -->
-                        <label for=\'estadoproyecto2\' class=\'form-label\'>Estado</label></br>
-                        <select class=\'form-select\' aria-label=\'Default select example\' id=\'estadoproyecto2\' name=\'estado\'>
-                            <option th:each=\'elemento : ${estados}\' th:value=\'${elemento}\' th:text=\'${elemento}\'></option>
+          <div class='mb-3'> <!-- margen button -->
+                        <label for='estadoproyecto2' class='form-label'>Estado</label></br>
+                        <select class='form-select' aria-label='Default select example' id='estadoproyecto2' name='estado'>
+                            <option th:each='elemento : ${estados}' th:value='${elemento}' th:text='${elemento}'></option>
                         </select>
-                        <!-- <input type=\'text\' class=\'form-control\' id=\'inputProyectoE\' name=\'estado\' placeholder=\'Estado del proyecto\' autofocus> -->
+                        <!-- <input type='text' class='form-control' id='inputProyectoE' name='estado' placeholder='Estado del proyecto' autofocus> -->
                     </div>
-          <div class=\'mb-3\'> <!-- margen button -->
-                        <label for=\'inputProyectoFI2\' class=\'form-label\'>Fecha de Inicio</label>
-                        <input type=\'date\' class=\'form-control\' id=\'inputProyectoFI2\' name=\'fechaInicio\' min=\'2021-01-01\' max=\'2030-12-31\' autofocus>
+          <div class='mb-3'> <!-- margen button -->
+                        <label for='inputProyectoFI2' class='form-label'>Fecha de Inicio</label>
+                        <input type='date' class='form-control' id='inputProyectoFI2' name='fechaInicio' min='2021-01-01' max='2030-12-31' autofocus>
                     </div>
-          <div class=\'mb-3\'> <!-- margen button -->
-                        <label for=\'inputProyectoFF2\' class=\'form-label\'>Fecha de Fin</label>
-                        <input type=\'date\' class=\'form-control\' id=\'inputProyectoFF2\' name=\'fechaFin\' min=\'2021-01-01\' max=\'2030-12-31\' autofocus>
+          <div class='mb-3'> <!-- margen button -->
+                        <label for='inputProyectoFF2' class='form-label'>Fecha de Fin</label>
+                        <input type='date' class='form-control' id='inputProyectoFF2' name='fechaFin' min='2021-01-01' max='2030-12-31' autofocus>
                     </div>
-                    <div class=\'d-grid gap-2\'>
-                        <button type=\'submit\' class=\'btn btn-warning\'>Enviar</button>
+                    <div class='d-grid gap-2'>
+                        <button type='submit' class='btn btn-warning'>Enviar</button>
                     </div>
                 </form>
             \");
         }
         $("#btn_eliminar").click(function(){
             $("#formulario").html("
-            <form id=\'formulario\' method=\'post\' th:action=\'@{/proyecto/eliminar}\'>
-                    <select class=\'form-select\' aria-label=\'Default select example\' id=\'eliminarproyecto\' name=\'id_proyecto\'>
-                        <option th:each=\'elemento : ${idProyectos}\' th:value=\'${elemento.idProyecto}\' th:text=\'${elemento.toString()}\'></option>
+            <form id='formulario' method='post' th:action='@{/proyecto/eliminar}'>
+                    <select class='form-select' aria-label='Default select example' id='eliminarproyecto' name='id_proyecto'>
+                        <option th:each='elemento : ${idProyectos}' th:value='${elemento.idProyecto}' th:text='${elemento.toString()}'></option>
                     </select>
-                    <div class=\'d-grid gap-2\'>
-                        <button type=\'submit\' class=\'btn btn-danger\'>Enviar</button>
+                    <div class='d-grid gap-2'>
+                        <button type='submit' class='btn btn-danger'>Enviar</button>
                     </div>
                 </form>
             ");
