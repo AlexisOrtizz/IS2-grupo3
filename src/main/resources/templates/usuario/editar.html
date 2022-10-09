@@ -4,7 +4,7 @@
 <div layout:fragment="content">
   <h1 class="text-center mb-4">Editar Usuario</h1>
 
-  <form method="POST" th:action="@{/usuarios/{id}(id=${user.idUsuario})}" class="mx-auto w-50" th:object="${usuario}">
+  <form method="POST" th:action="@{/usuarios/{id}(id=${user.idUsuario})}" th:object="${usuario}">
     <th:block th:include="fragment/error-message.html"></th:block>
 
     <fieldset>
