@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/basic}">
+<body>
+<div layout:fragment="content">
+  <h1 class="text-center mb-4">Editar Usuario</h1>
+
+  <form method="POST" th:action="@{/usuarios/{id}(id=${user.idUsuario})}" class="mx-auto w-50" th:object="${usuario}">
+    <th:block th:include="fragment/error-message.html"></th:block>
+
+    <fieldset>
+      <legend>Información del Usuario</legend>
+      <div class="mb-3"> <!-- margen button -->
+        <label class="form-label">Id Usuario: [[${user.idUsuario}]]</label>
+      </div>
+      <div class="mb-3"> <!-- margen button -->
+        <label class="form-label">Correo Usuario: [[${user.email}]]</label>
+        <input type="hidden" name="email" th:value="${user.email}" />
+      </div>
+      <div class="mb-3"> <!-- margen button -->
+        <label for="inputNombre2" class="form-label">Nombre Usuario</label>
+        <input type="text" class="form-control" id="inputNombre2" name="user" th:value="${user.username}">
+      </div>
+      <div class="mb-3"> <!-- margen button -->
+        <label for="inputContrasenha2" class="form-label">Contraseña</label>
+        <input type="text" class="form-control" id="inputContrasenha2" name="password" placeholder="Introduzca una nueva Contraseña">
+      </div>
+      <div th:if="${asignarRol}" class="input-group mb-3">
+        <label class="input-group-text" for="inputGroupSelect02">Rol</label>
+        <select class="form-select" aria-label="Default select example" id="inputGroupSelect02" name="idRol">
+          <option th:each="elemento : ${roles}" th:value="${elemento.idRol}" th:text="${elemento.toString()}"></option>
+        </select>
+      </div>
+    </fieldset>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <a th:href="@{/usuarios}" class="btn btn-outline-secondary w-100">
+          Atrás
+        </a>
+      </div>
+      <div class="col-sm-6">
+        <button type="submit" class="btn btn-warning w-100">Modificar Usuario</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

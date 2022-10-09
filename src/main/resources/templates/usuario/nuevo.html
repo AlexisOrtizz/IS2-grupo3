@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/basic}">
+<body>
+<div layout:fragment="content">
+    <h1 class="text-center mb-4">Nuevo Usuario</h1>
+
+    <form method="post" th:action="@{/usuarios/crear}" th:object="${usuario}">
+        <fieldset>
+            <legend>Información del Usuario</legend>
+            <div class="mb-3"> <!-- margen button -->
+                <label for="inputUsuario" class="form-label">Usuario</label>
+                <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca el nombre" autofocus>
+            </div>
+            <div class="mb-3"> <!-- margen button -->
+                <label for="inputUsuario" class="form-label">Correo</label>
+                <input type="text" class="form-control" id="inputCorreo" name="email" placeholder="Introduzca el nombre" autofocus>
+            </div>
+            <div class="mb-3"> <!-- margen button -->
+                <label for="inputContrasenha" class="form-label">Contraseña</label>
+                <input type="text" class="form-control" id="inputContrasenha" name="password" placeholder="Introduzca la Contraseña">
+            </div>
+            <div th:if="${asignarRol}" class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect01">Rol</label>
+                <select class="form-select" aria-label="Default select example" id="inputGroupSelect01" name="idRol">
+                    <option th:each="elemento : ${roles}" th:value="${elemento.idRol}" th:text="${elemento.toString()}"></option>
+                </select>
+            </div>
+        </fieldset>
+        <div class="row">
+            <div class="col-sm-6">
+                <a th:href="@{/usuarios}" class="btn btn-outline-secondary w-100">
+                    Atrás
+                </a>
+            </div>
+            <div class="col-sm-6">
+                <button type="submit" class="btn btn-success w-100">Guardar Usuario</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
