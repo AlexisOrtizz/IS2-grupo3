@@ -13,9 +13,14 @@
     <div class="container my-3"> <!-- my: margin eje y || py: padding eje y -->
         <div class="row justify-content-center">
             <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 bg-while py-4">
-                <h2>Proyecto</h2>
                 <div id="formulario"></div>
             </div>
+<!--            <div id="pendientes">-->
+<!--                <select>-->
+<!--                    <option th:data-content='<p>hola</p>'></option>-->
+<!--                    <option th:data-content='<p>hola</p>'></option>-->
+<!--                </select>-->
+<!--            </div>-->
 <!--            <div th:if="${actualizar}" class="col-sm-12 col-md-4 col-lg-4 col-xl-4 bg-while py-4">-->
 <!--                <h2>Modificar proyecto</h2>-->
 <!--            </div>-->
@@ -39,93 +44,122 @@
         </div>
     </div>
     <script th:inline="javascript">
+
         $("#btn_agregar").click(function(){
-            $("#formulario").html("
-            <form id='formulario' method='post' th:action='@{/proyecto/crear}' th:object='${proyecto}'>
-                    <div class='mb-3'> <!-- margen button -->
-                        <label for='inputProyectoN' class='form-label'>Nombre</label>
-                        <input type='text' class='form-control' id='inputProyectoN' name='nombre' placeholder='Introduzca el nombre' autofocus>
-                    </div>
-                    <div class='mb-3'> <!-- margen button -->
-                        <label for='inputProyectoD' class='form-label'>Descripción</label>
-                        <input type='text' class='form-control' id='inputProyectoD' name='descripcion' placeholder='Introduzca la descripción' autofocus>
-                    </div>
-                    <div class='mb-3'> <!-- margen button -->
-                        <label for='inputProyectoO' class='form-label'>Observación</label>
-                        <input type='text' class='form-control' id='inputProyectoO' name='observacion' placeholder='Observaciones del proyecto' autofocus>
-                    </div>
-                    <div class='mb-3'> <!-- margen button -->
-                        <label for='estadoproyecto' class='form-label'>Estado</label></br>
-                        <select class='form-select' aria-label='Default select example' id='estadoproyecto' name='estado'>
-                            <option th:each='elemento : ${estados}' th:value='${elemento}' th:text='${elemento}'></option>
-                        </select>
-                        <!-- <input type='text' class='form-control' id='inputProyectoE' name='estado' placeholder='Estado del proyecto' autofocus> -->
-                    </div>
-                    <div class='mb-3'> <!-- margen button -->
-                        <label for='inputProyectoFI' class='form-label'>Fecha de Inicio</label>
-                        <input type='date' class='form-control' id='inputProyectoFI' name='fechaInicio' min='2021-01-01' max='2030-12-31' autofocus>
-                    </div>
-                    <div class='mb-3'> <!-- margen button -->
-                        <label for='inputProyectoFF' class='form-label'>Fecha de Fin</label>
-                        <input type='date' class='form-control' id='inputProyectoFF' name='fechaFin' min='2021-01-01' max='2030-12-31' autofocus>
-                    </div>
-                    <div class='d-grid gap-2'>
-                        <button type='submit' class='btn btn-success'>Enviar</button>
-                    </div>
-                </form>
-            \");
+            let urlPath = /*[[@{/proyecto/crear}]]*/'/proyecto/crear';
+            let projectObject = /*[[${proyecto}]]*/ 'proyecto';
+            let estados = /*[[${estados}]]*/'[]';
+            let estadosOptions = "";
+
+            estados.forEach( elemento => {
+                estadosOptions += "<option value='"+elemento+"' >"+elemento+"</option>";
+            })
+
+            $("#formulario").html("<h2>Crear Proyecto</h2>" +
+                " <form method='post' action='"+urlPath+"' object="+projectObject+" >\n" +
+                "                    <div class='mb-3'>\n" +
+                "                        <label for='inputProyectoN' class='form-label'>Nombre</label>\n" +
+                "                        <input type='text' class='form-control' id='inputProyectoN' name='nombre' placeholder='Introduzca el nombre' autofocus>\n" +
+                "                    </div>\n" +
+                "                    <div class='mb-3'>\n" +
+                "                        <label for='inputProyectoD' class='form-label'>Descripción</label>\n" +
+                "                        <input type='text' class='form-control' id='inputProyectoD' name='descripcion' placeholder='Introduzca la descripción' autofocus>\n" +
+                "                    </div>\n" +
+                "                    <div class='mb-3'>\n" +
+                "                        <label for='inputProyectoO' class='form-label'>Observación</label>\n" +
+                "                        <input type='text' class='form-control' id='inputProyectoO' name='observacion' placeholder='Observaciones del proyecto' autofocus>\n" +
+                "                    </div>\n" +
+                "                    <div class='mb-3'>\n" +
+                "                        <label for='estadoproyecto' class='form-label'>Estado</label></br>\n" +
+                "                        <select class='form-select' aria-label='Default select example' id='estadoproyecto' name='estado'>\n" +
+                "                          " + estadosOptions + "   \n" +
+                "                        </select>\n" +
+                "                    </div>\n" +
+                "                    <div class='mb-3'>\n" +
+                "                        <label for='inputProyectoFI' class='form-label'>Fecha de Inicio</label>\n" +
+                "                        <input type='date' class='form-control' id='inputProyectoFI' name='fechaInicio' min='2021-01-01' max='2030-12-31' autofocus>\n" +
+                "                    </div>\n" +
+                "                    <div class='mb-3'>\n" +
+                "                        <label for='inputProyectoFF' class='form-label'>Fecha de Fin</label>\n" +
+                "                        <input type='date' class='form-control' id='inputProyectoFF' name='fechaFin' min='2021-01-01' max='2030-12-31' autofocus>\n" +
+                "                    </div>\n" +
+                "                    <div class='d-grid gap-2'>\n" +
+                "                        <button type='submit' class='btn btn-success'>Enviar</button>\n" +
+                "                    </div>\n" +
+                "                </form> ");
         });
-        $("#btn_modificar").click(function(){
-            $("#formulario").html("
-            <form id='formulario' method='post' th:action='@{/proyecto/actualizar}' th:object='${proyecto}'>
-                    <select class='form-select' aria-label='Default select example' name='idProyecto'>
-                        <option th:each='elemento : ${idProyectos}' th:value='${elemento.idProyecto}' th:text='${elemento.toString()}'></option>
-                    </select>
-                    <div class='mb-3'> <!-- margen button -->
-                        <label for='inputProyectoN2' class='form-label'>Nombre del Proyecto</label>
-                        <input type='text' class='form-control' id='inputProyectoN2' name='nombre' placeholder='Introduzca nuevo nombre del Proyecto'>
-                    </div>
-                    <div class='mb-3'> <!-- margen button -->
-                        <label for='inputProyectoD2' class='form-label'>Descripción</label>
-                        <input type='text' class='form-control' id='inputProyectoD2' name='descripcion' placeholder='Introduzca nueva descripción'>
-                    </div>
-          <div class='mb-3'> <!-- margen button -->
-                        <label for='inputProyectoO2' class='form-label'>Observación</label>
-                        <input type='text' class='form-control' id='inputProyectoO2' name='observacion' placeholder='Observaciones del proyecto' autofocus>
-                    </div>
-          <div class='mb-3'> <!-- margen button -->
-                        <label for='estadoproyecto2' class='form-label'>Estado</label></br>
-                        <select class='form-select' aria-label='Default select example' id='estadoproyecto2' name='estado'>
-                            <option th:each='elemento : ${estados}' th:value='${elemento}' th:text='${elemento}'></option>
-                        </select>
-                        <!-- <input type='text' class='form-control' id='inputProyectoE' name='estado' placeholder='Estado del proyecto' autofocus> -->
-                    </div>
-          <div class='mb-3'> <!-- margen button -->
-                        <label for='inputProyectoFI2' class='form-label'>Fecha de Inicio</label>
-                        <input type='date' class='form-control' id='inputProyectoFI2' name='fechaInicio' min='2021-01-01' max='2030-12-31' autofocus>
-                    </div>
-          <div class='mb-3'> <!-- margen button -->
-                        <label for='inputProyectoFF2' class='form-label'>Fecha de Fin</label>
-                        <input type='date' class='form-control' id='inputProyectoFF2' name='fechaFin' min='2021-01-01' max='2030-12-31' autofocus>
-                    </div>
-                    <div class='d-grid gap-2'>
-                        <button type='submit' class='btn btn-warning'>Enviar</button>
-                    </div>
-                </form>
-            \");
-        }
+        $("#btn_actualizar").click(function(){
+            let urlPath = /*[[@{/proyecto/actualizar}]]*/'/proyecto/crear';
+            let projectObject = /*[[${proyecto}]]*/ 'proyecto';
+            let estados = /*[[${estados}]]*/'[]';
+            let proyectos = /*[[${idProyectos}]]*/'[]';
+            let estadosOptions = "";
+            let proyectosOptions = "";
+
+
+            estados.forEach( elemento => {
+                estadosOptions += "<option value='"+elemento+"' >"+elemento+"</option>";
+            })
+
+            proyectos.forEach( elemento => {
+                proyectosOptions += "<option value='"+elemento["id_proyecto"]+"' >" + elemento["titulo"] + "</option>";
+            })
+
+            $("#formulario").html("<h2>Modificar Proyecto</h2>" +
+                "<form method='post' action='"+ urlPath +"' object="+ projectObject +">\n" +
+                "                    <select class='form-select' aria-label='Default select example' name='idProyecto'>\n" +
+                "                        " + proyectosOptions +"\n" +
+                "                    </select>\n" +
+                "                    <div class='mb-3'>\n" +
+                "                        <label for='inputProyectoN2' class='form-label'>Nombre del Proyecto</label>\n" +
+                "                        <input type='text' class='form-control' id='inputProyectoN2' name='nombre' placeholder='Introduzca nuevo nombre del Proyecto'>\n" +
+                "                    </div>\n" +
+                "                    <div class='mb-3'>\n" +
+                "                        <label for='inputProyectoD2' class='form-label'>Descripción</label>\n" +
+                "                        <input type='text' class='form-control' id='inputProyectoD2' name='descripcion' placeholder='Introduzca nueva descripción'>\n" +
+                "                    </div>\n" +
+                "          <div class='mb-3'>\n" +
+                "                        <label for='inputProyectoO2' class='form-label'>Observación</label>\n" +
+                "                        <input type='text' class='form-control' id='inputProyectoO2' name='observacion' placeholder='Observaciones del proyecto' autofocus>\n" +
+                "                    </div>\n" +
+                "          <div class='mb-3'>\n" +
+                "                        <label for='estadoproyecto2' class='form-label'>Estado</label></br>\n" +
+                "                        <select class='form-select' aria-label='Default select example' id='estadoproyecto2' name='estado'>\n" +
+                "                            "+ estadosOptions +"\n" +
+                "                        </select>\n" +
+                "                    </div>\n" +
+                "          <div class='mb-3'>\n" +
+                "                        <label for='inputProyectoFI2' class='form-label'>Fecha de Inicio</label>\n" +
+                "                        <input type='date' class='form-control' id='inputProyectoFI2' name='fechaInicio' min='2021-01-01' max='2030-12-31' autofocus>\n" +
+                "                    </div>\n" +
+                "          <div class='mb-3'> <!-- margen button -->\n" +
+                "                        <label for='inputProyectoFF2' class='form-label'>Fecha de Fin</label>\n" +
+                "                        <input type='date' class='form-control' id='inputProyectoFF2' name='fechaFin' min='2021-01-01' max='2030-12-31' autofocus>\n" +
+                "                    </div>\n" +
+                "                    <div class='d-grid gap-2'>\n" +
+                "                        <button type='submit' class='btn btn-warning'>Enviar</button>\n" +
+                "                    </div>\n" +
+                "                </form>");
+        });
         $("#btn_eliminar").click(function(){
-            $("#formulario").html("
-            <form id='formulario' method='post' th:action='@{/proyecto/eliminar}'>
-                    <select class='form-select' aria-label='Default select example' id='eliminarproyecto' name='id_proyecto'>
-                        <option th:each='elemento : ${idProyectos}' th:value='${elemento.idProyecto}' th:text='${elemento.toString()}'></option>
-                    </select>
-                    <div class='d-grid gap-2'>
-                        <button type='submit' class='btn btn-danger'>Enviar</button>
-                    </div>
-                </form>
-            ");
-        }
+            let urlPath = /*[[@{/proyecto/eliminar}]]*/'/proyecto/eliminar';
+            let proyectos = /*[[${idProyectos}]]*/'[]';
+            let proyectosOptions = "";
+
+            proyectos.forEach( elemento => {
+                proyectosOptions += "<option value='"+elemento["id_proyecto"]+"' >" + elemento["titulo"] + "</option>";
+            })
+
+            $("#formulario").html("<h2>Eliminar Proyecto</h2>" +
+                "<form method='post' action='"+ urlPath +"'>\n" +
+                "                    <select class='form-select' aria-label='Default select example' id='eliminarproyecto' name='id_proyecto'>\n" +
+                "                        "+ proyectosOptions +"\n" +
+                "                    </select>\n" +
+                "                    <div class='d-grid gap-2'>\n" +
+                "                        <button type='submit' class='btn btn-danger'>Enviar</button>\n" +
+                "                    </div>\n" +
+                "                </form>");
+        });
     </script>
 </body>
 </html>

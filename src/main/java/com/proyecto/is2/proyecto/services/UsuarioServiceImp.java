@@ -1,5 +1,6 @@
 package com.proyecto.is2.proyecto.services;
 
+import com.proyecto.is2.proyecto.Util.GeneralUtils;
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.model.Permiso;
 import com.proyecto.is2.proyecto.model.Rol;
@@ -75,6 +76,16 @@ public class UsuarioServiceImp implements UsuarioService {
         return usuarioRepository.findByEmail(email);
     }
 
+    public Usuario existeUsuario(Long id) {
+        Usuario usuario = null;
+        try {
+            return usuarioRepository.findByIdUsuario(id);
+        } catch (Exception e) {
+            usuario = null;
+        }
+        return usuario;
+    }
+
     @Override
     public boolean camibarRol(Usuario usuario, Rol rol) {
         return false;
@@ -83,9 +94,9 @@ public class UsuarioServiceImp implements UsuarioService {
     @Override
     public void crearAdmin() {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setUser("admin");
-        usuarioDTO.setEmail("admin@gmail.com");
-        usuarioDTO.setPassword("12345678");
+        usuarioDTO.setUser(GeneralUtils.ADMIN_USER);
+        usuarioDTO.setEmail(GeneralUtils.ADMIN_EMAIL);
+        usuarioDTO.setPassword(GeneralUtils.ADMIN_PASS);
 
         Usuario usuario = new Usuario();
         convertirDTO(usuario, usuarioDTO);
