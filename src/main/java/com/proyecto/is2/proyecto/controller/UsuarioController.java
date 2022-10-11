@@ -85,7 +85,7 @@ public class UsuarioController {
         if(asignarRol) {
             model.addAttribute("roles", rolService.listar());
         }
-        model.addAttribute("asignarRol", asignarRol);
+        model.addAttribute("permisoAsignarRol", asignarRol);
 
         if(crear) {
             return FORM_NEW;
@@ -145,7 +145,7 @@ public class UsuarioController {
         if(asignarRol) {
             model.addAttribute("roles", rolService.listar());
         }
-        model.addAttribute("asignarRol", asignarRol);
+        model.addAttribute("permisoAsignarRol", asignarRol);
 
         if(eliminar) {
             return FORM_EDIT;

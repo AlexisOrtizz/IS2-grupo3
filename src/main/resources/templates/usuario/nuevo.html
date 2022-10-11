@@ -19,7 +19,7 @@
                 <label for="inputContrasenha" class="form-label">Contraseña</label>
                 <input type="text" class="form-control" id="inputContrasenha" name="password" placeholder="Introduzca la Contraseña">
             </div>
-            <div th:if="${asignarRol}" class="input-group mb-3">
+            <div th:if="${permisoAsignarRol}" class="input-group mb-3">
                 <label class="input-group-text" for="inputGroupSelect01">Rol</label>
                 <select class="form-select" aria-label="Default select example" id="inputGroupSelect01" name="idRol">
                     <option th:each="elemento : ${roles}" th:value="${elemento.idRol}" th:text="${elemento.toString()}"></option>

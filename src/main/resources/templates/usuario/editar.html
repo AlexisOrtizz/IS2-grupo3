@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/basic}">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic}">
 <body>
 <div layout:fragment="content">
   <h1 class="text-center mb-4">Editar Usuario</h1>
@@ -24,7 +26,7 @@
         <label for="inputContrasenha2" class="form-label">Contraseña</label>
         <input type="text" class="form-control" id="inputContrasenha2" name="password" placeholder="Introduzca una nueva Contraseña">
       </div>
-      <div th:if="${asignarRol}" class="input-group mb-3">
+      <div th:if="${permisoAsignarRol}" class="input-group mb-3">
         <label class="input-group-text" for="inputGroupSelect02">Rol</label>
         <select class="form-select" aria-label="Default select example" id="inputGroupSelect02" name="idRol">
           <option th:each="elemento : ${roles}" th:value="${elemento.idRol}" th:text="${elemento.toString()}"></option>
