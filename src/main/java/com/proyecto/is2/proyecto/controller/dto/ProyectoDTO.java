@@ -2,6 +2,8 @@ package com.proyecto.is2.proyecto.controller.dto;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class ProyectoDTO {
     private Integer idProyecto;
@@ -9,6 +11,6 @@ public class ProyectoDTO {
     private String descripcion;
     private String observacion;
     private String estado;
-    private String fechaInicio;
-    private String fechaFin;
+    private Date fechaInicio;
+    private Date fechaFin;
 }

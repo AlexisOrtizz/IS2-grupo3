@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic}">
+<body>
+<div layout:fragment="content">
+  <h1 class="text-center mb-4">Editar Proyecto</h1>
+
+  <form method="POST" th:action="@{/proyectos/{id}(id=${user.idProyecto})}" th:object="${proyecto}">
+    <th:block th:include="fragment/error-message.html"></th:block>
+
+    <fieldset>
+      <legend>Información del Proyecto</legend>
+      <select class='form-select' aria-label='Default select example' name='idProyecto'>
+        <option th:each="elemento : ${listProject}" th:value="${elemento.idProyecto}" th:text="${elemento.toString()}" />
+      </select>
+      <div class='mb-3'>
+        <label for='inputProyectoN2' class='form-label'>Nombre del Proyecto</label>
+        <input type='text' class='form-control' id='inputProyectoN2' name='nombre' placeholder='Introduzca nuevo nombre del Proyecto'>
+      </div>
+      <div class='mb-3'>
+        <label for='inputProyectoD2' class='form-label'>Descripción</label>
+        <input type='text' class='form-control' id='inputProyectoD2' name='descripcion' placeholder='Introduzca nueva descripción'>
+      </div>
+      <div class='mb-3'>
+        <label for='inputProyectoO2' class='form-label'>Observación</label>
+        <input type='text' class='form-control' id='inputProyectoO2' name='observacion' placeholder='Observaciones del proyecto' autofocus>
+      </div>
+      <div class='mb-3'>
+        <label for='estadoproyecto2' class='form-label'>Estado</label></br>
+        <select class='form-select' aria-label='Default select example' id='estadoproyecto2' name='estado'>
+          <option th:each="elemento : ${estados}" th:value="${elemento}" th:text="${elemento}"></option>
+        </select>
+      </div>
+      <div class='mb-3'>
+        <label for='inputProyectoFI2' class='form-label'>Fecha de Inicio</label>
+        <input type='date' class='form-control' id='inputProyectoFI2' name='fechaInicio' min='2021-01-01' max='2030-12-31' autofocus>
+      </div>
+      <div class='mb-3'> <!-- margen button -->
+        <label for='inputProyectoFF2' class='form-label'>Fecha de Fin</label>
+        <input type='date' class='form-control' id='inputProyectoFF2' name='fechaFin' min='2021-01-01' max='2030-12-31' autofocus>
+      </div>
+    </fieldset>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <a th:href="@{/proyectos}" class="btn btn-outline-secondary w-100">
+          Atrás
+        </a>
+      </div>
+      <div class="col-sm-6">
+        <button type="submit" class="btn btn-warning w-100">Modificar Proyecto</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>
