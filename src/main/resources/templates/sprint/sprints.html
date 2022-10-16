@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic}">
+<body>
+<div layout:fragment="content">
+  <h1 class="text-center mb-4">Proyecto #1</h1>
+
+  <th:block th:include="fragment/success-message.html"></th:block>
+
+  <div class="table-responsive">
+    <h2>Sprint</h2>
+    <a href="#" class="btn btn-outline-success mb-3">
+      <i class="fa-solid fa-user-plus"></i> Nuevo US
+    </a>
+    <table class="table table-sm table-bordered">
+      <thead>
+      <tr class="text-center">
+        <th>#</th>
+        <th>Nombre</th>
+        <th>Estado</th>
+        <th>Asignado</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="text-center" >
+        <td >1</td>
+        <td >Crear US</td>
+        <td >Pendiente</td>
+        <td >Alexis Ortiz</td>
+      </tr>
+      <tr class="text-center" >
+        <td >1</td>
+        <td >Crear US</td>
+        <td >Pendiente</td>
+        <td >Alexis Ortiz</td>
+      </tr>
+      <tr class="text-center" >
+        <td >1</td>
+        <td >Crear US</td>
+        <td >Pendiente</td>
+        <td >Alexis Ortiz</td>
+      </tr>
+      <tr class="text-center" >
+        <td >1</td>
+        <td >Crear US</td>
+        <td >Pendiente</td>
+        <td >Alexis Ortiz</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>
