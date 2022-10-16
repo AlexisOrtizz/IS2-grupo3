@@ -11,6 +11,6 @@ public class ProyectoDTO {
     private String descripcion;
     private String observacion;
     private String estado;
-    private Date fechaInicio;
-    private Date fechaFin;
+    private String fechaInicio;
+    private String fechaFin;
 }

@@ -44,8 +44,8 @@ public class Proyecto {
     /* RELACIONES DE BASE DE DATOS */
 
     /* Relacion con Backlog */
-    @OneToMany(mappedBy = "proyecto",  cascade = CascadeType.ALL)
-    private Set<Backlog> backlogs = new HashSet<>();
+    @OneToOne(mappedBy = "proyecto")
+    private Backlog backlog;
 
     /* Relacion con Usuario para formar equipos */
     @ManyToMany(fetch = FetchType.EAGER)
