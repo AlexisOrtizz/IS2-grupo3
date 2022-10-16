@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic}">
+<body>
+<div layout:fragment="content">
+  <h1 class="text-center mb-4" th:text="${'Proyecto #'+project.idProyecto}">Proyecto #1</h1>
+
+  <th:block th:include="fragment/success-message.html"></th:block>
+
+  <div class="table-responsive">
+    <h2>Sprints</h2>
+    <a th:href="@{/proyectos/{id}/sprint/nuevo(id=${project.idProyecto})}" class="btn btn-outline-success mb-3">
+      <i class="fa-solid fa-user-plus"></i> Nuevo Sprint
+    </a>
+    <a th:href="@{/proyectos/{id}/teams(id=${project.idProyecto})}" class="btn btn-outline-success mb-3">
+      <i class="fa-solid fa-people-group"></i> Equipo
+    </a>
+    <a th:href="@{proyectos/{id}/reporte(id=${project.idProyecto})}" class="btn btn-outline-success mb-3">
+      <i class="fa-solid fa-chart-line"></i> Burndown Chart
+    </a>
+    <table class="table table-sm table-bordered">
+      <thead>
+      <tr class="text-center">
+        <th>Titulo</th>
+        <th>Fecha Inicio</th>
+        <th>Fecha Fin</th>
+        <th>Estado</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:if="${#lists.isEmpty(project.backlog.sprints)}">
+        <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td>
+      </tr>
+      <tr class="text-center" th:each="sprint: ${project.backlog.sprints}">
+        <td th:text="${sprint.titulo}">Spring 4</td>
+        <td th:text="${#dates.format(sprint.fechaInicio, 'dd/MM/yyyy')}">01/10/2022</td>
+        <td th:text="${#dates.format(sprint.fechaFin, 'dd/MM/yyyy')}">14/10/2022</td>
+        <td th:text="${sprint.estado}">Activo</td>
+        <td>
+          <div class="btn-group">
+            <a th:if="${true}" th:href="@{/proyectos/{id1}/sprint/{id2}/ver(id1=${project.idProyecto},id2=${sprint.idSprint})}">
+              <button type="button" class="btn btn-sm btn-outline-secondary">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </a>
+            <a th:if="${true}" th:href="@{/proyectos/{id1}/sprint/{id2}(id1=${project.idProyecto},id2=${sprint.idSprint})}"
+                    class="btn btn-sm btn-outline-primary">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+            <a th:if="${true}" th:href="@{/proyectos/{id1}/sprint/{id2}/delete(id1=${project.idProyecto},id2=${sprint.idSprint})}">
+              <button type="button" class="btn btn-sm btn-outline-danger">
+                <i class="fa-sharp fa-solid fa-trash"></i>
+              </button>
+            </a>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

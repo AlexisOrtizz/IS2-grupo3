@@ -30,7 +30,7 @@ public class Backlog {
     private Set<Sprint> sprints = new HashSet<>();
 
     /* Relacion con Proyecto */
-    @ManyToOne
-    @JoinColumn(name = "proyecto_id", referencedColumnName = "idProyecto")
+    @OneToOne
+    @JoinColumn(name = "proyecto_id")
     private Proyecto proyecto;
 }
