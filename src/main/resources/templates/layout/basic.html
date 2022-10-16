@@ -2,7 +2,7 @@
 <html class="h-100"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head>
+<head th:fragment="head">
   <title>Gestor de Proyectos</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,7 +13,7 @@
   <link rel="icon" type="image/x-icon" th:href="@{/img/favicon.ico}" />
   <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
   <link th:href="@{/fontawesome/css/all.min.css}" rel="stylesheet">
-<!--  <link th:href="@{/css/styles.css}" rel="stylesheet" />-->
+  <!--  <link th:href="@{/css/styles.css}" rel="stylesheet" />-->
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -91,6 +91,7 @@
 <script th:src="@{/jquery/jquery.min.js}" type="text/javascript"></script>
 <!--<script th:src="@{/jquery-mask/dist/jquery.mask.min.js}" type="text/javascript"></script>-->
 <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}" type="text/javascript"></script>
+<script th:src="@{/bootstrap/js/bootstrap.min.js}" type="text/javascript"></script>
 <!--/*script type="text/javascript">
   $(document).ready(function() {
     $(".zipCode").mask("00000-000");
