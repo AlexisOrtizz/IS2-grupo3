@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic}">
+<body>
+<div layout:fragment="content">
+  <h1 class="text-center mb-4">Roles</h1>
+
+  <th:block th:include="fragment/success-message.html"></th:block>
+
+  <th:block th:if="${permisoCrear eq true}">
+    <a th:href="@{/roles/nuevo}" class="btn btn-outline-success mb-3">
+      <i class="fa-solid fa-rol-plus"></i> Nuevo Rol
+    </a>
+  </th:block>
+
+  <tr th:if="${!permisoVer}">
+    <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
+  </tr>
+  <div th:if="${permisoVer eq true}" class="table-responsive">
+    <table class="table table-sm table-bordered">
+      <thead>
+      <tr class="text-center">
+        <th>Nombre</th>
+        <th>Descripcion</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:if="${#lists.isEmpty(listRol)}">
+        <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td>
+      </tr>
+      <tr class="text-center" th:each="rol: ${listRol}">
+        <td th:text="${rol.nombre}">Nombre</td>
+        <td th:text="${rol.descripcion}">Descripcion</td>
+        <!--        <td th:text="${#temporals.format(student.birthday, 'dd/MM/yyyy')}">Birthday</td>-->
+        <!--        <td th:text="${#temporals.format(student.createdAt, 'dd/MM/yyyy HH:mm:ss')}">CreatedAt</td>-->
+        <td>
+          <div class="btn-group">
+            <a th:if="${permisoVer eq true}" th:href="@{/roles/{id}/asignar(id=${rol.idRol})}">
+                <button type="button" class="btn btn-sm btn-outline-secondary">
+                    <i class="fa-sharp fa-solid fa-sliders"></i>
+                </button>
+            </a>
+            <a th:if="${permisoActualizar eq true}" th:href="@{/roles/{id}(id=${rol.idRol})}"
+               class="btn btn-sm btn-outline-primary">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+            <a th:if="${permisoEliminar eq true}" th:href="@{/roles/{id}/delete(id=${rol.idRol})}">
+              <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                <i class="fa-sharp fa-solid fa-trash"></i>
+              </button>
+            </a>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="deleteConfirmModal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">!Atención!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <p>¿Estás seguro que quieres eliminar este usuario?</p>
+        </div>
+        <div class="modal-footer d-block">
+          <div class="row">
+            <div class="col">
+              <button type="button" class="btn btn-sm btn-outline-secondary w-100" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+            <div class="col">
+              <a href="#" class="btn btn-sm btn-outline-danger w-100">Eliminar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<th:block layout:fragment="scripts">
+  <script type="text/javascript">
+    $(document).ready(function () {
+      const modal = document.getElementById('deleteConfirmModal');
+      modal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const href = button.getAttribute('data-bs-href');
+        const modalDeleteButton = modal.querySelector('a');
+        modalDeleteButton.href = href;
+      });
+    });
+    $("#btnEliminar").onclick(function(){
+
+    });
+  </script>
+</th:block>
+</body>
+</html>

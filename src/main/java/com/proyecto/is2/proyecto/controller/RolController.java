@@ -11,19 +11,24 @@ import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 @Controller
-@RequestMapping("rol")
-public class RolController implements CRUD<RolDTO> {
-    final String VIEW = "rol";
+@RequestMapping("/roles")
+public class RolController {
+    final String VIEW = "rol"; // identificador de la vista
+    final String VIEW_PATH = "rol";
     String operacion = "";
-    final String FORM_VIEW = VIEW + "/form";
-    final String RD_FORM_VIEW = "redirect:/" + FORM_VIEW;
+    final String FORM_VIEW = VIEW_PATH + "/roles";
+    final String FORM_NEW = VIEW_PATH + "/nuevo";
+    final String FORM_EDIT = VIEW_PATH + "/editar";
+    final String RD_FORM_VIEW = "redirect:/roles";
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
     final String LISTA_VIEW = VIEW + "/listar";
@@ -49,82 +54,126 @@ public class RolController implements CRUD<RolDTO> {
         return new RolDTO();
     }
 
-    @Override
-    @GetMapping("form")
+    @GetMapping
     public String mostrarCRUDTemplate(Model model) {
+
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
         boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
 
-        if(actualizar || eliminar) {
-            model.addAttribute("idRoles", rolService.listar());
+        if(consultar) {
+            model.addAttribute("listRol", rolService.listar());
         } else {
-            model.addAttribute("idRoles", null);
+            return FALTA_PERMISO_VIEW;
         }
 
-        model.addAttribute("crear", crear);
-        model.addAttribute("eliminar", eliminar);
-        model.addAttribute("actualizar", actualizar);
+        model.addAttribute("permisoVer", consultar);
+        model.addAttribute("permisoCrear", crear);
+        model.addAttribute("permisoEliminar", eliminar);
+        model.addAttribute("permisoActualizar", actualizar);
 
         return FORM_VIEW;
     }
 
-    @Override
-    @GetMapping("lista")
-    public String mostrarObjetos() {
-        this.operacion = "mostrar-";
+    @GetMapping("/nuevo")
+    public String formNuevo(Model model) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
 
-        if(usuarioService.tienePermiso(operacion + VIEW)){
-            return LISTA_VIEW;
+        if(crear) {
+            return FORM_NEW;
         } else {
             return FALTA_PERMISO_VIEW;
         }
     }
 
-    @Override
-    @PostMapping("crear")
-    public String crearObjeto(@ModelAttribute("rol") RolDTO objetoDTO) {
+    @PostMapping("/crear")
+    public String crearObjeto(@ModelAttribute("rol") RolDTO objetoDTO,
+            RedirectAttributes attributes) {
         this.operacion = "crear-";
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {
             Rol rol = new Rol();
             rolService.convertirDTO(rol, objetoDTO);
             rolService.guardar(rol);
+
+            attributes.addFlashAttribute("message", "¡Rol creado exitosamente!");
+
             return RD_FORM_VIEW;
         } else {
             return RD_FALTA_PERMISO_VIEW;
         }
     }
 
-    @Override
-    @PostMapping("eliminar")
-    public String eliminarObjeto(@RequestParam("id_rol") Integer id) {
+    @GetMapping("/{id}/delete")
+    public String eliminarObjeto(@PathVariable String id, RedirectAttributes attributes) {
         this.operacion = "eliminar-";
+        Long idRol;
+
+        try {
+            idRol = Long.parseLong(id);
+        } catch (Exception e) {
+            attributes.addFlashAttribute("message", "¡Id rol no valido!");
+            return RD_FORM_VIEW;
+        }
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {
-            Rol rol = rolService.existeRol(id.longValue());
+            Rol rol = rolService.existeRol(idRol);
             rolService.eliminarRol(rol);
+            attributes.addFlashAttribute("message", "Rol eliminado correctamente!");
             return RD_FORM_VIEW;
         } else {
             return RD_FALTA_PERMISO_VIEW;
         }
     }
 
-    @Override
-    @PostMapping("actualizar")
-    public String actualizarObjeto(@ModelAttribute("rol") RolDTO objetoDTO) {
+    @GetMapping("/{id}")
+    public String formEditar(@PathVariable String id, Model model) {
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        Rol rol;
+
+        // validar el id
+        try {
+            Long idRol = Long.parseLong(id);
+            rol = rolService.existeRol(idRol);
+        } catch(Exception e) {
+            return RD_FORM_VIEW;
+        }
+
+        if(eliminar) {
+            model.addAttribute("rol", rol);
+            return FORM_EDIT;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+
+    @PostMapping("/{id}")
+    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("rol") RolDTO objetoDTO,
+                                   BindingResult result, RedirectAttributes attributes) {
         this.operacion = "actualizar-";
+        Rol rol;
+
+        if (result.hasErrors()) {
+            return RD_FORM_VIEW;
+        }
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {
-            Rol rol = rolService.existeRol(objetoDTO.getIdRol().longValue());
+            rol = rolService.existeRol(id);
             if(rol != null) {
                 rolService.convertirDTO(rol, objetoDTO);
+                attributes.addFlashAttribute("message", "¡Rol actualizado correctamente!");
                 rolService.guardar(rol);
+                return RD_FORM_VIEW;
+            } else {
+                attributes.addFlashAttribute("message", "¡Id del rol no existe!");
                 return RD_FORM_VIEW;
             }
         }
         return RD_FALTA_PERMISO_VIEW;
     }
+
+
 
     @GetMapping("permisos")
     public String verMiembrosProyecto(Model model) {
