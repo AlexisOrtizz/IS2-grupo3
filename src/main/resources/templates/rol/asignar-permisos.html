@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic}">
+<body>
+<div layout:fragment="content">
+    <h1 class="text-center mb-4">Roles</h1>
+
+    <th:block th:include="fragment/success-message.html"></th:block>
+
+    <h2 th:text="${'Rol: '+objRol.nombre}"></h2>
+    <tr th:if="${!permisoVer}">
+        <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
+    </tr>
+    <div th:if="${permisoVer eq true}" class="table-responsive">
+        <table class="table table-sm table-bordered">
+            <thead>
+            <tr class="text-center">
+                <th>Permiso</th>
+                <th>Descripcion</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(listRolPermiso)}">
+                <td class="text-center fw-bold" colspan="10">El rol aun no tiene permisos</td>
+            </tr>
+            <tr class="text-center" th:each="obj: ${listRolPermiso}">
+                <td th:text="${obj.toString()}">Nombre</td>
+                <td th:text="${obj.descripcion}">Descripcion</td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-sm-6" th:if="${permisoAsignarPer}">
+                <!-- SELECT PARA ASIGNAR PERMISO -->
+               <form method="post" th:action="@{/roles/agregar-permiso}">
+                   <div class="input-group mb-3">
+                       <input type="hidden" name="id_rol" th:value="${objRol.idRol}">
+                       <label class="input-group-text" for="inputGroupSelect02">Rol</label>
+                       <select class="form-select" aria-label="Default select example" id="inputGroupSelect02" name="id_permiso">
+                           <option th:value="-1">Selecionar</option>
+                           <option th:each="elemento : ${listPermiso}" th:value="${elemento.idPermiso}"
+                                   th:text="${elemento.toString()}"></option>
+                       </select>
+                   </div>
+                   <div class="d-grid gap-2">
+                       <button type="submit" class="btn btn-success">Asignar Permiso</button>
+                   </div>
+               </form>
+            </div>
+            <div class="col-sm-6" th:if="${permisoEliminarPer}">
+                <!-- SELECT PARA SACAR PERMISO -->
+                <form method="post" th:action="@{/roles/eliminar-permiso}">
+                    <div class="input-group mb-3">
+                        <input type="hidden" name="id_rol" th:value="${objRol.idRol}">
+                        <label class="input-group-text" for="inputGroupSelect02">Rol</label>
+                        <select class="form-select" aria-label="Default select example" id="inputGroupSelect03" name="id_permiso">
+                            <option th:value="-1">Selecionar</option>
+                            <option th:each="elemento : ${listRolPermiso}"
+                                    th:value="${elemento.idPermiso}" th:text="${elemento.toString()}"></option>
+                        </select>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-warning">Sacar Permiso</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

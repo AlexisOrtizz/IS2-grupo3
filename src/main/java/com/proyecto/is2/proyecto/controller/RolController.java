@@ -6,6 +6,7 @@ import com.proyecto.is2.proyecto.model.Proyecto;
 import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.services.PermisoServiceImp;
+import com.proyecto.is2.proyecto.services.ProyectoServiceImp;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -43,6 +45,9 @@ public class RolController {
 
     @Autowired
     private UsuarioServiceImp usuarioService;
+
+    @Autowired
+    private ProyectoServiceImp proyectoServiceImp;
 
     @ModelAttribute("listPermisos")
     public List<Long> listaPermisos() {
@@ -175,15 +180,24 @@ public class RolController {
 
 
 
-    @GetMapping("permisos")
-    public String verMiembrosProyecto(Model model) {
+    @GetMapping("/{idRol}/permisos")
+    public String verMiembrosProyecto(Model model, @PathVariable Long idRol) {
         if(usuarioService.tienePermiso("asignar-permisos-rol")) {
-            model.addAttribute("roles", rolService.listar());
-            model.addAttribute("permisos", permisoService.listar());
-            return "rol/permisos";
+            Rol rol = rolService.existeRol(idRol);
+            if(rol != null) {
+                model.addAttribute("objRol", rol);
+                model.addAttribute("listPermiso", permisoService.listar());
+                model.addAttribute("listRolPermiso", rol.getPermisos());
+                model.addAttribute("permisoAsignarPer", true);
+                model.addAttribute("permisoEliminarPer", usuarioService.tienePermiso("eliminar-permisos-rol"));
+                model.addAttribute("permisoVer", usuarioService.tienePermiso("consultar-permiso"));
+                return "rol/asignar-permisos";
+            }
         } else {
             return FALTA_PERMISO_VIEW;
         }
+        System.out.println("ERROR. No se encontro rol con ID:" + idRol);
+        return RD_FORM_VIEW;
     }
 
     /**
@@ -192,7 +206,7 @@ public class RolController {
      * @param idPermiso identificador del permiso.
      * @return
      */
-    @PostMapping("agregar-permiso")
+    @PostMapping("/agregar-permiso")
     public String agregarPermiso(@RequestParam("id_rol") Integer idRol, @RequestParam("id_permiso") Integer idPermiso) {
         this.operacion = "asignar-permisos-rol";
 
@@ -205,7 +219,7 @@ public class RolController {
                 rolService.guardar(rol);
             }
 
-            return "redirect:/rol/permisos";
+            return "redirect:/roles/" + idRol + "/permisos";
         }
 
         return RD_FALTA_PERMISO_VIEW;
@@ -217,20 +231,20 @@ public class RolController {
      * @param idPermiso identificador del permiso.
      * @return
      */
-    @PostMapping("eliminar-permiso")
-    public String eliminarPermiso(@RequestParam("id_rol") Integer idRol, @RequestParam("id_permiso") Integer idPermiso) {
+    @PostMapping("/eliminar-permiso")
+    public String eliminarPermiso(@RequestParam("id_rol") Long idRol, @RequestParam("id_permiso") Long idPermiso) {
         this.operacion = "asignar-permisos-rol";
 
         if(usuarioService.tienePermiso(operacion)) {
-            Rol rol = rolService.existeRol(idRol.longValue());
-            Permiso permiso = permisoService.existePermiso(idPermiso.longValue());
+            Rol rol = rolService.existeRol(idRol);
+            Permiso permiso = permisoService.existePermiso(idPermiso);
 
             if(rol != null && permiso != null) {
                 rol.getPermisos().remove(permiso);
                 rolService.guardar(rol);
             }
 
-            return "redirect:/rol/permisos";
+            return "redirect:/roles/" + idRol + "/permisos";
         }
 
         return RD_FALTA_PERMISO_VIEW;
