@@ -181,7 +181,7 @@ public class RolController {
 
 
     @GetMapping("/{idRol}/permisos")
-    public String verMiembrosProyecto(Model model, @PathVariable Long idRol) {
+    public String verPermisosRol(Model model, @PathVariable Long idRol) {
         if(usuarioService.tienePermiso("asignar-permisos-rol")) {
             Rol rol = rolService.existeRol(idRol);
             if(rol != null) {

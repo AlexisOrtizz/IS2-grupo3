@@ -176,70 +176,75 @@ public class ProyectoController {
         }
     }
 
-//    @GetMapping("miembros")
-//    public String verMiembrosProyecto(Model model) {
-//        if(usuarioService.tienePermiso("agregar-miembro-proyecto")) {
-//            model.addAttribute("proyectos", proyectoService.listarProyectos());
-//            model.addAttribute("usuarios", usuarioService.listarUsuarios());
-//            return "proyecto/miembros";
-//        } else {
-//            return FALTA_PERMISO_VIEW;
-//        }
-//    }
+    @GetMapping("/{idProyecto}/miembros")
+    public String verMiembrosProyecto(Model model, @PathVariable Long idProyecto) {
+        if(usuarioService.tienePermiso("agregar-miembro-proyecto")) {
+            Proyecto proyecto = proyectoService.existeProyecto(idProyecto);
+            if(proyecto != null) {
+                model.addAttribute("objProyecto", proyecto);
+                model.addAttribute("listUsuario", usuarioService.listarUsuarios());
+                model.addAttribute("listMiembro", proyecto.getEquipo());
+                model.addAttribute("permisoAsignarPer", true);
+                model.addAttribute("permisoEliminarPer", usuarioService.tienePermiso("eliminar-miembro-proyecto"));
+                model.addAttribute("permisoVer", usuarioService.tienePermiso("consultar-usuario"));
+                return "proyecto/asignar-miembros";
+            }
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+        System.out.println("ERROR. No se encontro rol con ID:" + idProyecto);
+        return RD_FORM_VIEW;
+    }
 
-//    /**
-//     * Agregar un nuevo miembro al equipo del Proyecto.
-//     * @param idProyecto identificador del proyecto.
-//     * @param email identificador del miembro a agregar.
-//     * @return
-//     */
-//    @PostMapping("agregar-miembro")
-//    public String agregarMiembro(@RequestParam("id_proyecto") Integer idProyecto, @RequestParam("email") String email) {
-//        this.operacion = "agregar-miembro-proyecto";
-//
-//        if(usuarioService.tienePermiso(operacion)) {
-//            Proyecto proyecto = proyectoService.existeProyecto(idProyecto.longValue());
-//            Usuario usuario = usuarioService.existeUsuario(email);
-//
-//            if(usuario != null && proyecto != null) {
-//                proyecto.getEquipo().add(usuario);
-//                proyectoService.guardar(proyecto);
-//            }
-//
-//            return "redirect:/proyecto/miembros";
-//        }
-//
-//        return RD_FALTA_PERMISO_VIEW;
-//    }
+    /**
+     * Agregar un nuevo miembro al equipo del Proyecto.
+     * @param idProyecto identificador del proyecto.
+     * @param idUsuario identificador del miembro a agregar.
+     * @return
+     */
+    @PostMapping("/agregar-miembro")
+    public String agregarPermiso(@RequestParam("id_proyecto") Long idProyecto, @RequestParam("id_usuario") Long idUsuario) {
+        this.operacion = "agregar-miembro-proyecto";
 
-//    /**
-//     * Eliminar un miembro del equipo del Proyecto.
-//     * @param idProyecto identificador del proyecto.
-//     * @param email identificador del miembro a eliminar.
-//     * @return
-//     */
-//    @PostMapping("eliminar-miembro")
-//    public String eliminarMiembro(@RequestParam("id_proyecto") Integer idProyecto, String email) {
-//        this.operacion = "eliminar-miembro-proyecto";
-//
-//        if(usuarioService.tienePermiso(operacion)) {
-//            Proyecto proyecto = proyectoService.existeProyecto(idProyecto.longValue());
-//            Usuario usuario = usuarioService.existeUsuario(email);
-//
-//            if(usuario != null && proyecto != null) {
-//                if(proyecto.getEquipo().remove(usuario)) {
-//                    proyectoService.guardar(proyecto);
-//                    System.out.println("SE HA REMOVIDO CORRECTAMENTE EL MIEMBRO DEL PROYECTO");
-//                } else {
-//                    System.out.println("HA OCURRIDO UN ERROR AL QUERER QUITAR EL USUARIO DEL PROYECTO");
-//                }
-//            }
-//
-//            return "redirect:/proyecto/miembros";
-//        }
-//
-//        return RD_FALTA_PERMISO_VIEW;
-//    }
+        if(usuarioService.tienePermiso(operacion)) {
+            Proyecto proyecto = proyectoService.existeProyecto(idProyecto);
+            Usuario usuario = usuarioService.existeUsuario(idUsuario);
+
+            if(proyecto != null && usuario != null) {
+                proyecto.getEquipo().add(usuario);
+                proyectoService.guardar(proyecto);
+            }
+
+            return "redirect:/proyectos/" + idProyecto + "/miembros";
+        }
+
+        return RD_FALTA_PERMISO_VIEW;
+    }
+
+    /**
+     * Eliminar un miembro del equipo del Proyecto.
+     * @param idProyecto identificador del proyecto.
+     * @param idUsuario identificador del miembro a eliminar.
+     * @return
+     */
+    @PostMapping("/eliminar-miembro")
+    public String eliminarPermiso(@RequestParam("id_proyecto") Long idProyecto, @RequestParam("id_usuario") Long idUsuario) {
+        this.operacion = "eliminar-miembro-proyecto";
+
+        if(usuarioService.tienePermiso(operacion)) {
+            Proyecto proyecto = proyectoService.existeProyecto(idProyecto);
+            Usuario usuario = usuarioService.existeUsuario(idUsuario);
+
+            if(proyecto != null && usuario != null) {
+                proyecto.getEquipo().remove(usuario);
+                proyectoService.guardar(proyecto);
+            }
+
+            return "redirect:/proyectos/" + idProyecto + "/miembros";
+        }
+
+        return RD_FALTA_PERMISO_VIEW;
+    }
 
     @GetMapping("/{id}/backlog")
     public String verBacklog(@PathVariable String id, Model model) {
