@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -15,13 +17,13 @@ public class ProyectoServiceImp implements ProyectoService {
 
     @Override
     public void convertirDTO(Proyecto proyecto, ProyectoDTO objetoDTO) {
-        proyecto.setTitulo(objetoDTO.getNombre());
+        proyecto.setTitulo(objetoDTO.getTitulo());
         proyecto.setDescripcion(objetoDTO.getDescripcion());
         proyecto.setObservacion(objetoDTO.getObservacion());
         proyecto.setEstado(objetoDTO.getEstado());
         try {
-            proyecto.setFechaInicio(Date.valueOf(objetoDTO.getFechaInicio()));
-            proyecto.setFechaFin(Date.valueOf(objetoDTO.getFechaFin()));
+            proyecto.setFechaInicio(LocalDate.parse(objetoDTO.getFechaInicio(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            proyecto.setFechaFin(LocalDate.parse(objetoDTO.getFechaFin(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         } catch (Exception e) {
             proyecto.setFechaInicio(null);
             proyecto.setFechaFin(null);
@@ -37,13 +39,14 @@ public class ProyectoServiceImp implements ProyectoService {
 
     @Override
     public Proyecto guardar(Proyecto proyecto) {
-        // si no hay un backlog, crear uno
+        // si no hay un backlog, crear uno por defecto
         if(proyecto.getBacklog() == null) {
-            Backlog backlog = new Backlog();
-            backlog = backlogService.guardar(backlog);
+            Backlog backlog = backlogService.guardar(new Backlog(proyecto.getTitulo(), proyecto.getDescripcion()));
             proyecto.setBacklog(backlog);
         }
-        return proyectoRepository.save(proyecto);
+
+        Proyecto project = proyectoRepository.save(proyecto);
+        return project;
     }
 
     @Override

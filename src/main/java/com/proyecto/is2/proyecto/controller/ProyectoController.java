@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -121,7 +122,10 @@ public class ProyectoController {
             return RD_FORM_VIEW;
         }
 
-        model.addAttribute("project", proyecto);
+        ProyectoDTO proyectoDTO = new ProyectoDTO(proyecto.getIdProyecto(), proyecto.getTitulo(), proyecto.getDescripcion(), proyecto.getObservacion(),
+                proyecto.getEstado(), proyecto.getFechaInicio().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), proyecto.getFechaFin().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+        model.addAttribute("projectEdit", proyectoDTO);
         model.addAttribute("estados", this.ESTADOS);
 
         if(eliminar) {

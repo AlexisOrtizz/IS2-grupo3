@@ -2,8 +2,11 @@ package com.proyecto.is2.proyecto.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -32,10 +35,10 @@ public class Proyecto {
     private String estado;
 
     @Column(name = "fechaInicio")
-    private Date fechaInicio;
+    private LocalDate fechaInicio;
 
     @Column(name = "fechaFin")
-    private Date fechaFin;
+    private LocalDate fechaFin;
 
     public String toString() {
         return this.titulo + " ("+ this.estado + ")";
@@ -44,7 +47,7 @@ public class Proyecto {
     /* RELACIONES DE BASE DE DATOS */
 
     /* Relacion con Backlog */
-    @OneToOne(mappedBy = "proyecto")
+    @OneToOne//(mappedBy = "proyecto")
     private Backlog backlog;
 
     /* Relacion con Usuario para formar equipos */

@@ -13,7 +13,7 @@
     <a th:href="@{/proyectos/{id}/sprint/nuevo(id=${project.idProyecto})}" class="btn btn-outline-success mb-3">
       <i class="fa-solid fa-user-plus"></i> Nuevo Sprint
     </a>
-    <a th:href="@{/proyectos/{id}/teams(id=${project.idProyecto})}" class="btn btn-outline-success mb-3">
+    <a th:href="@{/proyectos/{id}/miembros(id=${project.idProyecto})}" class="btn btn-outline-success mb-3">
       <i class="fa-solid fa-people-group"></i> Equipo
     </a>
     <a th:href="@{proyectos/{id}/reporte(id=${project.idProyecto})}" class="btn btn-outline-success mb-3">
@@ -21,11 +21,11 @@
     </a>
     <table class="table table-sm table-bordered">
       <thead>
-      <tr class="text-center">
-        <th>Titulo</th>
-        <th>Fecha Inicio</th>
-        <th>Fecha Fin</th>
-        <th>Estado</th>
+        <tr class="text-center">
+          <th>Titulo</th>
+          <th>Fecha Inicio</th>
+          <th>Fecha Fin</th>
+          <th>Estado</th>
       </tr>
       </thead>
       <tbody>
@@ -34,8 +34,8 @@
       </tr>
       <tr class="text-center" th:each="sprint: ${project.backlog.sprints}">
         <td th:text="${sprint.titulo}">Spring 4</td>
-        <td th:text="${#dates.format(sprint.fechaInicio, 'dd/MM/yyyy')}">01/10/2022</td>
-        <td th:text="${#dates.format(sprint.fechaFin, 'dd/MM/yyyy')}">14/10/2022</td>
+        <td th:text="${#temporals.format(sprint.fechaInicio, 'dd/MM/yyyy')}">01/10/2022</td>
+        <td th:text="${#temporals.format(sprint.fechaFin, 'dd/MM/yyyy')}">14/10/2022</td>
         <td th:text="${sprint.estado}">Activo</td>
         <td>
           <div class="btn-group">

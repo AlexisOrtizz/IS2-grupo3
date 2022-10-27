@@ -36,8 +36,8 @@
                 <td th:text="${project.titulo}">Titulo</td>
                 <td th:text="${project.descripcion}">Descripcion</td>
                 <td th:text="${project.estado}">Estado</td>
-                <td th:text="${#dates.format(project.fechaInicio, 'dd/MM/yyyy')}">fechaInicio</td>
-                <td th:text="${#dates.format(project.fechaFin, 'dd/MM/yyyy')}">fechaFin</td>
+                <td th:text="${#temporals.format(project.fechaInicio, 'dd/MM/yyyy')}">fechaInicio</td>
+                <td th:text="${#temporals.format(project.fechaFin, 'dd/MM/yyyy')}">fechaFin</td>
                 <!--        <td th:text="${#temporals.format(student.birthday, 'dd/MM/yyyy')}">Birthday</td>-->
                 <!--        <td th:text="${#temporals.format(student.createdAt, 'dd/MM/yyyy HH:mm:ss')}">CreatedAt</td>-->
                 <td>

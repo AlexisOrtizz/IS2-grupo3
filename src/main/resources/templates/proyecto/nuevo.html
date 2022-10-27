@@ -9,29 +9,29 @@
       <legend>Información del Proyecto</legend>
       <div class='mb-3'>
         <label for='inputProyectoN' class='form-label'>Nombre</label>
-        <input type='text' class='form-control' id='inputProyectoN' name='nombre' placeholder='Introduzca el nombre' autofocus>
+        <input type='text' class='form-control' id='inputProyectoN' th:field="*{titulo}" placeholder='Introduzca el nombre'>
       </div>
       <div class='mb-3'>
         <label for='inputProyectoD' class='form-label'>Descripción</label>
-        <input type='text' class='form-control' id='inputProyectoD' name='descripcion' placeholder='Introduzca la descripción' autofocus>
+        <input type='text' class='form-control' id='inputProyectoD' th:field="*{descripcion}" placeholder='Introduzca la descripción'>
       </div>
       <div class='mb-3'>
         <label for='inputProyectoO' class='form-label'>Observación</label>
-        <input type='text' class='form-control' id='inputProyectoO' name='observacion' placeholder='Observaciones del proyecto' autofocus>
+        <input type='text' class='form-control' id='inputProyectoO' th:field="*{observacion}" placeholder='Observaciones del proyecto'>
       </div>
       <div class='mb-3'>
         <label for='estadoproyecto' class='form-label'>Estado</label></br>
-        <select class='form-select' aria-label='Default select example' id='estadoproyecto' name='estado'>
+        <select class='form-select' aria-label='Default select example' id='estadoproyecto' th:field="*{estado}" >
           <option th:each="elemento : ${estados}" th:value="${elemento}" th:text="${elemento}"></option>
         </select>
       </div>
       <div class='mb-3'>
         <label for='inputProyectoFI' class='form-label'>Fecha de Inicio</label>
-        <input type='date' class='form-control' id='inputProyectoFI' name='fechaInicio' autofocus>
+        <input type='date' class='form-control' id='inputProyectoFI' th:field="*{fechaInicio}" >
       </div>
       <div class='mb-3'>
         <label for='inputProyectoFF' class='form-label'>Fecha de Fin</label>
-        <input type='date' class='form-control' id='inputProyectoFF' name='fechaFin' autofocus>
+        <input type='date' class='form-control' id='inputProyectoFF' th:field="*{fechaFin}" >
       </div>
     </fieldset>
     <div class="row">

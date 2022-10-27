@@ -23,6 +23,16 @@ public class Backlog {
     @Column(name = "descripcion")
     private String descripcion;
 
+    public Backlog() {
+        this.titulo = "";
+        this.descripcion = "";
+    }
+
+    public Backlog(String titulo, String descripcion) {
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+    }
+
     /* RELACIONES DE BASE DE DATOS */
 
     /* Relacion con Sprint */
@@ -30,7 +40,7 @@ public class Backlog {
     private Set<Sprint> sprints = new HashSet<>();
 
     /* Relacion con Proyecto */
-    @OneToOne
-    @JoinColumn(name = "proyecto_id")
-    private Proyecto proyecto;
+//    @OneToOne
+//    @JoinColumn(name = "proyecto_id")
+//    private Proyecto proyecto;
 }
