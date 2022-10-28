@@ -1,5 +1,6 @@
 package com.proyecto.is2.proyecto.services;
 
+import com.proyecto.is2.proyecto.Util.GeneralUtils;
 import com.proyecto.is2.proyecto.controller.dto.ProyectoDTO;
 import com.proyecto.is2.proyecto.model.Backlog;
 import com.proyecto.is2.proyecto.model.Proyecto;
@@ -21,14 +22,9 @@ public class ProyectoServiceImp implements ProyectoService {
         proyecto.setDescripcion(objetoDTO.getDescripcion());
         proyecto.setObservacion(objetoDTO.getObservacion());
         proyecto.setEstado(objetoDTO.getEstado());
-        try {
-            proyecto.setFechaInicio(LocalDate.parse(objetoDTO.getFechaInicio(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-            proyecto.setFechaFin(LocalDate.parse(objetoDTO.getFechaFin(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        } catch (Exception e) {
-            proyecto.setFechaInicio(null);
-            proyecto.setFechaFin(null);
-        }
-        return;
+
+        proyecto.setFechaInicio(GeneralUtils.getDateToString(objetoDTO.getFechaInicio()));
+        proyecto.setFechaFin(GeneralUtils.getDateToString(objetoDTO.getFechaFin()));
     }
 
     @Autowired

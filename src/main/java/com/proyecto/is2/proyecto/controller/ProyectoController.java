@@ -1,5 +1,6 @@
 package com.proyecto.is2.proyecto.controller;
 
+import com.proyecto.is2.proyecto.Util.GeneralUtils;
 import com.proyecto.is2.proyecto.controller.dto.ProyectoDTO;
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.model.*;
@@ -37,7 +38,6 @@ public class ProyectoController {
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
     final String BACKLOG_VIEW = "backlog/backlog";
     final String BURNDOWN_CHART_VIEW = "reporte/burndown-chart";
-    final List<String> ESTADOS = Arrays.asList("Pendiente","Activo", "Cancelado", "Finalizado");
 
     @Autowired
     private UsuarioServiceImp usuarioService;
@@ -77,7 +77,7 @@ public class ProyectoController {
         model.addAttribute("permisoEliminar", eliminar);
         model.addAttribute("permisoActualizar", actualizar);
 
-        model.addAttribute("estados", this.ESTADOS);
+        model.addAttribute("estados", GeneralUtils.getEstadosProyecto());
 
         return FORM_VIEW;
     }
@@ -87,7 +87,7 @@ public class ProyectoController {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
 
         if(crear) {
-            model.addAttribute("estados", this.ESTADOS);
+            model.addAttribute("estados", GeneralUtils.getEstadosProyecto());
             return FORM_NEW;
         } else {
             return FALTA_PERMISO_VIEW;
@@ -123,10 +123,10 @@ public class ProyectoController {
         }
 
         ProyectoDTO proyectoDTO = new ProyectoDTO(proyecto.getIdProyecto(), proyecto.getTitulo(), proyecto.getDescripcion(), proyecto.getObservacion(),
-                proyecto.getEstado(), proyecto.getFechaInicio().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), proyecto.getFechaFin().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                proyecto.getEstado(), GeneralUtils.getStringToDate(proyecto.getFechaInicio()), GeneralUtils.getStringToDate(proyecto.getFechaFin()));
 
         model.addAttribute("projectEdit", proyectoDTO);
-        model.addAttribute("estados", this.ESTADOS);
+        model.addAttribute("estados", GeneralUtils.getEstadosProyecto());
 
         if(eliminar) {
             return FORM_EDIT;

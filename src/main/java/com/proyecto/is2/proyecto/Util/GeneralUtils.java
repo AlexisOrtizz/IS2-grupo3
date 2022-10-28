@@ -1,8 +1,44 @@
 package com.proyecto.is2.proyecto.Util;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class GeneralUtils {
     // Admin Default config
     public final static String ADMIN_USER = "admin";
     public final static String ADMIN_EMAIL = "admin@gmail.com";
     public final static String ADMIN_PASS = "12345678";
+    public final static String DATE_FORMAT = "yyyy-MM-dd";
+
+    /* Estados posibles para un proyecto */
+    public static List<String> getEstadosProyecto() {
+        return Arrays.asList("Pendiente","Activo", "Cancelado", "Finalizado");
+    }
+
+    /* Estados posibles para un sprint */
+    public static List<String> getEstadosSprint() {
+        return Arrays.asList("Pendiente","Activo", "Cancelado", "Finalizado");
+    }
+
+    /* Convertir string a fecha */
+    public static String getStringToDate(LocalDate date) {
+        try {
+            return date.format(DateTimeFormatter.ofPattern(DATE_FORMAT));
+        } catch (Exception e) {
+            System.out.println("No se pudo convertir " + date + " a String: ");
+            return "";
+        }
+    }
+
+    /* Convertir fecha a string */
+    public static LocalDate getDateToString(String date) {
+        try {
+            return LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_FORMAT));
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }
