@@ -4,53 +4,55 @@
       layout:decorate="~{/layout/basic}">
 <body>
 <div layout:fragment="content">
-  <h1 class="text-center mb-4">Proyecto #1</h1>
+  <h1 class="text-center mb-4" th:text="${'Proyecto #'+project.idProyecto}">Proyecto #1</h1>
 
   <th:block th:include="fragment/success-message.html"></th:block>
 
   <div class="table-responsive">
-    <h2>Sprint</h2>
-    <a href="#" class="btn btn-outline-success mb-3">
+    <h2>User Stories</h2>
+    <a th:href="@{/proyectos/{id1}/sprints/{id2}/nuevo(id1=${project.idProyecto},id2=${objSprint.idSprint})}" class="btn btn-outline-success mb-3">
       <i class="fa-solid fa-user-plus"></i> Nuevo US
     </a>
     <table class="table table-sm table-bordered">
       <thead>
       <tr class="text-center">
-        <th>#</th>
-        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Observación</th>
         <th>Estado</th>
-        <th>Asignado</th>
+        <th>Prioridad</th>
       </tr>
       </thead>
       <tbody>
-      <tr class="text-center" >
-        <td >1</td>
-        <td >Crear US</td>
-        <td >Pendiente</td>
-        <td >Alexis Ortiz</td>
+      <tr th:if="${#lists.isEmpty(objSprint.userStories)}">
+        <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td>
       </tr>
-      <tr class="text-center" >
-        <td >1</td>
-        <td >Crear US</td>
-        <td >Pendiente</td>
-        <td >Alexis Ortiz</td>
-      </tr>
-      <tr class="text-center" >
-        <td >1</td>
-        <td >Crear US</td>
-        <td >Pendiente</td>
-        <td >Alexis Ortiz</td>
-      </tr>
-      <tr class="text-center" >
-        <td >1</td>
-        <td >Crear US</td>
-        <td >Pendiente</td>
-        <td >Alexis Ortiz</td>
+      <tr class="text-center" th:each="item: ${objSprint.userStories}">
+        <td th:text="${item.descripcion}">ninguno</td>
+        <td th:text="${item.observacion}">ninguno</td>
+        <td th:text="${item.estado}">en proceso</td>
+        <td th:text="${item.prioridad}">alta</td>
+        <td>
+          <div class="btn-group">
+            <a th:if="${true}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias/{id3}ver(id1=${project.idProyecto},id2=${objSprint.idSprint},id3=${item.idHistoria})}">
+              <button type="button" class="btn btn-sm btn-outline-secondary">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </a>
+            <a th:if="${true}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias/{id3}(id1=${project.idProyecto},id2=${objSprint.idSprint},id3=${item.idHistoria})}"
+               class="btn btn-sm btn-outline-primary">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+            <a th:if="${true}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias/{id3}/delete(id1=${project.idProyecto},id2=${sprint.idSprint},id3=${item.idHistoria})}">
+              <button type="button" class="btn btn-sm btn-outline-danger">
+                <i class="fa-sharp fa-solid fa-trash"></i>
+              </button>
+            </a>
+          </div>
+        </td>
       </tr>
       </tbody>
     </table>
   </div>
-
 </div>
 </body>
 </html>

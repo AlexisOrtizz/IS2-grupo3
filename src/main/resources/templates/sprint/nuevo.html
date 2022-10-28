@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/basic}">
+<body>
+<div layout:fragment="content">
+    <h1 class="text-center mb-4">Nuevo Proyecto</h1>
+
+    <form method="post" th:action="@{/proyectos/{id1}/sprints/crear(id1=${project.idProyecto})}" th:object="${sprint}">
+        <fieldset>
+            <legend>Información del Sprint</legend>
+            <div class='mb-3'>
+                <label for='inputProyectoN' class='form-label'>Titulo</label>
+                <input type='text' class='form-control' id='inputProyectoN' th:field="*{titulo}" placeholder='Introduzca el titulo'>
+            </div>
+            <div class='mb-3'>
+                <label for='inputProyectoD' class='form-label'>Duración</label>
+                <input type='text' class='form-control' id='inputProyectoD' th:field="*{duracion}" placeholder='Introduzca la duración'>
+            </div>
+            <div class='mb-3'>
+                <label for='estadoproyecto' class='form-label'>Estado</label></br>
+                <select class='form-select' aria-label='Default select example' id='estadoproyecto' th:field="*{estado}" >
+                    <option th:each="elemento : ${estados}" th:value="${elemento}" th:text="${elemento}"></option>
+                </select>
+            </div>
+            <div class='mb-3'>
+                <label for='inputProyectoFI' class='form-label'>Fecha de Inicio</label>
+                <input type='date' class='form-control' id='inputProyectoFI' th:field="*{fechaInicio}" >
+            </div>
+            <div class='mb-3'>
+                <label for='inputProyectoFF' class='form-label'>Fecha de Fin</label>
+                <input type='date' class='form-control' id='inputProyectoFF' th:field="*{fechaFin}" >
+            </div>
+        </fieldset>
+        <div class="row">
+            <div class="col-sm-6">
+                <a th:href="@{/proyectos/{id1}/sprints(id1=${project.idProyecto})}" class="btn btn-outline-secondary w-100">
+                    Atrás
+                </a>
+            </div>
+            <div class="col-sm-6">
+                <button type="submit" class="btn btn-success w-100">Guardar Sprint</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

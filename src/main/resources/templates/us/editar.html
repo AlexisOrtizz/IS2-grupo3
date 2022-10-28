@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/basic}">
+<body>
+<div layout:fragment="content">
+    <h1 class="text-center mb-4">Editar US</h1>
+
+    <form method="post" th:action="@{/proyectos/{id1}/sprints/{id2}/historias/{id3}(id1=${project.idProyecto,id2=${objSprint.idSprint},id3=${historiaEdit.idHistoria})}" th:object="${historiaEdit}">
+        <fieldset>
+            <legend>Información del US</legend>
+            <div class='mb-3'>
+                <label for='input001' class='form-label'>Descripción</label>
+                <input type='text' class='form-control' id='input001' th:field="*{descripcion}" placeholder='Introduzca la descripcion'>
+            </div>
+            <div class='mb-3'>
+                <label for='input002' class='form-label'>Observación</label>
+                <input type='text' class='form-control' id='input002' th:field="*{observacion}" placeholder='Introduzca la observacion'>
+            </div>
+            <div class='mb-3'>
+                <label for='input003' class='form-label'>Estado</label></br>
+                <select class='form-select' aria-label='Default select example' id='input003' th:field="*{estado}" >
+                    <option th:each="elemento : ${estados}" th:value="${elemento}" th:text="${elemento}"></option>
+                </select>
+            </div>
+            <div class='mb-3'>
+                <label for='input004' class='form-label'>Estado</label></br>
+                <select class='form-select' aria-label='Default select example' id='input004' th:field="*{prioridad}" >
+                    <option th:each="elemento : ${prioridades}" th:value="${elemento}" th:text="${elemento}"></option>
+                </select>
+            </div>
+        </fieldset>
+        <div class="row">
+            <div class="col-sm-6">
+                <a th:href="@{/proyectos/{id1}/sprints(id1=${project.idProyecto})}" class="btn btn-outline-secondary w-100">
+                    Atrás
+                </a>
+            </div>
+            <div class="col-sm-6">
+                <button type="submit" class="btn btn-success w-100">Modificar US</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
