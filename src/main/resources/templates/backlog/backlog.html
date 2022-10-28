@@ -10,13 +10,13 @@
 
   <div class="table-responsive">
     <h2>Sprints</h2>
-    <a th:href="@{/proyectos/{id}/sprint/nuevo(id=${project.idProyecto})}" class="btn btn-outline-success mb-3">
+    <a th:href="@{/proyectos/{id}/sprints/nuevo(id=${project.idProyecto})}" class="btn btn-outline-success mb-3">
       <i class="fa-solid fa-user-plus"></i> Nuevo Sprint
     </a>
     <a th:href="@{/proyectos/{id}/miembros(id=${project.idProyecto})}" class="btn btn-outline-success mb-3">
       <i class="fa-solid fa-people-group"></i> Equipo
     </a>
-    <a th:href="@{proyectos/{id}/reporte(id=${project.idProyecto})}" class="btn btn-outline-success mb-3">
+    <a th:href="@{/proyectos/{id}/reporte(id=${project.idProyecto})}" class="btn btn-outline-success mb-3">
       <i class="fa-solid fa-chart-line"></i> Burndown Chart
     </a>
     <table class="table table-sm table-bordered">
