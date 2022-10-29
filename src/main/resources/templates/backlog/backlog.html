@@ -39,9 +39,9 @@
         <td th:text="${sprint.estado}">Activo</td>
         <td>
           <div class="btn-group">
-            <a th:if="${true}" th:href="@{/proyectos/{id1}/sprints/{id2}/ver(id1=${project.idProyecto},id2=${sprint.idSprint})}">
+            <a th:if="${true}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias(id1=${project.idProyecto},id2=${sprint.idSprint})}">
               <button type="button" class="btn btn-sm btn-outline-secondary">
-                <i class="fa-solid fa-eye"></i>
+                <i class="fa-sharp fa-solid fa-sliders"></i>
               </button>
             </a>
             <a th:if="${true}" th:href="@{/proyectos/{id1}/sprints/{id2}(id1=${project.idProyecto},id2=${sprint.idSprint})}"

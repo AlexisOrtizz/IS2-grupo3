@@ -207,7 +207,7 @@ public class RolController {
      * @return
      */
     @PostMapping("/agregar-permiso")
-    public String agregarPermiso(@RequestParam("id_rol") Integer idRol, @RequestParam("id_permiso") Integer idPermiso) {
+    public String agregarPermiso(@RequestParam("id_rol") Integer idRol, @RequestParam("id_permiso") Integer idPermiso, Model model) {
         this.operacion = "asignar-permisos-rol";
 
         if(usuarioService.tienePermiso(operacion)) {
@@ -217,6 +217,9 @@ public class RolController {
             if(rol != null && permiso != null) {
                 rol.getPermisos().add(permiso);
                 rolService.guardar(rol);
+            } else {
+                model.addAttribute("error", "Error. Rol: " + rol + ". Permiso: " + permiso);
+                return "general-error";
             }
 
             return "redirect:/roles/" + idRol + "/permisos";
@@ -232,7 +235,7 @@ public class RolController {
      * @return
      */
     @PostMapping("/eliminar-permiso")
-    public String eliminarPermiso(@RequestParam("id_rol") Long idRol, @RequestParam("id_permiso") Long idPermiso) {
+    public String eliminarPermiso(@RequestParam("id_rol") Long idRol, @RequestParam("id_permiso") Long idPermiso, Model model) {
         this.operacion = "asignar-permisos-rol";
 
         if(usuarioService.tienePermiso(operacion)) {
@@ -242,6 +245,9 @@ public class RolController {
             if(rol != null && permiso != null) {
                 rol.getPermisos().remove(permiso);
                 rolService.guardar(rol);
+            } else {
+                model.addAttribute("error", "Error. Rol: " + rol + ". Permiso: " + permiso);
+                return "general-error";
             }
 
             return "redirect:/roles/" + idRol + "/permisos";

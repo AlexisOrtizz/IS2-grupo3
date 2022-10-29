@@ -1,5 +1,6 @@
 package com.proyecto.is2.proyecto.services;
 
+import com.proyecto.is2.proyecto.Util.GeneralUtils;
 import com.proyecto.is2.proyecto.model.Permiso;
 import com.proyecto.is2.proyecto.model.Vista;
 import com.proyecto.is2.proyecto.repository.VistaRepository;
@@ -20,14 +21,14 @@ public class VistaServiceImp {
     public void crearVistas() {
         List<Vista> vistas = new ArrayList<>();
 
-        vistas.add(new Vista("usuario"));
-        vistas.add(new Vista("proyecto"));
-        vistas.add(new Vista("backlog"));
-        vistas.add(new Vista("sprint"));
-        vistas.add(new Vista("user-story"));
-        vistas.add(new Vista("rol"));
-        vistas.add(new Vista("permiso"));
-        vistas.add(new Vista("vista"));
+        vistas.add(new Vista(GeneralUtils.USER_CODE));
+        vistas.add(new Vista(GeneralUtils.PROJECT_CODE));
+        vistas.add(new Vista(GeneralUtils.BACKLOG_CODE));
+        vistas.add(new Vista(GeneralUtils.SPRINT_CODE));
+        vistas.add(new Vista(GeneralUtils.STORY_CODE));
+        vistas.add(new Vista(GeneralUtils.ROL_CODE));
+        vistas.add(new Vista(GeneralUtils.PERMISO_CODE));
+        vistas.add(new Vista(GeneralUtils.VIEW_CODE));
 
         vistaRepository.saveAll(vistas);
     }

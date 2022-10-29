@@ -128,7 +128,7 @@ public class SprintController {
 
     @PostMapping("/{id}")
     public String actualizarObjeto(@PathVariable Long idProject, @PathVariable Long id, @ModelAttribute("sprint") SprintDTO objetoDTO,
-                                   BindingResult result, RedirectAttributes attributes) {
+                                   BindingResult result, RedirectAttributes attributes, Model model) {
         this.operacion = "actualizar-";
         Proyecto proyecto;
         Sprint sprint;
@@ -140,7 +140,7 @@ public class SprintController {
         if(usuarioService.tienePermiso(operacion + VIEW)) {
             proyecto = proyectoService.existeProyecto(idProject);
             sprint = sprintService.existeObjeto(id);
-            if(proyecto != null || sprint != null) {
+            if(proyecto != null && sprint != null) {
                 proyecto.getBacklog().getSprints().remove(sprint); // sacar de la lista el anterior sprint
                 sprintService.convertirDTO(sprint, objetoDTO);
                 proyecto.getBacklog().getSprints().add(sprint); // agregar a la lista el nuevo sprint
@@ -151,6 +151,9 @@ public class SprintController {
                 attributes.addFlashAttribute("message", "¡Sprint actualizado correctamente!");
 
                 return "redirect:/proyectos/" + proyecto.getIdProyecto() + "/backlog";
+            } else {
+                model.addAttribute("error", "Error. Sprint: " + sprint + ". Proyecto: " + proyecto);
+                return "general-error";
             }
         }
         return RD_FALTA_PERMISO_VIEW;

@@ -12,10 +12,28 @@ public class GeneralUtils {
     public final static String ADMIN_EMAIL = "admin@gmail.com";
     public final static String ADMIN_PASS = "12345678";
     public final static String DATE_FORMAT = "yyyy-MM-dd";
+    public final static String USER_CODE ="usuario";
+    public final static String PROJECT_CODE ="proyecto";
+    public final static String BACKLOG_CODE ="backlog";
+    public final static String SPRINT_CODE ="sprint";
+    public final static String STORY_CODE = "user-story";
+    public final static String ROL_CODE = "rol";
+    public final static String PERMISO_CODE = "permiso";
+    public final static String VIEW_CODE = "vista";
 
     /* Estados posibles para un proyecto */
     public static List<String> getEstadosProyecto() {
         return Arrays.asList("Pendiente","Activo", "Cancelado", "Finalizado");
+    }
+
+    /* Prioridades posibles para un User Story */
+    public static List<String> getStoryPrioridades() {
+        return Arrays.asList("Baja", "Media", "Alta", "Muy alta");
+    }
+
+    /* Estados de un User story*/
+    public static List<String> getEstadosUserStory() {
+        return Arrays.asList("To do", "Doing", "Done");
     }
 
     public static String getEstadoEliminado() {

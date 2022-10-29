@@ -207,7 +207,7 @@ public class ProyectoController {
      * @return
      */
     @PostMapping("/agregar-miembro")
-    public String agregarPermiso(@RequestParam("id_proyecto") Long idProyecto, @RequestParam("id_usuario") Long idUsuario) {
+    public String agregarPermiso(@RequestParam("id_proyecto") Long idProyecto, @RequestParam("id_usuario") Long idUsuario, Model model) {
         this.operacion = "agregar-miembro-proyecto";
 
         if(usuarioService.tienePermiso(operacion)) {
@@ -217,6 +217,9 @@ public class ProyectoController {
             if(proyecto != null && usuario != null) {
                 proyecto.getEquipo().add(usuario);
                 proyectoService.guardar(proyecto);
+            } else {
+                model.addAttribute("error", "Error. Usuario: " + usuario + ". Proyecto: " + proyecto);
+                return "general-error";
             }
 
             return "redirect:/proyectos/" + idProyecto + "/miembros";
@@ -232,7 +235,7 @@ public class ProyectoController {
      * @return
      */
     @PostMapping("/eliminar-miembro")
-    public String eliminarPermiso(@RequestParam("id_proyecto") Long idProyecto, @RequestParam("id_usuario") Long idUsuario) {
+    public String eliminarPermiso(@RequestParam("id_proyecto") Long idProyecto, @RequestParam("id_usuario") Long idUsuario, Model model) {
         this.operacion = "eliminar-miembro-proyecto";
 
         if(usuarioService.tienePermiso(operacion)) {
@@ -242,6 +245,9 @@ public class ProyectoController {
             if(proyecto != null && usuario != null) {
                 proyecto.getEquipo().remove(usuario);
                 proyectoService.guardar(proyecto);
+            } else {
+                model.addAttribute("error", "Error. Usuario: " + usuario + ". Proyecto: " + proyecto);
+                return "general-error";
             }
 
             return "redirect:/proyectos/" + idProyecto + "/miembros";
