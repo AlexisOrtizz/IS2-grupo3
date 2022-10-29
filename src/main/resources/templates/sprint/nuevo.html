@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/basic}">
 <body>
 <div layout:fragment="content">
-    <h1 class="text-center mb-4">Nuevo Proyecto</h1>
+    <h1 class="text-center mb-4">Nuevo Sprint</h1>
 
     <form method="post" th:action="@{/proyectos/{id1}/sprints/crear(id1=${project.idProyecto})}" th:object="${sprint}">
         <fieldset>
@@ -32,7 +32,7 @@
         </fieldset>
         <div class="row">
             <div class="col-sm-6">
-                <a th:href="@{/proyectos/{id1}/sprints(id1=${project.idProyecto})}" class="btn btn-outline-secondary w-100">
+                <a th:href="@{/proyectos/{id1}/backlog(id1=${project.idProyecto})}" class="btn btn-outline-secondary w-100">
                     Atrás
                 </a>
             </div>

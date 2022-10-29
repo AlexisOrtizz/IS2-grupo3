@@ -5,7 +5,7 @@
       lang="es">
 <body>
 <div layout:fragment="content">
-    <h1 class="text-center mb-4">Editar Proyecto</h1>
+    <h1 class="text-center mb-4">Editar Sprint</h1>
 
     <form method="POST" th:action="@{/proyectos/{id1}/sprints/{id2}(id1=${project.idProyecto},id2=${sprintEdit.idSprint})}" th:object="${sprintEdit}">
         <th:block th:include="fragment/error-message.html"></th:block>
@@ -38,7 +38,7 @@
 
         <div class="row">
             <div class="col-sm-6">
-                <a th:href="@{/proyectos/{id1}/sprints(id1=${project.idProyecto})}" class="btn btn-outline-secondary w-100">
+                <a th:href="@{/proyectos/{id1}/backlog(id1=${project.idProyecto})}" class="btn btn-outline-secondary w-100">
                     Atrás
                 </a>
             </div>

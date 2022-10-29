@@ -18,6 +18,10 @@ public class GeneralUtils {
         return Arrays.asList("Pendiente","Activo", "Cancelado", "Finalizado");
     }
 
+    public static String getEstadoEliminado() {
+        return "Eliminado";
+    }
+
     /* Estados posibles para un sprint */
     public static List<String> getEstadosSprint() {
         return Arrays.asList("Pendiente","Activo", "Cancelado", "Finalizado");

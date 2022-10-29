@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,10 +25,10 @@ public class Sprint {
     private String duracion;
 
     @Column(name = "fechaInicio")
-    private String fechaInicio;
+    private LocalDate fechaInicio;
 
     @Column(name = "fechaFin")
-    private String fechaFin;
+    private LocalDate fechaFin;
 
     @Column(name = "estado")
     private String estado;
