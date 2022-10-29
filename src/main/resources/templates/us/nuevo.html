@@ -4,7 +4,7 @@
 <div layout:fragment="content">
     <h1 class="text-center mb-4">Nuevo US</h1>
 
-    <form method="post" th:action="@{/proyectos/{id1}/sprints/{id2}/historias/crear(id1=${project.idProyecto,id2=${objSprint.idSprint})}" th:object="${historia}">
+    <form method="post" th:action="@{/proyectos/{id1}/sprints/{id2}/historias/crear(id1=${project.idProyecto},id2=${objSprint.idSprint})}" th:object="${historia}">
         <fieldset>
             <legend>Información del US</legend>
             <div class='mb-3'>
@@ -22,7 +22,7 @@
                 </select>
             </div>
             <div class='mb-3'>
-                <label for='input004' class='form-label'>Estado</label></br>
+                <label for='input004' class='form-label'>Prioridad</label></br>
                 <select class='form-select' aria-label='Default select example' id='input004' th:field="*{prioridad}" >
                     <option th:each="elemento : ${prioridades}" th:value="${elemento}" th:text="${elemento}"></option>
                 </select>

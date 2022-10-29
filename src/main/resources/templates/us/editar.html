@@ -4,7 +4,7 @@
 <div layout:fragment="content">
     <h1 class="text-center mb-4">Editar US</h1>
 
-    <form method="post" th:action="@{/proyectos/{id1}/sprints/{id2}/historias/{id3}(id1=${project.idProyecto,id2=${objSprint.idSprint},id3=${historiaEdit.idHistoria})}" th:object="${historiaEdit}">
+    <form method="post" th:action="@{/proyectos/{id1}/sprints/{id2}/historias/{id3}(id1=${project.idProyecto},id2=${objSprint.idSprint},id3=${historiaEdit.idHistoria})}" th:object="${historiaEdit}">
         <fieldset>
             <legend>Información del US</legend>
             <div class='mb-3'>
