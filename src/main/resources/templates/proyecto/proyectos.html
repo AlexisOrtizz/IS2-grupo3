@@ -42,7 +42,7 @@
                 <!--        <td th:text="${#temporals.format(student.createdAt, 'dd/MM/yyyy HH:mm:ss')}">CreatedAt</td>-->
                 <td>
                     <div class="btn-group">
-                        <a th:if="${permisoVer eq true}" th:href="@{/proyectos/1/backlog}">
+                        <a th:if="${permisoVer eq true}" th:href="@{/proyectos/{id}/backlog(id=${project.idProyecto})}">
                             <button type="button" class="btn btn-sm btn-outline-secondary">
                                 <i class="fa-sharp fa-solid fa-sliders"></i>
                             </button>

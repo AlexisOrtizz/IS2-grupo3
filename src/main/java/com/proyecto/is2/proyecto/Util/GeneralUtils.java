@@ -21,10 +21,15 @@ public class GeneralUtils {
     public final static String PERMISO_CODE = "permiso";
     public final static String VIEW_CODE = "vista";
     public final static Long EMPTY_VALUE = -1L;
+    public final static String FINALIZADO_VALUE = "Finalizado";
+    public final static String CANCELADO_VALUE = "Cancelado";
+    public final static String PENDIENTE_VALUE = "Pendiente";
+    public final static String ACTIVO_VALUE = "Activo";
+    public final static String DONE = "Done";
 
     /* Estados posibles para un proyecto */
     public static List<String> getEstadosProyecto() {
-        return Arrays.asList("Pendiente","Activo", "Cancelado", "Finalizado");
+        return Arrays.asList(PENDIENTE_VALUE, ACTIVO_VALUE, CANCELADO_VALUE, FINALIZADO_VALUE);
     }
 
     /* Prioridades posibles para un User Story */
@@ -34,7 +39,7 @@ public class GeneralUtils {
 
     /* Estados de un User story*/
     public static List<String> getEstadosUserStory() {
-        return Arrays.asList("To do", "Doing", "Done");
+        return Arrays.asList("To do", "Doing", DONE);
     }
 
     public static String getEstadoEliminado() {
@@ -43,7 +48,7 @@ public class GeneralUtils {
 
     /* Estados posibles para un sprint */
     public static List<String> getEstadosSprint() {
-        return Arrays.asList("Pendiente","Activo", "Cancelado", "Finalizado");
+        return Arrays.asList("Pendiente","Activo", "Cancelado", FINALIZADO_VALUE);
     }
 
     /* Convertir string a fecha */

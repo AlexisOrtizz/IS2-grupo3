@@ -2,6 +2,7 @@ package com.proyecto.is2.proyecto.services;
 
 import com.proyecto.is2.proyecto.Util.GeneralUtils;
 import com.proyecto.is2.proyecto.controller.dto.SprintDTO;
+import com.proyecto.is2.proyecto.model.Backlog;
 import com.proyecto.is2.proyecto.model.Sprint;
 import com.proyecto.is2.proyecto.repository.SprintRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,10 @@ public class SprintServiceImp implements SprintService {
     @Override
     public List<Sprint> listar() {
         return sprintRepository.findAll();
+    }
+
+    public List<Sprint> listarPorOrden(Backlog backlog) {
+        return sprintRepository.findByBacklogOrderByIdSprintAsc(backlog);
     }
 
     @Override

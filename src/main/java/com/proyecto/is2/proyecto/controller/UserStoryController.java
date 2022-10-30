@@ -103,7 +103,7 @@ public class UserStoryController {
                 model.addAttribute("project", proyecto);
                 model.addAttribute("objSprint", sprint);
                 model.addAttribute("prioridades", GeneralUtils.getStoryPrioridades());
-                model.addAttribute("estados", GeneralUtils.getEstadosProyecto());
+                model.addAttribute("estados", GeneralUtils.getEstadosUserStory());
                 model.addAttribute("empty", GeneralUtils.EMPTY_VALUE); // para valores nulos
 
                 return this.FORM_NEW;
@@ -172,7 +172,7 @@ public class UserStoryController {
         model.addAttribute("objSprint", sprint);
         model.addAttribute("historiaEdit", objeto);
         model.addAttribute("prioridades", GeneralUtils.getStoryPrioridades());
-        model.addAttribute("estados", GeneralUtils.getEstadosProyecto());
+        model.addAttribute("estados", GeneralUtils.getEstadosUserStory());
         model.addAttribute("empty", GeneralUtils.EMPTY_VALUE); // para valores nulos
 
         if(eliminar) {

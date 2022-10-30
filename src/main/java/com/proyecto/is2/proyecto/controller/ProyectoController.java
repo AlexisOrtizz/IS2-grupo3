@@ -5,6 +5,7 @@ import com.proyecto.is2.proyecto.controller.dto.ProyectoDTO;
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.model.*;
 import com.proyecto.is2.proyecto.services.ProyectoServiceImp;
+import com.proyecto.is2.proyecto.services.SprintServiceImp;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -44,6 +46,9 @@ public class ProyectoController {
 
     @Autowired
     private ProyectoServiceImp proyectoService; // llamada a los servicios de proyecto
+
+    @Autowired
+    private SprintServiceImp sprintService;
 
 
     /**
@@ -275,8 +280,51 @@ public class ProyectoController {
     }
 
     @GetMapping("/{id}/reporte")
-    public String verReporte(@PathVariable String id, Model model) {
+    public String verReporte(@PathVariable Long id, Model model) {
+        Proyecto proyecto = proyectoService.existeProyecto(id);
+
+        if(proyecto == null) {
+            model.addAttribute("mensaje", "Error. Id de proyecto no valido: " + id);
+            return "general-error";
+        }
+
+        List<Sprint> sprints = sprintService.listarPorOrden(proyecto.getBacklog());
+        int countTotal = 0;
+        int countParcial = 0;
+        int countFin = 0;
+        List<Integer> reporte = new ArrayList<>();
+        List<Integer> listReporte = new ArrayList<>();
+        reporte.add(countTotal); // cant
+        // calculos de la cantidad de US por sprint
+        for(Sprint sprint : sprints) {
+            if(validoEstadoSprint(sprint.getEstado())) {
+                for(UserStory userStory : sprint.getUserStories()) {
+                    countParcial++;
+                    if(userStory.getEstado().equals(GeneralUtils.DONE)) {
+                        countFin++;
+                    }
+                }
+                reporte.add(countFin);
+                countTotal = countTotal + countParcial;
+                countFin = 0;
+                countParcial = 0;
+            }
+        }
+
+        // cantidad en forma inversa
+        for(int i = 0; i < reporte.size(); i++) {
+            countTotal =  countTotal - reporte.get(i);
+            listReporte.add(countTotal);
+        }
+
+            model.addAttribute("listReporte", listReporte);
+
         return this.BURNDOWN_CHART_VIEW;
+    }
+
+    /* Si el sprint está en estado activo o finalizado retorna true */
+    private boolean validoEstadoSprint(String estado) {
+        return estado.equals(GeneralUtils.FINALIZADO_VALUE) || estado.equals(GeneralUtils.ACTIVO_VALUE);
     }
 
 }
