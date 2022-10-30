@@ -4,12 +4,12 @@
       layout:decorate="~{/layout/basic}">
 <body>
 <div layout:fragment="content">
-  <h1 class="text-center mb-4" th:text="${'Proyecto #'+project.idProyecto}">Proyecto #1</h1>
+  <h1 class="text-center mb-4" th:text="${project.titulo}">Proyecto #1</h1>
 
   <th:block th:include="fragment/success-message.html"></th:block>
 
   <div class="table-responsive">
-    <h2>User Stories</h2>
+    <h2 th:text="${objSprint.titulo}">User Stories</h2>
     <a th:href="@{/proyectos/{id1}/sprints/{id2}/historias/nuevo(id1=${project.idProyecto},id2=${objSprint.idSprint})}" class="btn btn-outline-success mb-3">
       <i class="fa-solid fa-user-plus"></i> Nuevo US
     </a>
@@ -20,6 +20,7 @@
         <th>Observación</th>
         <th>Estado</th>
         <th>Prioridad</th>
+        <th>Asignado a</th>
       </tr>
       </thead>
       <tbody>
@@ -31,18 +32,19 @@
         <td th:text="${item.observacion}">ninguno</td>
         <td th:text="${item.estado}">en proceso</td>
         <td th:text="${item.prioridad}">alta</td>
+        <td th:text="${item.usuario != null}?${item.usuario.username}:'Sin asignar'">usuario</td>
         <td>
           <div class="btn-group">
-            <a th:if="${true}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias/{id3}ver(id1=${project.idProyecto},id2=${objSprint.idSprint},id3=${item.idHistoria})}">
+            <a th:if="${permisoActualizar}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias/{id3}(id1=${project.idProyecto},id2=${objSprint.idSprint},id3=${item.idHistoria})}">
               <button type="button" class="btn btn-sm btn-outline-secondary">
                 <i class="fa-sharp fa-solid fa-sliders"></i>
               </button>
             </a>
-            <a th:if="${true}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias/{id3}(id1=${project.idProyecto},id2=${objSprint.idSprint},id3=${item.idHistoria})}"
-               class="btn btn-sm btn-outline-primary">
-              <i class="fa-solid fa-pen-to-square"></i>
-            </a>
-            <a th:if="${true}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias/{id3}/delete(id1=${project.idProyecto},id2=${objSprint.idSprint},id3=${item.idHistoria})}">
+<!--            <a th:if="${permisoActualizar}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias/{id3}(id1=${project.idProyecto},id2=${objSprint.idSprint},id3=${item.idHistoria})}"-->
+<!--               class="btn btn-sm btn-outline-primary">-->
+<!--              <i class="fa-solid fa-pen-to-square"></i>-->
+<!--            </a>-->
+            <a th:if="${permisoEliminar}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias/{id3}/delete(id1=${project.idProyecto},id2=${objSprint.idSprint},id3=${item.idHistoria})}">
               <button type="button" class="btn btn-sm btn-outline-danger">
                 <i class="fa-sharp fa-solid fa-trash"></i>
               </button>
