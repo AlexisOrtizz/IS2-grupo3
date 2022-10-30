@@ -104,6 +104,8 @@ public class UserStoryController {
                 model.addAttribute("objSprint", sprint);
                 model.addAttribute("prioridades", GeneralUtils.getStoryPrioridades());
                 model.addAttribute("estados", GeneralUtils.getEstadosProyecto());
+                model.addAttribute("empty", GeneralUtils.EMPTY_VALUE); // para valores nulos
+
                 return this.FORM_NEW;
             } else {
                 model.addAttribute("mensaje", "El id del proyecto: " + idProject + ", " +
@@ -158,14 +160,20 @@ public class UserStoryController {
             return "redirect:/proyectos/" + idProject + "/sprints/" + idSprint + "/historias";
         }
 
+        Long idUsuario = GeneralUtils.EMPTY_VALUE;
+        if(userStory.getUsuario() != null) {
+            idUsuario = userStory.getUsuario().getIdUsuario();
+        }
+
         StoryDTO objeto = new StoryDTO(userStory.getIdHistoria(), userStory.getDescripcion(), userStory.getObservacion(),
-                userStory.getEstado(), userStory.getPrioridad());
+                userStory.getEstado(), userStory.getPrioridad(), idUsuario);
 
         model.addAttribute("project", proyecto);
         model.addAttribute("objSprint", sprint);
         model.addAttribute("historiaEdit", objeto);
         model.addAttribute("prioridades", GeneralUtils.getStoryPrioridades());
         model.addAttribute("estados", GeneralUtils.getEstadosProyecto());
+        model.addAttribute("empty", GeneralUtils.EMPTY_VALUE); // para valores nulos
 
         if(eliminar) {
             return FORM_EDIT;

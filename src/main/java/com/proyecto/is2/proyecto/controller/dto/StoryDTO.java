@@ -11,15 +11,17 @@ public class StoryDTO {
     private String observacion;
     private String estado;
     private String prioridad;
+    private Long idUsuario;
 
     public StoryDTO() {
     }
 
-    public StoryDTO(Long idHistoria, String descripcion, String observacion, String estado, String prioridad) {
+    public StoryDTO(Long idHistoria, String descripcion, String observacion, String estado, String prioridad, Long idUsuario) {
         this.idHistoria = idHistoria;
         this.descripcion = descripcion;
         this.observacion = observacion;
         this.estado = estado;
         this.prioridad = prioridad;
+        this.idUsuario = idUsuario;
     }
 }

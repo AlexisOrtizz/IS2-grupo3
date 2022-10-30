@@ -27,10 +27,18 @@
                     <option th:each="elemento : ${prioridades}" th:value="${elemento}" th:text="${elemento}"></option>
                 </select>
             </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect02">Asignar a</label>
+                <select class="form-select" aria-label="Default select example" id="inputGroupSelect02" th:field="*{idUsuario}">
+                    <option th:value="${empty}">Selecionar</option>
+                    <option th:each="elemento : ${project.getEquipo()}" th:value="${elemento.idUsuario}"
+                            th:text="${elemento.toString()}"></option>
+                </select>
+            </div>
         </fieldset>
         <div class="row">
             <div class="col-sm-6">
-                <a th:href="@{/proyectos/{id1}/sprints(id1=${project.idProyecto})}" class="btn btn-outline-secondary w-100">
+                <a th:href="@{/proyectos/{id1}/sprints/{id2}/historias(id1=${project.idProyecto},id2=${objSprint.idSprint})}" class="btn btn-outline-secondary w-100">
                     Atrás
                 </a>
             </div>

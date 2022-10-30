@@ -20,6 +20,7 @@ public class GeneralUtils {
     public final static String ROL_CODE = "rol";
     public final static String PERMISO_CODE = "permiso";
     public final static String VIEW_CODE = "vista";
+    public final static Long EMPTY_VALUE = -1L;
 
     /* Estados posibles para un proyecto */
     public static List<String> getEstadosProyecto() {
