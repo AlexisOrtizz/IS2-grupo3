@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html class="h-100"
       xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head th:fragment="head">
   <title>Gestor de Proyectos</title>
@@ -33,7 +34,7 @@
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li>
             <a th:href="@{/proyectos}" class="nav-link text-white text-center">
-              <i class="fa-solid fa-rectangle-history-circle-user"></i>
+              <i class="fa-solid fa-people-group"></i>
               Proyectos
             </a>
           </li>
@@ -46,7 +47,9 @@
           <li class="nav-item">
             <a th:href="@{/logout}" class="nav-link text-white text-center">
               <i class="fa-solid fa-right-from-bracket"></i>
-              Cerrar Sesión</a></li>
+              Cerrar Sesión
+            </a>
+          </li>
         </ul>
       </div>
     </div>
@@ -60,8 +63,13 @@
 </main>
 
 <footer class="footer mt-auto py-3 bg-dark">
-  <div class="container">
-    <span class="text-muted">Gestor de Proyectos - Ingeniería de Software II</span>
+  <div class="text-white row">
+    <div class="col-6 text-left text-sm-center">
+      <span>Gestor de Proyectos - Ingeniería de Software II</span>
+    </div>
+    <div class="col-6 text-right text-sm-center" sec:authorize="isAuthenticated()" style="color:">
+      Usuario: <span sec:authentication="name"></span>
+    </div>
   </div>
 </footer>
 

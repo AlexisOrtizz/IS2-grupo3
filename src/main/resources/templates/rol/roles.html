@@ -22,7 +22,8 @@
       <thead>
       <tr class="text-center">
         <th>Nombre</th>
-        <th>Descripcion</th>
+        <th>Descripción</th>
+        <th>Acción</th>
       </tr>
       </thead>
       <tbody>
@@ -32,11 +33,9 @@
       <tr class="text-center" th:each="rol: ${listRol}">
         <td th:text="${rol.nombre}">Nombre</td>
         <td th:text="${rol.descripcion}">Descripcion</td>
-        <!--        <td th:text="${#temporals.format(student.birthday, 'dd/MM/yyyy')}">Birthday</td>-->
-        <!--        <td th:text="${#temporals.format(student.createdAt, 'dd/MM/yyyy HH:mm:ss')}">CreatedAt</td>-->
         <td>
           <div class="btn-group">
-            <a th:if="${permisoVer eq true}" th:href="@{/roles/{id}/permisos(id=${rol.idRol})}">
+            <a th:if="${permisoAsignar eq true}" th:href="@{/roles/{id}/permisos(id=${rol.idRol})}">
                 <button type="button" class="btn btn-sm btn-outline-secondary">
                     <i class="fa-sharp fa-solid fa-sliders"></i>
                 </button>

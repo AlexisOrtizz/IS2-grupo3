@@ -66,6 +66,7 @@ public class RolController {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
         boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
+        boolean asignar = usuarioService.tienePermiso("asignar-permisos-rol");
 
         if(consultar) {
             model.addAttribute("listRol", rolService.listar());
@@ -77,6 +78,7 @@ public class RolController {
         model.addAttribute("permisoCrear", crear);
         model.addAttribute("permisoEliminar", eliminar);
         model.addAttribute("permisoActualizar", actualizar);
+        model.addAttribute("permisoAsignar", asignar);
 
         return FORM_VIEW;
     }
