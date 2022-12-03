@@ -14,9 +14,10 @@
         </a>
     </th:block>
 
-    <tr th:if="${!permisoVer}">
+    <tr th:if="${permisoVer eq false}">
         <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
     </tr>
+
     <div th:if="${permisoVer eq true}" class="table-responsive">
         <table class="table table-sm table-bordered">
             <thead>
@@ -25,7 +26,8 @@
                 <th>Descripción</th>
                 <th>Estado</th>
                 <th>Fecha Inicio</th>
-                <th>Fecha Fin</th>
+                <th>Fecha Fin
+                <th>Acción</th>
             </tr>
             </thead>
             <tbody>
@@ -38,11 +40,9 @@
                 <td th:text="${project.estado}">Estado</td>
                 <td th:text="${#temporals.format(project.fechaInicio, 'dd/MM/yyyy')}">fechaInicio</td>
                 <td th:text="${#temporals.format(project.fechaFin, 'dd/MM/yyyy')}">fechaFin</td>
-                <!--        <td th:text="${#temporals.format(student.birthday, 'dd/MM/yyyy')}">Birthday</td>-->
-                <!--        <td th:text="${#temporals.format(student.createdAt, 'dd/MM/yyyy HH:mm:ss')}">CreatedAt</td>-->
                 <td>
                     <div class="btn-group">
-                        <a th:if="${permisoVer eq true}" th:href="@{/proyectos/{id}/backlog(id=${project.idProyecto})}">
+                        <a th:if="${permisoVerBacklog eq true}" th:href="@{/proyectos/{id}/backlog(id=${project.idProyecto})}">
                             <button type="button" class="btn btn-sm btn-outline-secondary">
                                 <i class="fa-sharp fa-solid fa-sliders"></i>
                             </button>
@@ -62,47 +62,6 @@
             </tbody>
         </table>
     </div>
-
-<!--    <div id="deleteConfirmModal" class="modal" tabindex="-1">-->
-<!--        <div class="modal-dialog modal-sm">-->
-<!--            <div class="modal-content">-->
-<!--                <div class="modal-header">-->
-<!--                    <h5 class="modal-title">!Atención!</h5>-->
-<!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<!--                </div>-->
-<!--                <div class="modal-body text-center">-->
-<!--                    <p>¿Estás seguro que quieres eliminar este usuario?</p>-->
-<!--                </div>-->
-<!--                <div class="modal-footer d-block">-->
-<!--                    <div class="row">-->
-<!--                        <div class="col">-->
-<!--                            <button type="button" class="btn btn-sm btn-outline-secondary w-100" data-bs-dismiss="modal">Cerrar</button>-->
-<!--                        </div>-->
-<!--                        <div class="col">-->
-<!--                            <a href="#" class="btn btn-sm btn-outline-danger w-100">Eliminar</a>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
 </div>
-
-<!--<th:block layout:fragment="scripts">-->
-<!--    <script type="text/javascript">-->
-<!--        $(document).ready(function () {-->
-<!--            const modal = document.getElementById('deleteConfirmModal');-->
-<!--            modal.addEventListener('show.bs.modal', function (event) {-->
-<!--                const button = event.relatedTarget;-->
-<!--                const href = button.getAttribute('data-bs-href');-->
-<!--                const modalDeleteButton = modal.querySelector('a');-->
-<!--                modalDeleteButton.href = href;-->
-<!--            });-->
-<!--        });-->
-<!--        $("#btnEliminar").onclick(function(){-->
-
-<!--        });-->
-<!--    </script>-->
-<!--</th:block>-->
 </body>
 </html>

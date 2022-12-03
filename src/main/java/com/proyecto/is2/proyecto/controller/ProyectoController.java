@@ -67,6 +67,7 @@ public class ProyectoController {
     public String mostrarCRUDTemplate(Model model) {
 
         boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
+        boolean consultarBack = usuarioService.tienePermiso("consultar-backlog");
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
         boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
@@ -78,6 +79,7 @@ public class ProyectoController {
         }
 
         model.addAttribute("permisoVer", consultar);
+        model.addAttribute("permisoVerBacklog", consultarBack);
         model.addAttribute("permisoCrear", crear);
         model.addAttribute("permisoEliminar", eliminar);
         model.addAttribute("permisoActualizar", actualizar);
@@ -268,6 +270,16 @@ public class ProyectoController {
             Proyecto proyecto = proyectoService.existeProyecto(idProject);
 
             if(proyecto != null) {
+                boolean consultar = usuarioService.tienePermiso("consultar-sprint");
+                boolean crear = usuarioService.tienePermiso("crear-sprint");
+                boolean eliminar = usuarioService.tienePermiso("eliminar-sprint");
+                boolean actualizar = usuarioService.tienePermiso("actualizar-sprint");
+
+                model.addAttribute("permisoVer", consultar);
+                model.addAttribute("permisoCrear", crear);
+                model.addAttribute("permisoEliminar", eliminar);
+                model.addAttribute("permisoActualizar", actualizar);
+
                 model.addAttribute("project", proyecto);
                 return this.BACKLOG_VIEW;
             } else {
