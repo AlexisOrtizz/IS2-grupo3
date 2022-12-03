@@ -8,25 +8,36 @@
 
   <th:block th:include="fragment/success-message.html"></th:block>
 
-  <div class="table-responsive">
+  <div th:if="${permisoVerBacklog eq true}" class="table-responsive">
     <h2>Sprints</h2>
-    <a th:href="@{/proyectos/{id}/sprints/nuevo(id=${project.idProyecto})}" class="btn btn-outline-success mb-3">
+    <a th:if="${permisoCrearSprint eq true}"
+       th:href="@{/proyectos/{id}/sprints/nuevo(id=${project.idProyecto})}"
+       class="btn btn-outline-success mb-3">
       <i class="fa-solid fa-user-plus"></i> Nuevo Sprint
     </a>
-    <a th:href="@{/proyectos/{id}/miembros(id=${project.idProyecto})}" class="btn btn-outline-success mb-3">
+    <a th:if="${permisoVerMiembro eq true}"
+       th:href="@{/proyectos/{id}/miembros(id=${project.idProyecto})}"
+       class="btn btn-outline-success mb-3">
       <i class="fa-solid fa-people-group"></i> Equipo
     </a>
-    <a th:href="@{/proyectos/{id}/reporte(id=${project.idProyecto})}" class="btn btn-outline-success mb-3">
+    <a th:if="${permisoVerDashboard eq true}"
+       th:href="@{/proyectos/{id}/reporte(id=${project.idProyecto})}"
+       class="btn btn-outline-success mb-3">
       <i class="fa-solid fa-chart-line"></i> Burndown Chart
     </a>
-    <table class="table table-sm table-bordered">
+
+    <div th:if="${permisoVerBacklog eq false}">
+      <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
+    </div>
+    <table th:if="${permisoVerBacklog eq true}" class="table table-sm table-bordered">
       <thead>
         <tr class="text-center">
           <th>Titulo</th>
           <th>Fecha Inicio</th>
           <th>Fecha Fin</th>
           <th>Estado</th>
-      </tr>
+          <th>Acción</th>
+        </tr>
       </thead>
       <tbody>
       <tr th:if="${#lists.isEmpty(project.backlog.sprints)}">
@@ -39,16 +50,16 @@
         <td th:text="${sprint.estado}">Activo</td>
         <td>
           <div class="btn-group">
-            <a th:if="${true}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias(id1=${project.idProyecto},id2=${sprint.idSprint})}">
+            <a th:if="${permisoVerSprint eq true}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias(id1=${project.idProyecto},id2=${sprint.idSprint})}">
               <button type="button" class="btn btn-sm btn-outline-secondary">
                 <i class="fa-sharp fa-solid fa-sliders"></i>
               </button>
             </a>
-            <a th:if="${true}" th:href="@{/proyectos/{id1}/sprints/{id2}(id1=${project.idProyecto},id2=${sprint.idSprint})}"
+            <a th:if="${permisoActualizarSprint eq true}" th:href="@{/proyectos/{id1}/sprints/{id2}(id1=${project.idProyecto},id2=${sprint.idSprint})}"
                     class="btn btn-sm btn-outline-primary">
               <i class="fa-solid fa-pen-to-square"></i>
             </a>
-            <a th:if="${true}" th:href="@{/proyectos/{id1}/sprints/{id2}/delete(id1=${project.idProyecto},id2=${sprint.idSprint})}">
+            <a th:if="${permisoEliminarSprint eq true}" th:href="@{/proyectos/{id1}/sprints/{id2}/delete(id1=${project.idProyecto},id2=${sprint.idSprint})}">
               <button type="button" class="btn btn-sm btn-outline-danger">
                 <i class="fa-sharp fa-solid fa-trash"></i>
               </button>

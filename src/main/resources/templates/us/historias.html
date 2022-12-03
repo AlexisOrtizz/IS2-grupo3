@@ -10,10 +10,17 @@
 
   <div class="table-responsive">
     <h2 th:text="${objSprint.titulo}">User Stories</h2>
-    <a th:href="@{/proyectos/{id1}/sprints/{id2}/historias/nuevo(id1=${project.idProyecto},id2=${objSprint.idSprint})}" class="btn btn-outline-success mb-3">
+    <a th:if="${permisoCrear eq true}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias/nuevo(id1=${project.idProyecto},id2=${objSprint.idSprint})}" class="btn btn-outline-success mb-3">
       <i class="fa-solid fa-user-plus"></i> Nuevo US
     </a>
-    <table class="table table-sm table-bordered">
+    <a th:if="${permisoVerKanban eq true}" th:href="@{/proyectos/{id1}/sprints/{id2}/kanban(id1=${project.idProyecto},id2=${objSprint.idSprint})}" class="btn btn-outline-success mb-3">
+      <i class="fa-solid fa-clipboard"></i> Kanban
+    </a>
+
+    <div th:if="${permisoVer eq false}">
+      <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
+    </div>
+    <table th:if="${permisoVer eq true}" class="table table-sm table-bordered">
       <thead>
       <tr class="text-center">
         <th>Descripción</th>
@@ -21,6 +28,7 @@
         <th>Estado</th>
         <th>Prioridad</th>
         <th>Asignado a</th>
+        <th>Acción</th>
       </tr>
       </thead>
       <tbody>
@@ -35,16 +43,12 @@
         <td th:text="${item.usuario != null}?${item.usuario.username}:'Sin asignar'">usuario</td>
         <td>
           <div class="btn-group">
-            <a th:if="${permisoActualizar}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias/{id3}(id1=${project.idProyecto},id2=${objSprint.idSprint},id3=${item.idHistoria})}">
+            <a th:if="${permisoActualizar eq true}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias/{id3}(id1=${project.idProyecto},id2=${objSprint.idSprint},id3=${item.idHistoria})}">
               <button type="button" class="btn btn-sm btn-outline-secondary">
                 <i class="fa-sharp fa-solid fa-sliders"></i>
               </button>
             </a>
-<!--            <a th:if="${permisoActualizar}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias/{id3}(id1=${project.idProyecto},id2=${objSprint.idSprint},id3=${item.idHistoria})}"-->
-<!--               class="btn btn-sm btn-outline-primary">-->
-<!--              <i class="fa-solid fa-pen-to-square"></i>-->
-<!--            </a>-->
-            <a th:if="${permisoEliminar}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias/{id3}/delete(id1=${project.idProyecto},id2=${objSprint.idSprint},id3=${item.idHistoria})}">
+            <a th:if="${permisoEliminar eq true}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias/{id3}/delete(id1=${project.idProyecto},id2=${objSprint.idSprint},id3=${item.idHistoria})}">
               <button type="button" class="btn btn-sm btn-outline-danger">
                 <i class="fa-sharp fa-solid fa-trash"></i>
               </button>

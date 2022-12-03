@@ -4,6 +4,7 @@ import com.proyecto.is2.proyecto.Util.GeneralUtils;
 import com.proyecto.is2.proyecto.controller.dto.SprintDTO;
 import com.proyecto.is2.proyecto.model.Proyecto;
 import com.proyecto.is2.proyecto.model.Sprint;
+import com.proyecto.is2.proyecto.model.UserStory;
 import com.proyecto.is2.proyecto.services.BacklogServiceImp;
 import com.proyecto.is2.proyecto.services.ProyectoServiceImp;
 import com.proyecto.is2.proyecto.services.SprintServiceImp;
@@ -14,6 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/proyectos/{idProject}/sprints")
@@ -191,4 +196,25 @@ public class SprintController {
             return RD_FALTA_PERMISO_VIEW;
         }
     }
+
+    @GetMapping("/{idSprint}/kanban")
+    public String verKanban(@PathVariable Long idProject, @PathVariable Long idSprint, Model model) {
+        Proyecto proyecto = proyectoService.existeProyecto(idProject);
+        Sprint sprint = sprintService.existeObjeto(idSprint);
+        if(proyecto == null || sprint == null) {
+            return "Ha ocurrido un error inesperado";
+        }
+
+        Set<UserStory> userStories = sprint.getUserStories();
+        List<UserStory> toDoList = userStories.stream().filter(us -> us.getEstado().equals(GeneralUtils.TO_DO)).collect(Collectors.toList());
+        List<UserStory> doingList = userStories.stream().filter(us -> us.getEstado().equals(GeneralUtils.DOING)).collect(Collectors.toList());
+        List<UserStory> doneList = userStories.stream().filter(us -> us.getEstado().equals(GeneralUtils.DONE)).collect(Collectors.toList());
+
+        model.addAttribute("listToDo", toDoList);
+        model.addAttribute("listDoing", doingList);
+        model.addAttribute("listDone", doneList);
+
+        return "reporte/kanban";
+    }
+
 }

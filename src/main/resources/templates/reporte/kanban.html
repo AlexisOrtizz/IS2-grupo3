@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic}">
+<head>
+    <link rel="stylesheet" th:href="@{/css/kanban.css}">
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Kanban</h1>
+    </div>
+
+    <div class="kanban">
+        <div class="kanban__column" data-id="1">
+            <div class="kanban__column-title">Do To</div>
+            <div class="kanban__column-items">
+                <div class="kanban__dropzone"></div>
+                <th:block th:if="${listToDo != null and !listToDo.isEmpty()}">
+                    <div th:each="item : ${listToDo}" class="kanban__item" draggable="true">
+                        <div class="kanban__item-input" th:text="${item.descripcion}">como</div>
+                        <div class="kanban__dropzone"></div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+        <div class="kanban__column" data-id="2">
+            <div class="kanban__column-title">Doing</div>
+            <div class="kanban__column-items">
+                <div class="kanban__dropzone"></div>
+                <th:block th:if="${listDoing != null and !listDoing.isEmpty()}">
+                    <div th:each="item : ${listDoing}" class="kanban__item" draggable="true">
+                        <div class="kanban__item-input" th:text="${item.descripcion}">como</div>
+                        <div class="kanban__dropzone"></div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+        <div class="kanban__column" data-id="3">
+            <div class="kanban__column-title">Done</div>
+            <div class="kanban__column-items">
+                <div class="kanban__dropzone"></div>
+                <th:block th:if="${listDone != null and !listDone.isEmpty()}">
+                    <div th:each="item : ${listDone}" class="kanban__item" draggable="true">
+                        <div class="kanban__item-input" th:text="${item.descripcion}">como</div>
+                        <div class="kanban__dropzone"></div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="scripts">
+<!--    <script th:src="@{/js/kanban.js}" type="module"></script>-->
+</div>
+</body>
+</html>

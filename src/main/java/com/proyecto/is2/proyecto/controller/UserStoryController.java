@@ -84,6 +84,7 @@ public class UserStoryController {
         }
 
         model.addAttribute("permisoVer", consultar);
+        model.addAttribute("permisoVerKanban", consultar);
         model.addAttribute("permisoCrear", crear);
         model.addAttribute("permisoEliminar", eliminar);
         model.addAttribute("permisoActualizar", actualizar);

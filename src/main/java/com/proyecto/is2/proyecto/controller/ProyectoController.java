@@ -271,14 +271,17 @@ public class ProyectoController {
 
             if(proyecto != null) {
                 boolean consultar = usuarioService.tienePermiso("consultar-sprint");
-                boolean crear = usuarioService.tienePermiso("crear-sprint");
+                boolean crearSprint = usuarioService.tienePermiso("crear-sprint");
                 boolean eliminar = usuarioService.tienePermiso("eliminar-sprint");
                 boolean actualizar = usuarioService.tienePermiso("actualizar-sprint");
 
-                model.addAttribute("permisoVer", consultar);
-                model.addAttribute("permisoCrear", crear);
-                model.addAttribute("permisoEliminar", eliminar);
-                model.addAttribute("permisoActualizar", actualizar);
+                model.addAttribute("permisoCrearSprint", crearSprint);
+                model.addAttribute("permisoVerMiembro", usuarioService.tienePermiso("agregar-miembro-proyecto"));
+                model.addAttribute("permisoVerDashboard", usuarioService.tienePermiso("consultar-user-story"));
+                model.addAttribute("permisoVerSprint", consultar);
+                model.addAttribute("permisoEliminarSprint", eliminar);
+                model.addAttribute("permisoActualizarSprint", actualizar);
+                model.addAttribute("permisoVerBacklog", usuarioService.tienePermiso("consultar-backlog"));
 
                 model.addAttribute("project", proyecto);
                 return this.BACKLOG_VIEW;

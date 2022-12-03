@@ -14,9 +14,9 @@
     </a>
   </th:block>
 
-  <tr th:if="${permisoVer eq false}">
+  <div th:if="${permisoVer eq false}">
     <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
-  </tr>
+  </div>
   <div th:if="${permisoVer eq true}" class="table-responsive">
     <table class="table table-sm table-bordered">
       <thead>

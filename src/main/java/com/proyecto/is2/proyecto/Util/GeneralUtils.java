@@ -26,6 +26,8 @@ public class GeneralUtils {
     public final static String PENDIENTE_VALUE = "Pendiente";
     public final static String ACTIVO_VALUE = "Activo";
     public final static String DONE = "Done";
+    public final static String TO_DO = "To do";
+    public final static String DOING = "Doing";
 
     /* Estados posibles para un proyecto */
     public static List<String> getEstadosProyecto() {
@@ -39,7 +41,7 @@ public class GeneralUtils {
 
     /* Estados de un User story*/
     public static List<String> getEstadosUserStory() {
-        return Arrays.asList("To do", "Doing", DONE);
+        return Arrays.asList(TO_DO, DOING, DONE);
     }
 
     public static String getEstadoEliminado() {
