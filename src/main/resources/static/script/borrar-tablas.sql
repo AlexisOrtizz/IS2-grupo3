@@ -13,3 +13,6 @@ SELECT * FROM rol;
 SELECT * FROM permiso;
 SELECT * FROM vista;
 SELECT * FROM proyecto;
+SELECT * FROM sprint;
+SELECT * FROM backlog;
+SELECT * FROM user_story;
