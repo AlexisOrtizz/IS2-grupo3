@@ -50,6 +50,7 @@ public class PermisoServiceImp implements PermisoService {
     public void convertirDTO(Permiso permiso, PermisoDTO objetoDTO) {
         permiso.setNombre(objetoDTO.getNombre());
         permiso.setDescripcion(objetoDTO.getDescripcion());
+        permiso.setVista(vistaService.existeVista(objetoDTO.getIdVista()));
         return;
     }
 

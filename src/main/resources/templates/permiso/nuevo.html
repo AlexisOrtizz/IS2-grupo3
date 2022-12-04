@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/basic}">
+<body>
+<div layout:fragment="content">
+    <h1 class="text-center mb-4">Nuevo Permiso</h1>
+
+    <form method="post" th:action="@{/permisos/crear}" th:object="${modelPermiso}">
+        <fieldset>
+            <legend>Información del Permiso</legend>
+            <div class="mb-3"> <!-- margen button -->
+                <label for="input1" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="input1" name="nombre" placeholder="Introduzca un nombre" autofocus>
+            </div>
+            <div class="mb-3"> <!-- margen button -->
+                <label for="input2" class="form-label">Descripcion</label>
+                <input type="text" class="form-control" id="input2" name="descripcion" placeholder="Introduzca una descripcion" autofocus>
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect02">Vista</label>
+                <select class="form-select" aria-label="Default select example" id="inputGroupSelect02" name="idVista">
+                    <option value="-1">Seleccionar</option>
+                    <option th:each="elemento : ${vistas}" th:value="${elemento.idVista}" th:text="${elemento.toString()}"></option>
+                </select>
+            </div>
+        </fieldset>
+        <div class="row">
+            <div class="col-sm-6">
+                <a th:href="@{/permisos}" class="btn btn-outline-secondary w-100">
+                    Atrás
+                </a>
+            </div>
+            <div class="col-sm-6">
+                <button type="submit" class="btn btn-success w-100">Guardar Permiso</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

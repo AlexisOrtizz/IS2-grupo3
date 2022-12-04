@@ -44,8 +44,8 @@
         <td>
           <div class="btn-group">
             <a th:if="${permisoActualizar eq true}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias/{id3}(id1=${project.idProyecto},id2=${objSprint.idSprint},id3=${item.idHistoria})}">
-              <button type="button" class="btn btn-sm btn-outline-secondary">
-                <i class="fa-sharp fa-solid fa-sliders"></i>
+              <button type="button" class="btn btn-sm btn-outline-primary">
+                <i class="fa-solid fa-pen-to-square"></i>
               </button>
             </a>
             <a th:if="${permisoEliminar eq true}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias/{id3}/delete(id1=${project.idProyecto},id2=${objSprint.idSprint},id3=${item.idHistoria})}">

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic}">
+<body>
+<div layout:fragment="content">
+    <h1 class="text-center mb-4">Editar Permiso</h1>
+
+    <form method="POST" th:action="@{/permisos/{id}(id=${permiso.idPermiso})}" th:object="${modelPermiso}">
+        <th:block th:include="fragment/error-message.html"></th:block>
+
+        <fieldset>
+            <legend>Información del Permiso</legend>
+            <div class="mb-3"> <!-- margen button -->
+                <label class="form-label">Id Permiso: [[${permiso.idPermiso}]]</label>
+            </div>
+            <div class="mb-3"> <!-- margen button -->
+                <label for="inputNombre2" class="form-label">Nombre Permiso</label>
+                <input type="text" class="form-control" id="inputNombre2" name="nombre" th:value="${permiso.nombre}">
+            </div>
+            <div class="mb-3"> <!-- margen button -->
+                <label for="inputNombre3" class="form-label">Descripcion Permiso</label>
+                <input type="text" class="form-control" id="inputNombre3" name="descripcion" th:value="${permiso.descripcion}">
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect02">Vista</label>
+                <select class="form-select" aria-label="Default select example" id="inputGroupSelect02" name="idVista" th:value="${permiso.vista != null? permiso.vista.idVista : -1}">
+                    <option value="-1">Seleccionar</option>
+                    <option th:each="elemento : ${vistas}" th:value="${elemento.idVista}" th:text="${elemento.toString()}"></option>
+                </select>
+            </div>
+        </fieldset>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <a th:href="@{/permisos}" class="btn btn-outline-secondary w-100">
+                    Atrás
+                </a>
+            </div>
+            <div class="col-sm-6">
+                <button type="submit" class="btn btn-warning w-100">Modificar Permiso</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic}">
+<body>
+<div layout:fragment="content">
+    <h1 class="text-center mb-4">Permisos</h1>
+
+    <th:block th:include="fragment/success-message.html"></th:block>
+
+    <th:block th:if="${permisoCrear eq true}">
+        <a th:href="@{/permisos/nuevo}" class="btn btn-outline-success mb-3">
+            <i class="fa-solid fa-rol-plus"></i> Nuevo Permiso
+        </a>
+    </th:block>
+
+    <tr th:if="${permisoVer eq false}">
+        <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
+    </tr>
+    <div th:if="${permisoVer eq true}" class="table-responsive">
+        <table class="table table-sm table-bordered">
+            <thead>
+            <tr class="text-center">
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Vista</th>
+                <th>Acción</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(listPermisos)}">
+                <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td>
+            </tr>
+            <tr class="text-center" th:each="obj: ${listPermisos}">
+                <td th:text="${obj.nombre}">Nombre</td>
+                <td th:text="${obj.descripcion}">Descripcion</td>
+                <th th:text="${obj.vista != null? obj.vista.toString() : '-'}">Vista</th>
+                <td>
+                    <div class="btn-group">
+                        <a th:if="${permisoActualizar eq true}" th:href="@{/permisos/{id}(id=${obj.idPermiso})}"
+                           class="btn btn-sm btn-outline-primary">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a th:if="${permisoEliminar eq true}" th:href="@{/permisos/{id}/delete(id=${obj.idPermiso})}">
+                            <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                                <i class="fa-sharp fa-solid fa-trash"></i>
+                            </button>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
